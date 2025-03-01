@@ -4,5 +4,5 @@ If u want halp me with that, that will be awesome!
 I'm quite new to programming etc.
 
 asset_bundler is compiled for linux\
-sset_bundler.exe is compiled for windows (unsigned)
+asset_bundler.exe is compiled for windows (unsigned)
 feel free to test or compile yourself
