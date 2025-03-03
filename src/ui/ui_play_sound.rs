@@ -1,9 +1,7 @@
 
 use std::thread;
-use std::path::Path;
-use rodio::*;
+use rodio::{OutputStream,Decoder,Source};
 use std::sync::Arc;
-use chrono::offset::Local;
 use rand::seq::IteratorRandom;
 
 
@@ -12,10 +10,10 @@ use rand::seq::IteratorRandom;
 
 
 
-static FINISH_HIM: &[u8] = include_bytes!("br/tuturu_1.mp3");
-static FINISH_AHHH: &[u8] = include_bytes!("br/anime-ahh.mp3");
-static FINISH_UWU: &[u8] = include_bytes!("br/youtube-uwuuuuu.mp3");
-static FINISH_WOW: &[u8] = include_bytes!("br/anime-wow-sound-effect.mp3");
+static FINISH_HIM: &[u8] = include_bytes!("../br/tuturu_1.mp3");
+static FINISH_AHHH: &[u8] = include_bytes!("../br/anime-ahh.mp3");
+static FINISH_UWU: &[u8] = include_bytes!("../br/youtube-uwuuuuu.mp3");
+static FINISH_WOW: &[u8] = include_bytes!("../br/anime-wow-sound-effect.mp3");
 pub fn play_finish_sound(volume:f32) {
     thread::spawn(move || {
     // Get the output stream handle to the default sound device
