@@ -5,7 +5,6 @@ use std::{
     thread, 
     time::Instant
 };
-use std::fs;
 use chrono::Local;
 use walkdir::WalkDir;
 use rayon::*;
@@ -50,8 +49,8 @@ pub fn convert_images(
     //***************************************************************
     println!("[{func_id}]\n{formatted_time}   rozpoczęcie funkcji konwersji");
     let time_start = Instant::now();
-    let mut processed_files_count = 0;
-    let mut created_files_count = 0;
+    // let processed_files_count = 0;
+    // let created_files_count = 0;
 
     let arc_z_typ_clone = Arc::clone(&arc_z_typ);
     let arc_z_typ_jakosc_clone = Arc::clone(&arc_z_typ_jakosc);
@@ -86,15 +85,15 @@ pub fn convert_images(
         let czy_webp_lossy_jakosc = locked_data_z_jakoscia[4];
         let czy_tga_jakosc = locked_data_z_jakoscia[5];
 
-        let ilosc_bitow:u8 = match locked_data_z_typem.as_slice(){
-            [true, ..] => 8,
-            [false,true, ..] => 8,
-            [false,false,true, ..] => 16,
-            [false,false,false,true, ..] => 8,
-            [false,false,false,false,true, ..] => 8,
-            [false,false,false,false,false,true, ..] => 8,
-            _=>8
-        };
+        // let ilosc_bitow:u8 = match locked_data_z_typem.as_slice(){
+        //     [true, ..] => 8,
+        //     [false,true, ..] => 8,
+        //     [false,false,true, ..] => 16,
+        //     [false,false,false,true, ..] => 8,
+        //     [false,false,false,false,true, ..] => 8,
+        //     [false,false,false,false,false,true, ..] => 8,
+        //     _=>8
+        // };
         
         // let locked_data_z_rozmiarami = arc_z_rozdzielczosc_clone.lock().unwrap();
         let locked_data_z_rozmiarami = get_locked_data_bool(&arc_z_rozdzielczosc_clone)?;
@@ -114,15 +113,16 @@ pub fn convert_images(
 
 
 
+
     // w tym template są rozszerzenia plików które mają być brane pod uwagę jak coś.
-        for entry in WalkDir::new(&folder_wejsciowy).into_iter().filter_map(Result::ok) {
+        for entry in WalkDir::new(folder_wejsciowy).into_iter().filter_map(Result::ok) {
             let path = entry.path();
             if path.is_file() && matches_template(path) {
                 file_entries.push(path.to_path_buf());
             }
         }
 
-        create_dir_all(&folder_wyjsciowy)?;
+        create_dir_all(folder_wyjsciowy)?;
 
 
 
@@ -133,49 +133,49 @@ pub fn convert_images(
             let mut local_created_files_count = 0;
             
 
-            let relative_path = gsfhsgf.strip_prefix(&folder_wejsciowy).unwrap_or(&gsfhsgf);
-            let output_path = std::path::Path::new(&folder_wyjsciowy).join(relative_path);
+            let relative_path = gsfhsgf.strip_prefix(folder_wejsciowy).unwrap_or(&gsfhsgf);
+            let output_path = std::path::Path::new(folder_wyjsciowy).join(relative_path);
 
             // Tworzenie odpowiednich podfolderów
             if let Some(parent) = output_path.parent() {
                 create_dir_all(parent).unwrap();
             }
             let local_path = relative_path.parent().unwrap();
-
+            
 
             if czy_png{
-                let dflkjsg=ogarniacz_fot(0,&locked_data_z_rozmiarami,&czy_jpg_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor,&gsfhsgf,&local_path,&folder_wyjsciowy,png_filter,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![1,png_filter],&locked_data_z_rozmiarami,vec![&czy_png_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
                 // println!("zribione pliki z fn konwersja_do_png 8bit {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
 
             if czy_png_16{
-                let dflkjsg=ogarniacz_fot(0,&locked_data_z_rozmiarami,&czy_png_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor,&gsfhsgf,&local_path,&folder_wyjsciowy,png_filter,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![2,png_filter],&locked_data_z_rozmiarami,vec![&czy_png_16_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_png 16bit {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             
             if czy_jpg{
-                let dflkjsg=ogarniacz_fot(0,&locked_data_z_rozmiarami,&czy_png_16_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor,&gsfhsgf,&local_path,&folder_wyjsciowy,png_filter,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![0,png_filter],&locked_data_z_rozmiarami,vec![&czy_jpg_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_jpg {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             if czy_webp{
-                let dflkjsg=ogarniacz_fot(0,&locked_data_z_rozmiarami,&czy_webp_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor,&gsfhsgf,&local_path,&folder_wyjsciowy,png_filter,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![3,png_filter],&locked_data_z_rozmiarami,vec![&czy_webp_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_webp {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             if czy_webp_lossy{
-                let dflkjsg=ogarniacz_fot(0,&locked_data_z_rozmiarami,&czy_webp_lossy_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor,&gsfhsgf,&local_path,&folder_wyjsciowy,png_filter,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![4,png_filter],&locked_data_z_rozmiarami,vec![&czy_webp_lossy_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_webp lossy {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             if czy_tga{
-                let dflkjsg=ogarniacz_fot(0,&locked_data_z_rozmiarami,&czy_tga_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor,&gsfhsgf,&local_path,&folder_wyjsciowy,png_filter,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![5,png_filter],&locked_data_z_rozmiarami,vec![&czy_tga_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_tga {}",dflkjsg);
                 local_created_files_count = dflkjsg
@@ -219,10 +219,10 @@ mod tests_skompresowany {
     fn remove_dir_contents(){
         let path:String = "test_files/test_image_out".to_string();
         println!("Najpierw super czyszczenie ;)");
-        fs::remove_dir_all(&path).unwrap();
+        std::fs::remove_dir_all(&path).unwrap();
 
         println!("usunąłem folder {}",&path);
-        fs::create_dir(&path).unwrap();
+        std::fs::create_dir(&path).unwrap();
 
         println!("stworzyłem folder {}",&path);
     }
@@ -246,7 +246,7 @@ mod tests_skompresowany {
         let rozd_4k = false;
         let rozd_2k = true;
         let rozd_1k = true;
-        let rozdzielczosc=vec![rozd_4k,rozd_2k,rozd_1k];
+        // let rozdzielczosc=vec![rozd_4k,rozd_2k,rozd_1k];
         let test_filtrowanie:u8 = 5;
         let test_alpha:u8 = 1;
         let test_alpha_kolor:u8 = 3;

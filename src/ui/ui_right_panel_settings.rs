@@ -12,7 +12,7 @@ use crate::ui::{
 pub fn ui_right_panel_settings_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32,_zolty_ciemny:Color32,_szarawy_ciemny:Color32){
     ui.add_space(10.);
     ui.vertical_centered_justified(|ui|{
-        ui.checkbox(&mut proxy_self.debug_create_lua_file, RichText::new(&proxy_self.current_language.create_lua_file.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+        ui.checkbox(&mut proxy_self.debug_create_lua_file, RichText::new(proxy_self.current_language.create_lua_file.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
     });
 
     ui.add_space( proxy_self.formatowanie_spacja_srednia);

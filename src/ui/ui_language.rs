@@ -63,7 +63,7 @@ pub struct Language {
     pub general_ui_wybierz_folder: &'static str,
     pub general_ui_wybierz_plik_general: &'static str,
 
-    pub debug_deszyfracja_idx: &'static str,
+    // pub debug_deszyfracja_idx: &'static str,
     pub przetwarzanie_bez_alpha: &'static str,
     pub przetwarzanie_z_alpha: &'static str,
     
@@ -104,11 +104,11 @@ pub struct Language {
     pub png_specyfic_filter_png_paeth:&'static str,
     pub png_specyfic_filter_png_adaptive:&'static str,
 
-    pub png_specyfic_filter_Nearest:&'static str,
-    pub png_specyfic_filter_Triangle:&'static str,
-    pub png_specyfic_filter_CatmullRom:&'static str,
-    pub png_specyfic_filter_Gaussian:&'static str,
-    pub png_specyfic_filter_Lanczos3:&'static str,
+    pub png_specyfic_filter_nearest:&'static str,
+    pub png_specyfic_filter_triangle:&'static str,
+    pub png_specyfic_filter_catmullrom:&'static str,
+    pub png_specyfic_filter_gaussian:&'static str,
+    pub png_specyfic_filter_lanczos3:&'static str,
 
 
     pub png_specyfic_compression_none:&'static str,
@@ -175,7 +175,7 @@ impl Language {
             general_ui_wybierz_folder: "Wybierz Folder",
             general_ui_wybierz_plik_general: "Wybierz Plik",
 
-            debug_deszyfracja_idx: "Deszyfracja zaszyfrowanego idx",
+            // debug_deszyfracja_idx: "Deszyfracja zaszyfrowanego idx",
 
             // h_general_ui_wybierz_folder: "Wybierz folder",
 
@@ -220,11 +220,11 @@ impl Language {
             png_specyfic_filter_png_paeth:"Paeth",
             png_specyfic_filter_png_adaptive:"Adaptacyjny",
 
-            png_specyfic_filter_Nearest:"Najbliższe",
-            png_specyfic_filter_Triangle:"Triangle",
-            png_specyfic_filter_CatmullRom:"CatmullRom",
-            png_specyfic_filter_Gaussian:"Gaussian",
-            png_specyfic_filter_Lanczos3:"Lanczos3",
+            png_specyfic_filter_nearest:"Najbliższe",
+            png_specyfic_filter_triangle:"Triangle",
+            png_specyfic_filter_catmullrom:"CatmullRom",
+            png_specyfic_filter_gaussian:"Gaussian",
+            png_specyfic_filter_lanczos3:"Lanczos3",
 
             png_specyfic_compression_none:"Brak",
             png_specyfic_compression_default:"Domyślna",
@@ -284,7 +284,7 @@ impl Language {
 
 
 
-            debug_deszyfracja_idx: "Decrypt .idx file only",
+            // debug_deszyfracja_idx: "Decrypt .idx file only",
 
             // h_general_ui_wybierz_folder: "Choose your desired folder",
 
@@ -329,11 +329,11 @@ impl Language {
             png_specyfic_filter_png_paeth:"Paeth",
             png_specyfic_filter_png_adaptive:"Adaptive",
 
-            png_specyfic_filter_Nearest:"Nearest",
-            png_specyfic_filter_Triangle:"Triangle",
-            png_specyfic_filter_CatmullRom:"CatmullRom",
-            png_specyfic_filter_Gaussian:"Gaussian",
-            png_specyfic_filter_Lanczos3:"Lanczos3",
+            png_specyfic_filter_nearest:"Nearest",
+            png_specyfic_filter_triangle:"Triangle",
+            png_specyfic_filter_catmullrom:"CatmullRom",
+            png_specyfic_filter_gaussian:"Gaussian",
+            png_specyfic_filter_lanczos3:"Lanczos3",
 
             png_specyfic_compression_none:"None",
             png_specyfic_compression_default:"Default",
@@ -389,7 +389,7 @@ impl Language {
             general_ui_wybierz_plik_general: "general_ui_wybierz_plik_general",
 
 
-            debug_deszyfracja_idx: "debug_deszyfracja_idx",
+            // debug_deszyfracja_idx: "debug_deszyfracja_idx",
 
             // h_general_ui_wybierz_folder: "h_general_ui_wybierz_folder",
 
@@ -437,11 +437,11 @@ impl Language {
             png_specyfic_filter_png_paeth:"png_specyfic_filter_png_paeth",
             png_specyfic_filter_png_adaptive:"png_specyfic_filter_png_adaptive",
 
-            png_specyfic_filter_Nearest:"png_specyfic_filter_Nearest",
-            png_specyfic_filter_Triangle:"png_specyfic_filter_Triangle",
-            png_specyfic_filter_CatmullRom:"png_specyfic_filter_CatmullRom",
-            png_specyfic_filter_Gaussian:"png_specyfic_filter_Gaussian",
-            png_specyfic_filter_Lanczos3:"png_specyfic_filter_Lanczos3",
+            png_specyfic_filter_nearest:"png_specyfic_filter_nearest",
+            png_specyfic_filter_triangle:"png_specyfic_filter_triangle",
+            png_specyfic_filter_catmullrom:"png_specyfic_filter_catmullrom",
+            png_specyfic_filter_gaussian:"png_specyfic_filter_gaussian",
+            png_specyfic_filter_lanczos3:"png_specyfic_filter_lanczos3",
 
             png_specyfic_compression_none:"png_specyfic_compression_none",
             png_specyfic_compression_default:"png_specyfic_compression_default",

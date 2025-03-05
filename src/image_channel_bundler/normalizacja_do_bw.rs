@@ -3,10 +3,10 @@ use image::GenericImageView;
 
 pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)->Result<DynamicImage, std::io::Error>{
     let color_type =foto.color();
-    let mut result_img: DynamicImage = foto.clone();  // Default to the original image
+    // let mut result_img: DynamicImage = foto.clone();  // Default to the original image
 
 
-    result_img = match (color_type,ilosc_bitow){
+    let result_img = match (color_type,ilosc_bitow){
         (image::ColorType::Rgb8,8) =>{
             let img = foto.to_rgb8();
             println!("[normalizer]: Rgba16, ALPHA MA BYĆ, input 8 bit, tylko rgb true|false");

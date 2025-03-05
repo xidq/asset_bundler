@@ -68,9 +68,7 @@ fn generate_unique_id() -> String {
 // here is function as u can see
 pub fn sanitize_filename(filename: &str) -> String {
     let mut sanitized = filename
-        .replace(' ', "-")    // Zamiana spacji na %20
-        .replace('?', "-")       // Zamiana '?' na '-'
-        .replace('%', "-");       // Zamiana '%' na '-'
+        .replace([' ', '?', '%'], "-");   // Zamiana '%' na '-'
             // Zmiana kropek (oprócz tej przed rozszerzeniem)
     let parts: Vec<&str> = sanitized.rsplitn(2, '.').collect();
     if parts.len() == 2 {
@@ -86,7 +84,7 @@ pub fn sanitize_filename(filename: &str) -> String {
 fn matches_template(path: &Path, template: &str) -> bool {
     let ext = path.extension()
         .and_then(|s| s.to_str())
-        .unwrap_or_else(||"")
+        .unwrap_or("")
         .to_lowercase();
 
     let allowed_extensions = encrypt_asset_setting::get_template_extensions(template);
@@ -100,12 +98,12 @@ fn matches_template(path: &Path, template: &str) -> bool {
 fn get_type_id(path: &Path) -> String {
     let base = path.file_stem()
                    .and_then(|s| s.to_str())
-                   .unwrap_or_else(||"");
+                   .unwrap_or("");
     // Główny prefix przed pierwszym "_" lub "-"
     let san_base = sanitize_filename(base);
     san_base.split('_')
         .next()
-        .unwrap_or_else(||"")
+        .unwrap_or("")
         .to_string()
 }
 
@@ -113,7 +111,7 @@ fn get_type_id(path: &Path) -> String {
 fn get_type_variant(path: &Path) -> String {
     let base = path.file_stem()
                    .and_then(|s| s.to_str())
-                   .unwrap_or_else(||"");
+                   .unwrap_or("");
                 let san_base = sanitize_filename(base);
     let parts: Vec<&str> = san_base.split('_').collect();
     if parts.len() > 1{
@@ -127,7 +125,7 @@ fn get_type_variant(path: &Path) -> String {
 fn get_type_variant_size(path: &Path) -> String {
     let base = path.file_stem()
                    .and_then(|s| s.to_str())
-                   .unwrap_or_else(||"");
+                   .unwrap_or("");
                 let san_base = sanitize_filename(base);
     let parts: Vec<&str> = san_base.split('_').collect();
     if parts.len() > 2{
@@ -201,7 +199,7 @@ pub fn encrypt_folder(
 
 
     // for creating binary file
-        let mut output = File::create(&output_file)
+        let mut output = File::create(output_file)
             .map_err(|e| {
                 eprintln!("[Szyfrowanie/encrypt_folder/output :: LocalTime:{}]\n---> Błąd przy tworzeniu pliku wyjściowego {}: {}\n", 
                     Local::now().format("%H:%M:%S"), output_file, e);
@@ -209,7 +207,7 @@ pub fn encrypt_folder(
 
         })?;
         //for creating index file, where u can find index, offsets, lenghts etc
-        let mut index = File::create(&index_file)  
+        let mut index = File::create(index_file)  
                 .map_err(|e| {
             eprintln!("[Szyfrowanie/encrypt_folder/index :: LocalTime:{}]\n---> Błąd przy tworzeniu pliku indeksu {}: {}\n", 
                 Local::now().format("%H:%M:%S"), index_file, e);
@@ -230,9 +228,9 @@ pub fn encrypt_folder(
         let mut file_entries = Vec::new();
 
         // here function is taking files according to template, ya know, sometimes that can be somewhat picky
-        for entry in WalkDir::new(&input_folder).into_iter().filter_map(Result::ok) {
+        for entry in WalkDir::new(input_folder).into_iter().filter_map(Result::ok) {
             let path = entry.path();
-            if path.is_file() && matches_template(path, &template) {
+            if path.is_file() && matches_template(path, template) {
                 file_entries.push(path.to_path_buf());
             }
         }
@@ -265,7 +263,7 @@ pub fn encrypt_folder(
         // for loop for for in for for for getting data of each file
         for path in &file_entries {
 
-            let file_path = match path.strip_prefix(&input_folder) {
+            let file_path = match path.strip_prefix(input_folder) {
                 Ok(p) => match p.to_str() {
                     Some(s) => s.replace("\\", "/"),
                     None => return Err(io::Error::new(ErrorKind::InvalidData, "Nie udało się przekształcić ścieżki na tekst")),
@@ -312,12 +310,13 @@ pub fn encrypt_folder(
         //  ██████  ██      ███████ ██   ██ ██   ██    ██    ██  ██████  ██   ████ ███████
 
         // and here u can see beating those files to desintegrate into binary format
-        for i in 0..file_infos.len() {
+        for xoxo in &mut file_infos {
 
-            let (file_path, original_file_size, _) = {
-                let entry = &file_infos[i];
-                (entry.5.clone(), entry.6, entry.7)
-            };
+            let (file_path, original_file_size, _) = (xoxo.5.clone(),xoxo.6, xoxo.7);
+            // {
+            //     let entry = &file_infos[i];
+            //     (entry.5.clone(), entry.6, entry.7)
+            // };
         
             let full_path = format!("{}/{}", &input_folder, file_path);
             let mut file = File::open(&full_path)?;
@@ -330,10 +329,10 @@ pub fn encrypt_folder(
             println!("[Szyfrowanie/encrypt_folder :: LocalTime:{}]\n---> dat po, Odczytane dane (pierwsze 50 bajtów): \n---> {:?}\n", 
                 Local::now().format("%H:%M:%S"), &buffer[0..buffer.len().min(50)]);
 
-                let mut processed_data = Vec::new();
-                let mut przeprocesowane = Vec::new();
+                // let processed_data = Vec::new();
+                // let przeprocesowane = Vec::new();
 
-            if toggle_compression == 1 {
+                let processed_data =if toggle_compression == 1 {
                 let mut compressed_data = Vec::new();{
 
                     let mut encoder = Encoder::new(&mut compressed_data, poziom_kompresji as i32)?;
@@ -345,23 +344,24 @@ pub fn encrypt_folder(
 
                 }
 
-                processed_data = compressed_data;
+                compressed_data
             
             }else{
 
-                processed_data = buffer.clone();
+                buffer.clone()
             
-            }
+            };
 
-            if toggle_encryption == 1 {
+            let przeprocesowane = if toggle_encryption == 1 {
 
-                let aaasafsgsh = moi_chacha20::encrypt_chacha(&mut processed_data, &password);
-                przeprocesowane =aaasafsgsh
+                moi_chacha20::encrypt_chacha(&processed_data, password)
 
-            } else {przeprocesowane=processed_data.clone()}
+            } else {
+                processed_data.clone()
+            };
 
-            file_infos[i].6 = przeprocesowane.len() as u64; // new size
-            file_infos[i].7 = current_offset; // new offset
+            xoxo.6 = przeprocesowane.len() as u64; // new size
+            xoxo.7 = current_offset; // new offset
 
             current_offset += przeprocesowane.len() as u64;
             output.write_all(&przeprocesowane)?

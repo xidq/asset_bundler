@@ -447,9 +447,9 @@ impl eframe::App for Appencja {
         if self.settings_toggle{
             egui::TopBottomPanel::top("settings").show(ctx, |ui| {
                 ui.vertical_centered(|ui|{
-                    ui.add(egui::Label::new(RichText::new(&self.current_language.ustawienia_tytul.to_string()).size( self.formatowanie_rozmiar_czcionki_duza)).selectable(false));
+                    ui.add(egui::Label::new(RichText::new(self.current_language.ustawienia_tytul.to_string()).size( self.formatowanie_rozmiar_czcionki_duza)).selectable(false));
             });
-                ui.add(egui::Label::new(&self.current_language.ustawienia_skrot.to_string()).selectable(false));
+                ui.add(egui::Label::new(self.current_language.ustawienia_skrot.to_string()).selectable(false));
             });
         }    
 

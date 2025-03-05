@@ -1,9 +1,7 @@
-use image::{
-    codecs::{jpeg::JpegEncoder, png::{CompressionType, FilterType, PngEncoder}}, DynamicImage, GenericImageView, ImageEncoder, ImageFormat
-};
-use std::{fs::create_dir_all, iter::Filter, path::{PathBuf,Path}};
+use image::GenericImageView;
+use std::{fs::create_dir_all, path::{PathBuf,Path}};
 use crate::image_actions::*;
-use webp::*;
+// use webp::*;
 // use chrono::NaiveTime;
 use chrono::Local;
 const RESOLUTION_MAPPING: [u32;10] =[
@@ -25,8 +23,8 @@ const RESOLUTION_MAPPING: [u32;10] =[
 
 
 
-pub fn ogarniacz_fot(rozszerzenie:u8,rozdzielczosc: &Vec<bool>, jakosc:&u8,filter: &u8, czy_alpha:&u8, czy_alpha_kolor:&u8, sciezka: &PathBuf,lokalny_path:&Path, output: &str,png_filter:u8,counter:i32)->i32{
-    let mut created_files = counter;
+pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alpc:Vec<&u8>, sciezka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32)->i32{
+        let mut created_files = counter;
 
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
     let func_id = "Ogarniacz Fot w image_actions::konwersja.rs" ;
@@ -34,13 +32,13 @@ pub fn ogarniacz_fot(rozszerzenie:u8,rozdzielczosc: &Vec<bool>, jakosc:&u8,filte
     let formatted_time = current_time.format("%H:%M:%S").to_string();
     //***************************************************************
 
-    let (rozszerzenie_string,rozszerzenie_do_pliku,definitywnie_alpha,rgb_only,bity):(&str,&str,&u8,bool,u8) = match rozszerzenie{
+    let (rozszerzenie_string,rozszerzenie_do_pliku,definitywnie_alpha,rgb_only,bity):(&str,&str,&u8,bool,u8) = match roz_png_fil[0]{
         0=>("jpg","jpg",&0,true,8),
-        1=>("png 8 bit","png",czy_alpha,false,8),
-        2=>("png 16 bit","png",czy_alpha,false,16),
-        3=>("webp lossless","webp",czy_alpha,true,8),
-        4=>("webp lossy","webp",czy_alpha,true,8),
-        5=>("tga","tga",czy_alpha,true,8),
+        1=>("png 8 bit","png",qua_fil_alp_alpc[2],false,8),
+        2=>("png 16 bit","png",qua_fil_alp_alpc[2],false,16),
+        3=>("webp lossless","webp",qua_fil_alp_alpc[2],true,8),
+        4=>("webp lossy","webp",qua_fil_alp_alpc[2],true,8),
+        5=>("tga","tga",qua_fil_alp_alpc[2],true,8),
         _=>("nieznane","nieznane",&0,true,8)
     };
 
@@ -58,11 +56,11 @@ pub fn ogarniacz_fot(rozszerzenie:u8,rozdzielczosc: &Vec<bool>, jakosc:&u8,filte
         }
     };
     
-    let foto_znormalizowane = normalizer::foto_bity_normalizer(img, bity,&definitywnie_alpha, *czy_alpha_kolor,rgb_only);
+    let foto_znormalizowane = normalizer::foto_bity_normalizer(img, bity,definitywnie_alpha, *qua_fil_alp_alpc[3],rgb_only);
 
     // Sprawdzamy długość dłuższej krawędzi
     let (width, height) = foto_znormalizowane.dimensions();
-    let longer_side = if width > height { width } else { height };
+    // let longer_side = if width > height { width } else { height };
 
 
 
@@ -86,7 +84,7 @@ pub fn ogarniacz_fot(rozszerzenie:u8,rozdzielczosc: &Vec<bool>, jakosc:&u8,filte
             };
 
             // Przeskaluj obraz
-            let resized_img = match filter {
+            let resized_img = match qua_fil_alp_alpc[1] {
                 4 => foto_znormalizowane.resize_exact(scaled_width, scaled_height, image::imageops::FilterType::Lanczos3),
                 0 => foto_znormalizowane.resize_exact(scaled_width, scaled_height, image::imageops::FilterType::Nearest),
                 1 => foto_znormalizowane.resize_exact(scaled_width, scaled_height, image::imageops::FilterType::Triangle),
@@ -111,7 +109,7 @@ pub fn ogarniacz_fot(rozszerzenie:u8,rozdzielczosc: &Vec<bool>, jakosc:&u8,filte
             }
             // Zapisz plik w formacie PNG
             println!("[{func_id}]\n{formatted_time}   zakończony resize, wchodzę w encoder\n");
-            crate::utils::image_encoder::foto_enkodery(resized_img,output_path,rozszerzenie,jakosc,&png_filter);
+            crate::utils::image_encoder::foto_enkodery(resized_img,output_path,roz_png_fil[0],qua_fil_alp_alpc[0],&roz_png_fil[1]);
 
 
 

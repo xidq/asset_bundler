@@ -1,6 +1,5 @@
 use std::fs::{self, File};
-use std::io::{Read, Write};
-use std::usize;
+use std::io::Read;
 use std::path::Path;
 use std::time::Instant;
 use std::sync::{Arc, Mutex};
@@ -109,44 +108,44 @@ pub fn read_index_file(idx_path: &Path, _de_password: &str, _toggle_encryption: 
 
 // Function that was used for debugging problems when i was using xor - depriciated!
 // not used, but still have it own place in ui tho, so let it be here.
-pub fn decrypt_idx_to_text_file(
-    debug_idx_file: &Path, 
-    debug_output_folder: &Path, 
-    _debug_idx_password: &str,
-    _toggle_encryption: u8
-) -> std::io::Result<()> {
-    println!("Ścieżka do której dąży:{:?}",debug_output_folder);
-    println!("[Deszyfrowanie/decrypt_idx_to_text_file :: LocalTime:{}]\n---> Rozpoczęcie deszyfrowania pliku idx: {}\n", Local::now().format("%H:%M:%S"), debug_idx_file.display());
+// pub fn decrypt_idx_to_text_file(
+//     debug_idx_file: &Path, 
+//     debug_output_folder: &Path, 
+//     _debug_idx_password: &str,
+//     _toggle_encryption: u8
+// ) -> std::io::Result<()> {
+//     println!("Ścieżka do której dąży:{:?}",debug_output_folder);
+//     println!("[Deszyfrowanie/decrypt_idx_to_text_file :: LocalTime:{}]\n---> Rozpoczęcie deszyfrowania pliku idx: {}\n", Local::now().format("%H:%M:%S"), debug_idx_file.display());
 
-    // Odczytujemy zawartość pliku .idx
-    let mut file = File::open(debug_idx_file)?;
-    let mut idx_bytes = Vec::new();
-    file.read_to_end(&mut idx_bytes)?;
+//     // Odczytujemy zawartość pliku .idx
+//     let mut file = File::open(debug_idx_file)?;
+//     let mut idx_bytes = Vec::new();
+//     file.read_to_end(&mut idx_bytes)?;
 
-    // if toggle_encryption == 1{
-    //     // let key = debug_idx_password.as_bytes();
-    //     println!("[Deszyfrowanie/decrypt_idx_to_text_file/toggle_encription :: LocalTime:{}]\n---> Deszyfrowanie indeksu za pomocą podanego hasła\n", Local::now().format("%H:%M:%S"));
-    //     xor::xor_encrypt_decrypt(&mut idx_bytes, debug_idx_password);
-    // } else {
-    //     println!("[Deszyfrowanie/decrypt_idx_to_text_file/toggle_encription :: LocalTime:{}]\n---> Deszyfrowanie pominięte, dane są nie zaszyfrowane.\n", Local::now().format("%H:%M:%S"));
-    // }
+//     // if toggle_encryption == 1{
+//     //     // let key = debug_idx_password.as_bytes();
+//     //     println!("[Deszyfrowanie/decrypt_idx_to_text_file/toggle_encription :: LocalTime:{}]\n---> Deszyfrowanie indeksu za pomocą podanego hasła\n", Local::now().format("%H:%M:%S"));
+//     //     xor::xor_encrypt_decrypt(&mut idx_bytes, debug_idx_password);
+//     // } else {
+//     //     println!("[Deszyfrowanie/decrypt_idx_to_text_file/toggle_encription :: LocalTime:{}]\n---> Deszyfrowanie pominięte, dane są nie zaszyfrowane.\n", Local::now().format("%H:%M:%S"));
+//     // }
 
-    // Debugowanie zawartości indeksu po deszyfrowaniu
-    println!("[Deszyfrowanie/decrypt_idx_to_text_file :: LocalTime:{}]\n---> Dane po deszyfrowaniu indeksu (pierwsze 50): {:?}", Local::now().format("%H:%M:%S"), &idx_bytes[0..idx_bytes.len().min(50)]);
+//     // Debugowanie zawartości indeksu po deszyfrowaniu
+//     println!("[Deszyfrowanie/decrypt_idx_to_text_file :: LocalTime:{}]\n---> Dane po deszyfrowaniu indeksu (pierwsze 50): {:?}", Local::now().format("%H:%M:%S"), &idx_bytes[0..idx_bytes.len().min(50)]);
 
-    // Zamiana danych na tekst
-    let decrypted_idx_data = String::from_utf8_lossy(&idx_bytes);
+//     // Zamiana danych na tekst
+//     let decrypted_idx_data = String::from_utf8_lossy(&idx_bytes);
 
-    // Przygotowanie ścieżki do pliku wynikowego
-    let output_file = format!("{}/decrypted_idx.txt", debug_output_folder.display());
-    let mut output_file = File::create(output_file)?;
+//     // Przygotowanie ścieżki do pliku wynikowego
+//     let output_file = format!("{}/decrypted_idx.txt", debug_output_folder.display());
+//     let mut output_file = File::create(output_file)?;
 
-    // Zapisanie zawartości deszyfrowanego pliku .idx do pliku tekstowego
-    output_file.write_all(decrypted_idx_data.as_bytes())?;
-    println!("[Deszyfrowanie/decrypt_idx_to_text_file :: LocalTime:{}]\n---> Plik z deszyfrowanymi danymi zapisany w: {}\n\n", Local::now().format("%H:%M:%S"), debug_output_folder.display());
+//     // Zapisanie zawartości deszyfrowanego pliku .idx do pliku tekstowego
+//     output_file.write_all(decrypted_idx_data.as_bytes())?;
+//     println!("[Deszyfrowanie/decrypt_idx_to_text_file :: LocalTime:{}]\n---> Plik z deszyfrowanymi danymi zapisany w: {}\n\n", Local::now().format("%H:%M:%S"), debug_output_folder.display());
 
-    Ok(())
-}
+//     Ok(())
+// }
 
 
 
@@ -198,7 +197,7 @@ pub fn decrypt_files(
         let de_password = &strip_arc_z_str_clone[0];
 
         // Odczytaj informacje o plikach z indeksu
-        let file_infos = read_index_file(&idx_path, de_password, toggle_encryption)?;
+        let file_infos = read_index_file(idx_path, de_password, toggle_encryption)?;
 
         // read whole binary file
         let mut dat_file = File::open(dat_path)?;
@@ -208,7 +207,7 @@ pub fn decrypt_files(
         // // Deszyfruj CAŁY plik .dat jeśli potrzebne
         if toggle_encryption == 1 {
             // xor::xor_encrypt_decrypt(&mut dat_bytes, de_password);
-            moi_chacha20::decrypt(&mut dat_bytes, de_password);
+            moi_chacha20::decrypt(&dat_bytes, de_password);
         }
 
         for (file_path, file_size, offset) in file_infos {

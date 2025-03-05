@@ -1,12 +1,12 @@
-use std::io::Read;
-use std::path::{Path, PathBuf};
+// use std::io::Read;
+use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
-use std::fs::File;
+// use std::fs::File;
 use std::vec::Vec;
 use rayon::iter::IntoParallelIterator;
 use std::io::ErrorKind;
 use rayon::iter::ParallelIterator;
-use walkdir::FilterEntry;
+// use walkdir::FilterEntry;
 use std::thread;
 use image::DynamicImage;
 use std::time::Instant;

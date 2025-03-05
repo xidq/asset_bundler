@@ -12,25 +12,25 @@ pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
     let tekst_plików=
                                 match &proxy_self.przetworzone_pliki % 10 {
                                     1 if &proxy_self.przetworzone_pliki % 100 != 11 => "plik", // wyjątek dla 11
-                                    2 | 3 | 4 if (&proxy_self.przetworzone_pliki % 100 < 10) || (&proxy_self.przetworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
+                                    2..=4 if (&proxy_self.przetworzone_pliki % 100 < 10) || (&proxy_self.przetworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
                                     _ => "plików",
                                 };  
                                 let de_tekst_plików=
                                 match &proxy_self.de_przetworzone_pliki % 10 {
                                     1 if &proxy_self.de_przetworzone_pliki % 100 != 11 => "plik", // wyjątek dla 11
-                                    2 | 3 | 4 if (&proxy_self.de_przetworzone_pliki % 100 < 10) || (&proxy_self.przetworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
+                                    2..=4 if (&proxy_self.de_przetworzone_pliki % 100 < 10) || (&proxy_self.przetworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
                                     _ => "plików",
                                 };  
                                 let foto_tekst_plików_utworzone=
                                 match &proxy_self.foto_utworzone_pliki % 10 {
                                     1 if &proxy_self.foto_utworzone_pliki % 100 != 11 => "plik", // wyjątek dla 11
-                                    2 | 3 | 4 if (&proxy_self.foto_utworzone_pliki % 100 < 10) || (&proxy_self.foto_utworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
+                                    2..=4 if (&proxy_self.foto_utworzone_pliki % 100 < 10) || (&proxy_self.foto_utworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
                                     _ => "plików",
                                 };  
                                 let foto_tekst_plików_przetworzone=
                                 match &proxy_self.foto_przetworzone_pliki % 10 {
                                     1 if &proxy_self.foto_przetworzone_pliki % 100 != 11 => "plik", // wyjątek dla 11
-                                    2 | 3 | 4 if (&proxy_self.foto_przetworzone_pliki % 100 < 10) || (&proxy_self.przetworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
+                                    2..=4 if (&proxy_self.foto_przetworzone_pliki % 100 < 10) || (&proxy_self.przetworzone_pliki % 100 > 20) => "pliki", // wyjątek dla 11-14, 21-24, itd.
                                     _ => "plików",
                                 };  
                             ui.separator();

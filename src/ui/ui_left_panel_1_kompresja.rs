@@ -190,7 +190,7 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         let output_name_input = TextEdit::singleline(&mut proxy_self.output_name)
                             .char_limit(50)
                             .min_size(egui::Vec2{x:200.,y:30.})
-                            .hint_text(&proxy_self.current_language.general_ui_nazwa.to_string())
+                            .hint_text(proxy_self.current_language.general_ui_nazwa.to_string())
                             .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki));
                         ui.vertical_centered_justified(|ui|{
                             ui.add(output_name_input);
@@ -212,7 +212,7 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         // |___|___|_|_|_|  _|_| |___|___|___|_|___|_|_|
                         //               |_|        
                         ui.vertical_centered_justified(|ui|{
-                            ui.add(egui::Label::new(RichText::new(&proxy_self.current_language.general_ui_kompresja_tytul.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))).selectable(false));
+                            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_kompresja_tytul.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))).selectable(false));
                         });
                         ui.add_space( proxy_self.formatowanie_spacja_mala);
 
@@ -239,9 +239,9 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         
                         ui.horizontal(|ui|{
                             ui.add_space(margines_na_wybor_formatu_foty);
-                            ui.add(egui::Label::new(RichText::new(&proxy_self.current_language.szyfrowanie_kompresja.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
-                            let compression_empty_let:bool;
-                            if proxy_self.toggle_compression>=1{compression_empty_let=true}else{compression_empty_let=false};
+                            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.szyfrowanie_kompresja.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                            let compression_empty_let:bool = proxy_self.toggle_compression>=1;
+
                             ui.add_enabled(compression_empty_let,|ui: &mut egui::Ui|{
                                 ui.add(egui::Slider::new(&mut proxy_self.poziom_kompresji, 1..=22).text(""))
 
@@ -299,7 +299,7 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                                     ui.add_space( proxy_self.formatowanie_spacja_mala);
                                     let password_input = TextEdit::singleline(&mut proxy_self.password)
                                     .password(true)
-                                    .hint_text(RichText::new(&proxy_self.current_language.general_ui_haslo.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
+                                    .hint_text(RichText::new(proxy_self.current_language.general_ui_haslo.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
                                     .min_size(Vec2{x:200.,y:30.});
                                     ui.add(password_input);
                                 });
@@ -352,18 +352,14 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         // | . | | |  _|  _| . |   |
                         // |___|___|_| |_| |___|_|_|
                         
-                        let sprawdzacz_plikow_kompresji= if !proxy_self.imput_folder_path.is_empty() && !proxy_self.output_folder_path.is_empty() && !proxy_self.output_name.is_empty(){
-                            true
-                        }else{
-                            false
-                        };
+                        let sprawdzacz_plikow_kompresji= !proxy_self.imput_folder_path.is_empty() && !proxy_self.output_folder_path.is_empty() && !proxy_self.output_name.is_empty();
                                
 
                         let tekst_przycisku_kompresji = if sprawdzacz_plikow_kompresji{
 
-                            &proxy_self.current_language.szyfrowanie_przycisk_ok}
+                            proxy_self.current_language.szyfrowanie_przycisk_ok}
                             else
-                            {&proxy_self.current_language.szyfrowanie_przycisk_nie_ok};
+                            {proxy_self.current_language.szyfrowanie_przycisk_nie_ok};
                         
                         // ui.add_space( proxy_self.formatowanie_spacja_srednia);
                         // let t_p_d= match proxy_self.czy_to_juz_koniec{
@@ -376,8 +372,15 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         // };
 
 
-                        let blblblblblblbl = if !proxy_self.imput_folder_path.is_empty() && proxy_self.czy_to_juz_koniec !=1 && !proxy_self.output_folder_path.is_empty() && !proxy_self.output_name.is_empty() && !proxy_self.zapis_pracuje{true}else{false};
-                        let szyfr_butt_col = if sprawdzacz_plikow_kompresji == true && proxy_self.czy_to_juz_koniec ==0{Color32::DARK_GREEN}else if sprawdzacz_plikow_kompresji == true && proxy_self.czy_to_juz_koniec ==1{zolty_ciemny}else{szarawy_ciemny};
+                        let blblblblblblbl = !proxy_self.imput_folder_path.is_empty() && proxy_self.czy_to_juz_koniec !=1 && !proxy_self.output_folder_path.is_empty() && !proxy_self.output_name.is_empty() && !proxy_self.zapis_pracuje;
+                        let szyfr_butt_col = match (
+                            sprawdzacz_plikow_kompresji,
+                            proxy_self.czy_to_juz_koniec
+                        ){
+                            (true,0) => Color32::DARK_GREEN,
+                            (true,1) => zolty_ciemny,
+                            _ =>szarawy_ciemny
+                        };
 
                         match proxy_self.rx.try_recv() {
                             Ok(Ok(afasdaf)) => {
@@ -415,9 +418,9 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         let t_p_d= match proxy_self.czy_to_juz_koniec{
                             0 => RichText::new(tekst_przycisku_kompresji.to_string()),
                             1 => RichText::new(proxy_self.sz_loading_anim.to_string()).monospace().color(Color32::BLACK),
-                            2 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
-                            3 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
-                            4 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+                            2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
+                            3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
+                            4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
                             _ => RichText::new("".to_string())
                         };
 
@@ -431,11 +434,11 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                             .min_size(egui::vec2(250.0, 40.0))
                             .corner_radius(10.)
                             .fill(szyfr_butt_col))
-                            .clicked() {
+                            .clicked() && blblblblblblbl{
 
 
 
-                                if blblblblblblbl{
+                                // if blblblblblblbl{
                                     proxy_self.czy_to_juz_koniec = 0;
                                     let rozszerzenie_plikku = if proxy_self.toggle_encryption == 0 {"jrz"} else if proxy_self.toggle_encryption == 1 {"jrzs"} else{"bin"};
                                     let output_file = format!("{}/{}.{}" , proxy_self.output_folder_path, proxy_self.output_name,rozszerzenie_plikku);
@@ -463,7 +466,8 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                                     
                                     proxy_self.czy_to_juz_koniec = 1;
 
-                                }}
+                                }
+                            // }
 
                                             
 

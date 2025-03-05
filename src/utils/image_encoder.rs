@@ -1,13 +1,13 @@
 use std::path::PathBuf;
 
-use egui::epaint::tessellator::Path;
+// use egui::epaint::tessellator::Path;
 use image::DynamicImage;
 use image::codecs::jpeg::JpegEncoder;
 use image::codecs::png::PngEncoder;
 use image::codecs::png::CompressionType;
 use image::codecs::png::FilterType;
 use image::ImageEncoder;
-use std::fs::create_dir_all;
+// use std::fs::create_dir_all;
 use chrono::Local;
 use image::ImageFormat;
 use webp::Encoder;

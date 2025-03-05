@@ -1,15 +1,15 @@
 use egui::{
     Color32,  
-    Pos2,
+    // Pos2,
     RichText,
-    TextEdit,
+    // TextEdit,
     Context,
 };
-use std::path::Path;
-use chrono::Local;
+// use std::path::Path;
+// use chrono::Local;
 use std::f32::consts::PI;
-use rfd::FileDialog;
-use crate::decrypt_copy;
+// use rfd::FileDialog;
+// use crate::decrypt_copy;
 use crate::ui::{
     ui_defaults::Appencja,
     ui_play_sound::play_ahh_sound,
@@ -17,7 +17,7 @@ use crate::ui::{
 };
 
 
-pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, fiolet_ciemny:Color32){
+pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32){
     if proxy_self.kllikker < 50{
         let to_je_foto = ui.add(egui::Image::new(egui::include_image!("../br/ok.png")).sense(egui::Sense::click())
         .max_height(330.0)
@@ -30,8 +30,8 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
         );
         if to_je_foto.clicked() {
             play_ahh_sound(proxy_self.ustawienia_glosnosc);
-            proxy_self.rotation_image = proxy_self.rotation_image + rand::random_range(0.0..=PI);
-            proxy_self.kllikker = proxy_self.kllikker+1;
+            proxy_self.rotation_image += rand::random_range(0.0..=PI);
+            proxy_self.kllikker+=1;
             
         }
     }else{
@@ -47,9 +47,9 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
 
         if to_je_foto.clicked() {
             play_ahh_sound(proxy_self.ustawienia_glosnosc);
-            proxy_self.rotation_image = proxy_self.rotation_image + rand::random_range(0.0..=PI);
-            proxy_self.rotation_image = proxy_self.rotation_image % (2.0 * PI); 
-            proxy_self.kllikker = proxy_self.kllikker+1;
+            proxy_self.rotation_image += rand::random_range(0.0..=PI);
+            proxy_self.rotation_image %= 2.0 * PI; 
+            proxy_self.kllikker+=1;
             
         }
     }

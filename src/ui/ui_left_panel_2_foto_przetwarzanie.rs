@@ -9,10 +9,10 @@ use egui::{
     ComboBox
 };
 use rfd::FileDialog;
-use std::{default, sync::{
+use std::sync::{
     Arc, 
     Mutex
-}};
+};
 use crate::ui::{
     ui_defaults::Appencja,
     ui_play_sound::play_finish_sound,
@@ -210,13 +210,13 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         
                         ui.columns(5, |column|{
                             column[0].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_Nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
 
                             column[1].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_Triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
@@ -228,13 +228,13 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             });
 
                             column[3].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_Gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
 
                             column[4].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_Lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
@@ -539,24 +539,19 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         // ██      ██   ██ ███████    ██     ██████ ██ ███████ ██   ██ 
 
 
-                        let sprawdzacz_przycisku_fot= if !proxy_self.imput_foty_folder_path.is_empty() && 
+                        let sprawdzacz_przycisku_fot= !proxy_self.imput_foty_folder_path.is_empty() && 
                             !proxy_self.output_foty_folder_path.is_empty() && 
                             (
                                 proxy_self.foty_format_jpg || proxy_self.foty_format_png || 
-                                proxy_self.foty_format_png || proxy_self.foty_format_png_16 || 
-                                proxy_self.foty_format_tga || proxy_self.foty_format_webp || 
-                                proxy_self.foty_format_webp_lossy
+                                proxy_self.foty_format_png_16 || proxy_self.foty_format_tga || 
+                                proxy_self.foty_format_webp || proxy_self.foty_format_webp_lossy
                             ) && (
                                 proxy_self.foty_rozdzielczosc_16k || proxy_self.foty_rozdzielczosc_8k ||
                                 proxy_self.foty_rozdzielczosc_4k || proxy_self.foty_rozdzielczosc_2k ||
                                 proxy_self.foty_rozdzielczosc_1k || proxy_self.foty_rozdzielczosc_512 ||
                                 proxy_self.foty_rozdzielczosc_256 || proxy_self.foty_rozdzielczosc_128 ||
                                 proxy_self.foty_rozdzielczosc_64 || proxy_self.foty_rozdzielczosc_32
-                            ){
-                            true
-                        }else{
-                            false
-                        };
+                            );
 
                         let tekst_przycisku_kompresji = if sprawdzacz_przycisku_fot{
 
@@ -565,9 +560,15 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             {&proxy_self.current_language.szyfrowanie_przycisk_nie_ok};
                         
 
-                        let hjgfkjlh = if !proxy_self.imput_foty_folder_path.is_empty() && proxy_self.czy_to_juz_koniec_foto !=1 && !proxy_self.output_foty_folder_path.is_empty() &&  !proxy_self.zapis_pracuje{true}else{false};
-                        let foto_butt_col = if sprawdzacz_przycisku_fot == true && proxy_self.czy_to_juz_koniec_foto ==0{Color32::DARK_GREEN}else if sprawdzacz_przycisku_fot == true && proxy_self.czy_to_juz_koniec_foto ==1{zolty_ciemny}else{szarawy_ciemny};
-
+                        let hjgfkjlh = !proxy_self.imput_foty_folder_path.is_empty() && proxy_self.czy_to_juz_koniec_foto !=1 && !proxy_self.output_foty_folder_path.is_empty() &&  !proxy_self.zapis_pracuje;
+                        let foto_butt_col = match (
+                            sprawdzacz_przycisku_fot,
+                            proxy_self.czy_to_juz_koniec_foto
+                        ){
+                            (true,0) => Color32::DARK_GREEN,
+                            (true,1) => zolty_ciemny,
+                            _ =>szarawy_ciemny
+                        };
                         match proxy_self.rx.try_recv() {
                             Ok(Ok(ghdfjsas)) => {
                                 let danene = ghdfjsas.lock().unwrap();
@@ -605,9 +606,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         let t_p_d_foto= match proxy_self.czy_to_juz_koniec_foto{
                             0 => RichText::new(tekst_przycisku_kompresji.to_string()),
                             1 => RichText::new(proxy_self.sz_loading_anim.to_string()).monospace().color(Color32::BLACK),
-                            2 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
-                            3 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
-                            4 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+                            2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
+                            3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
+                            4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
                             _ => RichText::new("".to_string())
                         };
 
@@ -618,11 +619,11 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             .min_size(egui::vec2(250.0, 40.0))
                             .corner_radius(10.)
                             .fill(foto_butt_col))
-                            .clicked() {
+                            .clicked() && hjgfkjlh{
 
 
 
-                                if hjgfkjlh{
+                                // if hjgfkjlh{
                                     proxy_self.czy_to_juz_koniec_foto = 0;
                                     let arc_z_foto_rozdzielczosc = Arc::new(Mutex::new(vec![
                                         proxy_self.foty_rozdzielczosc_16k,
@@ -681,7 +682,8 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     
                                     proxy_self.czy_to_juz_koniec_foto = 1;
 
-                                }}
+                                // }
+                            }
 
                                             
 

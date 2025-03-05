@@ -14,93 +14,93 @@ pub fn get_type(path: &Path) -> String {
         "dae" | "ply"  | "x3d" | "3ds" | "max" | 
         "usd" | "usdz" | "c4d" | "ac"  | "vmd" | 
         "lwo" | "abc" 
-        => format!("Model_3D"),
+        => "Model_3D".to_string(),
 
-        "blend" => format!("Blender"),
+        "blend" => "Blender".to_string(),
 
         "dwg" | "step"   | "stp"    | "iges" | "igs" | 
         "sat" | "sldprt" | "sldasm" | "prt"  | "asm" | 
         "3dm" | "jt"     | "ifc"    | "ipt"  | "x_t" | 
         "x_b" | "brep"   | "dgn" 
-        => format!("Cad_File"),
+        => "Cad_File".to_string(),
 
         "jpg" | "png"  | "exr"  | "tga"  | "dds" | 
         "ico" | "tiff" | "bmp"  | "jpeg" | "gif" | 
         "tif" | "webp" | "heif" | "heic" | "raw" 
-        => format!("Image"),
+        => "Image".to_string(),
 
         "svg" | "cdr" | "odg" | "wmf" | "emf" | 
         "dxf" 
-        => format!("Vector_Graphic"),
+        => "Vector_Graphic".to_string(),
 
         "psd"  | "ai"  | "indd" | "eps" | "afdesign" | 
         "xd"   | "fla" | "swf"  | "aep" | "prproj"   | 
         "mogg" | "xdp" | "lrcat" 
-        => format!("Adobe_File"),
+        => "Adobe_File".to_string(),
 
         "cr2" | "cr3" | "nef" | "arw" | "orf" | 
         "raf" | "dng" | "pef" | "rw2" | "sr2" | 
         "kdc" | "3fr" | "mef" | "x3f" 
-        => format!("Raw_photo"),
+        => "Raw_photo".to_string(),
 
         "mp4" | "avi"  | "mov"  | "mkv" | "flv" | 
         "wmv" | "webm" | "mpeg" | "mpg" | "3gp" | 
         "ogv" | "vob"  | "ts"   | "iso" | "rm"  | 
         "m4v" | "f4v"  | "qt"   | "asf" 
-        => format!("Video_File"),
+        => "Video_File".to_string(),
 
         "ktx2" | "hdr" 
-        => format!("EnvTex"),
+        => "EnvTex".to_string(),
 
         "ogg" | "mp3"  | "wav"  | "flac" | "oga"  | 
         "aac" | "m4a"  | "wma"  | "alac" | "aiff" | 
         "ape" | "opus" | "dsd"  | "pcm"  | "ra"   | 
         "ac3" | "mid"  | "midi" | "spx"  | "vorbis" 
-        => format!("Audio"),
+        => "Audio".to_string(),
 
         "epub" | "mobi" | "azw" | "azw3"  | "fb2" | 
         "lit"  | "lrf"  | "opf" | "pdb"   | "prc" | 
         "cbz"  | "cbr"  | "rtf" 
-        => format!("E-book"),
+        => "E-book".to_string(),
 
         "pdf" 
-        => format!("PDF"),
+        => "PDF".to_string(),
 
         "xls" | "xlsx" 
-        => format!("Spreadsheet"),
+        => "Spreadsheet".to_string(),
 
         "cfg" 
-        => format!("Configuration"),
+        => "Configuration".to_string(),
 
         "meta" 
-        => format!("Meta"),
+        => "Meta".to_string(),
 
         "js" 
-        => format!("JavaScript"),
+        => "JavaScript".to_string(),
 
         "json" | "xml"    | "csv"     | "yaml" | "ini"      | 
         "tsv"  | "sql"    | "parquet" | "avro" | "protobuf" | 
         "bson" | "sqlite" | "db"      | "md"   | "toml"     | 
         "dat"  | "log" 
-        => format!("Data_file"),
+        => "Data_file".to_string(),
 
         "py" 
-        => format!("Python"),
+        => "Python".to_string(),
 
         "txt" | "lua" 
-        => format!("TextFile"),
+        => "TextFile".to_string(),
 
         "doc"  | "docx" | "ppt"  | "pptx" | "pps"  | 
         "ppsx" | "xlsm" | "docm" | "pptm" | "dot"  | 
         "dotx" | "xlt"  | "xltx" | "pot"  | "potx" | 
         "one"  | "pub"  | "vsd"  | "vsdx" | "mdb"  | 
         "accdb"  
-        => format!("Ms_Office_Files"),
+        => "Ms_Office_Files".to_string(),
 
         "html" | "css" | "scss"
-        => format!("Website_files"),
+        => "Website_files".to_string(),
         
-        _ => format!("UnknownFormat")
-        // _ => encrypt_bez_async_i_bez_chacha20::sanitize_filename(base).to_string(),
+        _ => "UnknownFormat".to_string()
+        // _ => encrypt_bez_async_i_bez_chacha20::sanitize_filename(base).to_string(.to_string()
     }
 }

@@ -51,10 +51,10 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                         ui.add_space(proxy_self.formatowanie_spacja_duza+margines_na_wybor_formatu_foty);
 
-                        let btn_deszyfrowanie_folder_plik_dat = ui.button(RichText::new(&proxy_self.current_language.general_ui_wybierz_plik_dat.to_string())
+                        let btn_deszyfrowanie_folder_plik_dat = ui.button(RichText::new(proxy_self.current_language.general_ui_wybierz_plik_dat.to_string())
                             .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
                         if btn_deszyfrowanie_folder_plik_dat.clicked() {
-                            if let Some(path) = FileDialog::new().add_filter(&proxy_self.current_language.general_ui_wybierz_plik_dat.to_string(), &["jrz","jrzs"]).pick_file() {
+                            if let Some(path) = FileDialog::new().add_filter(proxy_self.current_language.general_ui_wybierz_plik_dat.to_string(), &["jrz","jrzs"]).pick_file() {
 
                                 proxy_self.imput_de_dat_folder_path = path.to_string_lossy().to_string();
                     
@@ -120,11 +120,11 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                         ui.add_space(proxy_self.formatowanie_spacja_duza+margines_na_wybor_formatu_foty);
 
-                        let btn_deszyfrowanie_folder_plik_idx = ui.button(RichText::new(&proxy_self.current_language.general_ui_wybierz_plik_idx.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                        let btn_deszyfrowanie_folder_plik_idx = ui.button(RichText::new(proxy_self.current_language.general_ui_wybierz_plik_idx.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
 
                         if btn_deszyfrowanie_folder_plik_idx.clicked() {
 
-                            if let Some(path) = FileDialog::new().add_filter(&proxy_self.current_language.general_ui_wybierz_plik_idx.to_string(), &["idx"]).pick_file() {
+                            if let Some(path) = FileDialog::new().add_filter(proxy_self.current_language.general_ui_wybierz_plik_idx.to_string(), &["idx"]).pick_file() {
 
                                 proxy_self.imput_de_idx_folder_path = path.to_string_lossy().to_string();
 
@@ -245,7 +245,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
 
 
-                                ui.add(egui::Label::new(RichText::new(&proxy_self.current_language.general_ui_haslo_wylaczone.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)).color(fiolet_ciemny)).selectable(false));
+                                ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_haslo_wylaczone.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)).color(fiolet_ciemny)).selectable(false));
 
                             
 
@@ -256,7 +256,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                             ui.add_space( proxy_self.formatowanie_spacja_mala);
                             let password_input = TextEdit::singleline(&mut proxy_self.de_password)
                                 .password(true)
-                                .hint_text(&proxy_self.current_language.general_ui_haslo.to_string())
+                                .hint_text(proxy_self.current_language.general_ui_haslo.to_string())
                                 .min_size(Vec2{x:200.,y:30.});
                             ui.add(password_input);
 
@@ -273,21 +273,13 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                     let sprawdzacz_plikow_dekompresja: bool = 
                     std::path::Path::new(&proxy_self.imput_de_dat_folder_path)
-                        .extension()
-                        .map_or(false,
-                            |ext| ext == "jrz" || ext == "jrzs") &&
-                            std::path::Path::new(&proxy_self.imput_de_idx_folder_path)
-                        .extension()
-                        .map_or(false, 
-                            |ext| ext == "idx") &&
+                        .extension().is_some_and(|ext| ext == "jrz" || ext == "jrzs") &&
+                    std::path::Path::new(&proxy_self.imput_de_idx_folder_path)
+                        .extension().is_some_and(|ext| ext == "idx") &&
                     !proxy_self.output_de_folder_path.is_empty();
         
 
-                    let sprawdzacz_plikow_kompresji= if !proxy_self.imput_folder_path.is_empty() && !proxy_self.output_folder_path.is_empty() && !proxy_self.output_name.is_empty(){
-                        true
-                    }else{
-                        false
-                    };
+                    let sprawdzacz_plikow_kompresji= !proxy_self.imput_folder_path.is_empty() && !proxy_self.output_folder_path.is_empty() && !proxy_self.output_name.is_empty();
                     let tekst_przycisku_kompresji = if sprawdzacz_plikow_kompresji{
 
                         &proxy_self.current_language.deszyfrowanie_przycisk_ok}
@@ -306,9 +298,9 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                     let de_t_p_d= match proxy_self.de_czy_to_juz_koniec{
                         0 => RichText::new(tekst_przycisku_kompresji.to_string()),
                         1 => RichText::new(proxy_self.de_loading_anim).monospace().color(Color32::BLACK),
-                        2 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
-                        3 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
-                        4 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+                        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
+                        3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
+                        4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
                         _ => RichText::new("")
                     };
 
@@ -345,8 +337,14 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                     }
 
                     // let deszyfr_but_col = if sprawdzacz_plikow_dekompresja{Color32::DARK_GREEN}else{szarawy_ciemny};
-                    let deszyfr_butt_col = if sprawdzacz_plikow_dekompresja == true && proxy_self.de_czy_to_juz_koniec ==0{Color32::DARK_GREEN}else if sprawdzacz_plikow_dekompresja == true && proxy_self.de_czy_to_juz_koniec ==1 {zolty_ciemny} else {szarawy_ciemny};
-
+                    let deszyfr_butt_col = match (
+                        sprawdzacz_plikow_dekompresja,
+                        proxy_self.de_czy_to_juz_koniec
+                    ){
+                        (true,0) => Color32::DARK_GREEN,
+                        (true,1) => zolty_ciemny,
+                        _ =>szarawy_ciemny
+                    };
 
                         if ui.put(Rect::from_center_size(Pos2{x:(proxy_self.szerokosc_okna / 4.),y:proxy_self.wysokosc_btn_egzekucyjny},Vec2{x:250.,y:40.}),egui::Button::new(de_t_p_d
                         .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))
@@ -354,10 +352,10 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         .min_size(egui::vec2(250.0, 40.0))
                         .corner_radius(10.)
                         .fill(deszyfr_butt_col))
-                        .clicked() {
+                        .clicked() && sprawdzacz_plikow_dekompresja{
 
-                            if sprawdzacz_plikow_dekompresja 
-                            {
+                            // if sprawdzacz_plikow_dekompresja 
+                            // {
                                 proxy_self.de_czy_to_juz_koniec = 0;
 
                                 let dat_file = std::path::Path::new(&proxy_self.imput_de_dat_folder_path).to_path_buf(); 
@@ -365,7 +363,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                                 let output_folder = std::path::Path::new(&proxy_self.output_de_folder_path).to_path_buf(); 
                                 let arc_z_str = Arc::new(Mutex::new(vec![proxy_self.de_password.clone().to_string()]));
                                 let arc_z_path = Arc::new(Mutex::new(vec![dat_file.clone(),idx_file.clone(),output_folder.clone()]));
-                                let arc_z_u8 = Arc::new(Mutex::new(vec![proxy_self.toggle_encryption.clone()]));
+                                let arc_z_u8 = Arc::new(Mutex::new(vec![proxy_self.toggle_encryption]));
 
                                 let de_tx_clone = proxy_self.tx.clone();
                                 std::thread::spawn(move || {
@@ -383,7 +381,8 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                                         
                                         proxy_self.de_czy_to_juz_koniec = 1;
     
-                                    }}
+                                    }
+                                // }
     
                                                 
     

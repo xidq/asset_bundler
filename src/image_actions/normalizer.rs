@@ -1,6 +1,6 @@
-use cipher::consts::False;
+// use cipher::consts::False;
 use chrono::Local;
-use image::{DynamicImage, GenericImageView, RgbaImage, RgbImage, Rgba};
+use image::DynamicImage;
 
 pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha: &u8, alpha_kolor: u8, tylko_rgb:bool) -> DynamicImage {
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -13,7 +13,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
     println!("[{func_id}]\n{formatted_time}   rozpoczęcie");
     // Get the color type of the image
     let color_type = orig_foto.color();
-    let mut result_img: DynamicImage = orig_foto.clone();  // Default to the original image
+    // let mut result_img: DynamicImage = orig_foto.clone();  // Default to the original image
  
     // Handle case when alpha is disabled (czy_alpha == 0)
     // if *czy_alpha == 0 {
@@ -35,7 +35,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
 
         // let kolor_luma8 = ((color.0 as f32 * 0.299) + (color.1 as f32 * 0.587) + (color.2 as f32 * 0.114)) as u8;
         // let kolor_luma16 = ((u16::from(color.0) * 299 + u16::from(color.1) * 587 + u16::from(color.2) * 114) / 1000) * 257; // Scale to 16-bit
-        result_img = match (color_type,glebia_bitow,tylko_rgb,czy_alpha ){
+        let result_img = match (color_type,glebia_bitow,tylko_rgb,czy_alpha ){
 
             // 8bit alpha
 
@@ -43,9 +43,9 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_rgba8();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
-                    let g = pixel.0[1];
-                    let b = pixel.0[2];
+                    // let r = pixel.0[0];
+                    // let g = pixel.0[1];
+                    // let b = pixel.0[2];
                     let a = pixel.0[3];
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::Rgba([color.0, color.1, color.2, 255]);  // Correctly use Rgba
@@ -64,12 +64,12 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_rgba16();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
-                    let g = pixel.0[1];
-                    let b = pixel.0[2];
+                    // let r = pixel.0[0];
+                    // let g = pixel.0[1];
+                    // let b = pixel.0[2];
                     let a = pixel.0[3];
                     if a == 0 {  // If fully transparent, set it to the chosen color
-                        *pixel = image::Rgba([color_16.0 as u16, color_16.1 as u16, color_16.2 as u16, 65535]);  // Correctly use Rgba
+                        *pixel = image::Rgba([color_16.0, color_16.1, color_16.2, 65535]);  // Correctly use Rgba
                     }
                 }
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true|false",color_type);
@@ -81,12 +81,12 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_rgba16();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
-                    let g = pixel.0[1];
-                    let b = pixel.0[2];
+                    // let r = pixel.0[0];
+                    // let g = pixel.0[1];
+                    // let b = pixel.0[2];
                     let a = pixel.0[3];
                     if a == 0 {  // If fully transparent, set it to the chosen color
-                        *pixel = image::Rgba([color_16.0 as u16, color_16.1 as u16, color_16.2 as u16, 65535]);  // Correctly use Rgba
+                        *pixel = image::Rgba([color_16.0, color_16.1, color_16.2, 65535]);  // Correctly use Rgba
                     }
                 }
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb16, tylko rgb? true|false",color_type);
@@ -101,12 +101,12 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_rgba16();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
-                    let g = pixel.0[1];
-                    let b = pixel.0[2];
+                    // let r = pixel.0[0];
+                    // let g = pixel.0[1];
+                    // let b = pixel.0[2];
                     let a = pixel.0[3];
                     if a == 0 {  // If fully transparent, set it to the chosen color
-                        *pixel = image::Rgba([color_16.0 as u16, color_16.1 as u16, color_16.2 as u16, 65535]);  // Correctly use Rgba
+                        *pixel = image::Rgba([color_16.0, color_16.1, color_16.2, 65535]);  // Correctly use Rgba
                     }
                 }
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true|false",color_type);
@@ -121,7 +121,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_luma_alpha8();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
+                    // let r = pixel.0[0];
                     let a = pixel.0[1];
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color.0, 255]);  // Correctly use Rgba
@@ -136,7 +136,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_luma_alpha8();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
+                    // let r = pixel.0[0];
                     let a = pixel.0[1];
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color.0, 255]);  // Correctly use Rgba
@@ -154,7 +154,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_luma_alpha8();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
+                    // let r = pixel.0[0];
                     let a = pixel.0[1];
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color.0, 255]);  // Correctly use Rgba
@@ -172,10 +172,10 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_luma_alpha16();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
+                    // let r = pixel.0[0];
                     let a = pixel.0[1];
                     if a == 0 {  // If fully transparent, set it to the chosen color
-                        *pixel = image::LumaA([color_16.0 as u16, 65535]);  // Correctly use Rgba
+                        *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
                 }
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true",color_type);
@@ -187,10 +187,10 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_luma_alpha16();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
+                    // let r = pixel.0[0];
                     let a = pixel.0[1];
                     if a == 0 {  // If fully transparent, set it to the chosen color
-                        *pixel = image::LumaA([color_16.0 as u16, 65535]);  // Correctly use Rgba
+                        *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
                 }
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb16, tylko rgb? true",color_type);
@@ -202,10 +202,10 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_luma_alpha16();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
+                    // let r = pixel.0[0];
                     let a = pixel.0[1];
                     if a == 0 {  // If fully transparent, set it to the chosen color
-                        *pixel = image::LumaA([color_16.0 as u16, 65535]);  // Correctly use Rgba
+                        *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
                 }
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: L8, tylko rgb? false",color_type);
@@ -217,10 +217,10 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                 let mut img = orig_foto.to_luma_alpha16();
                 for pixel in img.pixels_mut() {
                     // Access the channels using .0, .1, .2, .3 for Rgba<u8>
-                    let r = pixel.0[0];
+                    // let r = pixel.0[0];
                     let a = pixel.0[1];
                     if a == 0 {  // If fully transparent, set it to the chosen color
-                        *pixel = image::LumaA([color_16.0 as u16, 65535]);  // Correctly use Rgba
+                        *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
                 }
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: L16, tylko rgb? false",color_type);

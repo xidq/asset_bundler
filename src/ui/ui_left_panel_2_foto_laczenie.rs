@@ -10,13 +10,13 @@ use egui::{
 };
 use egui::TextEdit;
 use image::open;
-use std::sync::mpsc;
+// use std::sync::mpsc;
 use rfd::FileDialog;
-use std::{default, path::PathBuf, sync::{
+use std::sync::{
     Arc, 
     Mutex
-}};
-use std::io;
+};
+// use std::io;
 use crate::ui::{
     ui_defaults::Appencja,
     ui_play_sound::play_finish_sound,
@@ -31,8 +31,8 @@ pub fn ui_left_panel_foty_laczenie(
 ){
     let margines_na_wybor_formatu_foty = proxy_self.formatowanie_spacja_srednia;
     let aspect_ratio_check = 
-    if (proxy_self.pakowanie_foty_red_aspect_ratio == proxy_self.pakowanie_foty_green_aspect_ratio) &&
-    (proxy_self.pakowanie_foty_red_aspect_ratio == proxy_self.pakowanie_foty_blue_aspect_ratio){true}else{false};
+    (proxy_self.pakowanie_foty_red_aspect_ratio == proxy_self.pakowanie_foty_green_aspect_ratio) &&
+    (proxy_self.pakowanie_foty_red_aspect_ratio == proxy_self.pakowanie_foty_blue_aspect_ratio);
     // let (tx, rx): (mpsc::Sender<Result<Arc<Mutex<Vec<usize>>>, io::Error>>, mpsc::Receiver<Result<Arc<Mutex<Vec<usize>>>, io::Error>>) = mpsc::channel();
 
 
@@ -543,7 +543,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         });
         column[1].vertical_centered_justified(|ui|{
-            let sfdsdsgasdfe = match proxy_self.pakowanie_foty_rozszerzenie{
+            match proxy_self.pakowanie_foty_rozszerzenie{
                 0=>{
                         proxy_self.pakowanie_foty_jakosc=75;
                         ui.vertical(|ui|{
@@ -566,10 +566,10 @@ pub fn ui_left_panel_foty_laczenie(
                         });
                     },
                 _=> {ui.label("");}
-            };
+            }
         });
         column[2].vertical_centered_justified(|ui|{
-            let sfdsdsgasdfe = match proxy_self.pakowanie_foty_rozszerzenie{
+            match proxy_self.pakowanie_foty_rozszerzenie{
                 1|2=>{
                     if ComboBox::from_id_salt("kakbgrfgdskj"/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
                     .width(80.)
@@ -597,7 +597,7 @@ pub fn ui_left_panel_foty_laczenie(
                         }},
 
                 _=> {ui.label("");}
-            };
+            }
         });
     });
 
@@ -719,20 +719,20 @@ pub fn ui_left_panel_foty_laczenie(
         .width(320.)
         .selected_text(RichText::new(
             match proxy_self.pakowanie_foty_filter{
-                0 => proxy_self.current_language.png_specyfic_filter_Nearest,
-                1=> proxy_self.current_language.png_specyfic_filter_Triangle,
-                2=> proxy_self.current_language.png_specyfic_filter_CatmullRom,
-                3=>proxy_self.current_language.png_specyfic_filter_Gaussian,
-                4=>proxy_self.current_language.png_specyfic_filter_Lanczos3,
+                0 => proxy_self.current_language.png_specyfic_filter_nearest,
+                1=> proxy_self.current_language.png_specyfic_filter_triangle,
+                2=> proxy_self.current_language.png_specyfic_filter_catmullrom,
+                3=>proxy_self.current_language.png_specyfic_filter_gaussian,
+                4=>proxy_self.current_language.png_specyfic_filter_lanczos3,
                 _ => proxy_self.current_language.err_value_overflow
             }
             ).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
             .show_ui(ui, |ui| {
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_Nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_Triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 2, RichText::new(proxy_self.current_language.png_specyfic_filter_CatmullRom).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_Gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_Lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 2, RichText::new(proxy_self.current_language.png_specyfic_filter_catmullrom).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
                 }).response.clicked(){
                 proxy_self.pakowanie_foty_czy_to_juz_koniec = 0
             }
@@ -765,7 +765,7 @@ pub fn ui_left_panel_foty_laczenie(
     let output_name_input = TextEdit::singleline(&mut proxy_self.pakowanie_foty_nazwa)
         .char_limit(50)
         .min_size(egui::Vec2{x:200.,y:30.})
-        .hint_text(&proxy_self.current_language.general_ui_nazwa.to_string())
+        .hint_text(proxy_self.current_language.general_ui_nazwa.to_string())
         .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki));
     ui.vertical_centered_justified(|ui|{
         ui.add(output_name_input);
@@ -791,16 +791,12 @@ pub fn ui_left_panel_foty_laczenie(
     // ██      ██   ██ ███████    ██     ██████ ██ ███████ ██   ██ 
 
 
-    let sprawdzacz_przycisku_fotx= if 
+    let sprawdzacz_przycisku_fotx= 
         !proxy_self.imput_r_file_path.to_string_lossy().is_empty() && 
         !proxy_self.imput_g_file_path.to_string_lossy().is_empty() && 
         !proxy_self.imput_b_file_path.to_string_lossy().is_empty() && 
         !proxy_self.imput_out_folder_path.to_string_lossy().is_empty() &&
-        aspect_ratio_check{
-        true
-    }else{
-        false
-    };
+        aspect_ratio_check;
 
     let tekst_przycisku_kompresji = if sprawdzacz_przycisku_fotx{
 
@@ -809,7 +805,7 @@ pub fn ui_left_panel_foty_laczenie(
         {&proxy_self.current_language.szyfrowanie_przycisk_nie_ok};
 
 
-    let hjgfkjlh = if sprawdzacz_przycisku_fotx && proxy_self.pakowanie_foty_czy_to_juz_koniec !=1 {true}else{false};
+    let hjgfkjlh = sprawdzacz_przycisku_fotx && proxy_self.pakowanie_foty_czy_to_juz_koniec !=1;
     let tx_clonea = proxy_self.tx.clone();
     let fotox_butt_col = match (sprawdzacz_przycisku_fotx,proxy_self.pakowanie_foty_czy_to_juz_koniec){
         (true,0)=>Color32::DARK_GREEN,
@@ -820,7 +816,7 @@ pub fn ui_left_panel_foty_laczenie(
         Ok(Ok(ghdfjsasx)) => {
             let danene = ghdfjsasx.lock().unwrap();
             proxy_self.pakowanie_foty_czy_to_juz_koniec = 2;
-            proxy_self.foto_timestamp_sekundy = danene[0] as u64;
+            proxy_self.foto_laczenie_timestamp_sekundy = danene[0] as u64;
             proxy_self.foto_laczenie_timestamp_milisekundy = danene[1] as u32;
             play_finish_sound(proxy_self.ustawienia_glosnosc);
         }
@@ -851,9 +847,9 @@ pub fn ui_left_panel_foty_laczenie(
     let t_p_d_fotox= match proxy_self.pakowanie_foty_czy_to_juz_koniec{
         0 => RichText::new(tekst_przycisku_kompresji.to_string()),
         1 => RichText::new(proxy_self.sz_loading_anim.to_string()).monospace().color(Color32::BLACK),
-        2 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
-        3 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
-        4 => RichText::new(&proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
+        3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
+        4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
         _ => RichText::new("".to_string())
     };
 
@@ -864,12 +860,12 @@ pub fn ui_left_panel_foty_laczenie(
         .min_size(egui::vec2(250.0, 40.0))
         .corner_radius(10.)
         .fill(fotox_butt_col))
-        .clicked() {
+        .clicked() && hjgfkjlh{
             println!("kliklem przycisk!");
 
 
 
-            if hjgfkjlh{
+            // if hjgfkjlh{
                 proxy_self.pakowanie_foty_czy_to_juz_koniec = 0;
                 let arc_z_path = Arc::new(Mutex::new(vec![
                     proxy_self.imput_r_file_path.clone(),
@@ -913,7 +909,8 @@ pub fn ui_left_panel_foty_laczenie(
                 
                 proxy_self.pakowanie_foty_czy_to_juz_koniec = 1;
 
-            }}
+            }
+        // }
 
                         
 
