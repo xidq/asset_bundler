@@ -1,5 +1,5 @@
 use chacha20poly1305::{
-    aead::{Aead, KeyInit, OsRng, generic_array::GenericArray},
+    aead::{Aead, KeyInit, OsRng},
     XChaCha20Poly1305,
     XNonce
 };
@@ -12,7 +12,7 @@ use chacha20poly1305::aead::rand_core::RngCore;
 const SALT_LEN: usize = 16;
 const NONCE_LEN: usize = 24; // XChaCha20Poly1305 uses 24-byte nonces
 const PBKDF2_ITERATIONS: u32 = 100_000;
-const SIGNATURE_LEN: usize = 49; // Długość powyższego stringa w bajtach
+// const SIGNATURE_LEN: usize = 49; // Długość powyższego stringa w bajtach
 
 pub fn encrypt_chacha(data: &[u8], password: &str) -> Vec<u8> {
     // Generate salt

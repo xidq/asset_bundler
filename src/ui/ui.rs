@@ -1,24 +1,24 @@
-use egui::{Color32, FontId, Pos2, RichText, Stroke/*, Window,CornerRadius*/};
-use egui::{CentralPanel, /*FontFamily,*/FontDefinitions,FontData, TextEdit};
+use egui::{Color32/*, FontId, Pos2*/, RichText, Stroke/*, Window,CornerRadius*/};
+use egui::{CentralPanel, /*FontFamily,*/FontDefinitions,FontData};
 // use rand::random_range;
 use ecolor::Hsva;
-use rfd::*;
+// use rfd::*;
 
 use std::sync::Arc;
 // use crate::{image_actions, ui_play_sound::*};
 // use crate::encrypt;
 // use crate::encrypt_bez_async_i_bez_chacha20;
-use crate::decrypt_copy;
+// use crate::decrypt_copy;
 use crate::ui::*;
 use crate::ui::ui_defaults::Appencja;
 // use core::random;
-use std::f32::consts::PI;
+// use std::f32::consts::PI;
 // use std::thread;
-use std::path::Path;
+// use std::path::Path;
 // use std::time::Duration;
 // use rodio::*;
 // use std::sync::Arc;
-use chrono::offset::Local;
+// use chrono::offset::Local;
 // use crate::ui::ui_play_sound::play_finish_sound;
 use crate::ui::{
     ui_left_panel_1_kompresja::ui_left_panel_encrypt,
@@ -32,6 +32,7 @@ use crate::ui::{
     ui_right_panel_settings::ui_right_panel_settings_0,
     ui_right_panel_debug_0::ui_right_panel_debug_0,
     ui_change_font::wybrana_aktualna_czcionka,
+    ui_left_panel_2_foto_laczenie::ui_left_panel_foty_laczenie,
 };
 // use rand::seq::IteratorRandom;
 // use toml::Value;
@@ -75,7 +76,7 @@ impl eframe::App for Appencja {
         self.current_language = match self.toggle_language{
             2 =>ui_language::Language::debug(),
             1 =>ui_language::Language::english(),
-            3 =>ui_language::Language::japanese(),
+            // 3 =>ui_language::Language::japanese(),
             _ =>ui_language::Language::polish()
         };
         // if self.toggle_language {
@@ -286,7 +287,7 @@ impl eframe::App for Appencja {
         // ██      ██   ██ ██   ████ ███████ ██████ 
 
             egui::SidePanel::left("lewy_panel")
-            .exact_width(350.)
+            .exact_width(self.szerokosc_okna / 2.)
             .resizable(false)
             .show(ctx, |ui|{
 
@@ -323,7 +324,7 @@ impl eframe::App for Appencja {
                         ui.selectable_value(&mut self.ustawienie_lewy_panel_foty_podopcje, 0, RichText::new(self.current_language.przetwarzanie_naglowek).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.wybor_czcionki)));
                         });
                         columns[1].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.ustawienie_lewy_panel_foty_podopcje, 1, RichText::new("foperacja #1 TODO").font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.wybor_czcionki)));
+                            ui.selectable_value(&mut self.ustawienie_lewy_panel_foty_podopcje, 1, RichText::new("Kompilowanie RGB").font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.wybor_czcionki)));
                         });
                     });
                 } else {
@@ -351,6 +352,7 @@ impl eframe::App for Appencja {
                             (false,0,_) =>{ui_left_panel_encrypt(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
                             (false,1,_) =>{ui_left_panel_decrypt(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
                             (true,_,0) =>{ui_left_panel_foty_przetwarzanie(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
+                            (true,_,1) =>{ui_left_panel_foty_laczenie(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
                             _ => {ui.label("coś sie skiepściło");}
                         }
                         
@@ -377,7 +379,7 @@ impl eframe::App for Appencja {
             // ██      ██   ██ ██   ████ ███████ ███████
 
             egui::SidePanel::right("halp_menu")
-            .exact_width(350.)
+            .exact_width(self.szerokosc_okna / 2.)
             .resizable(false)
             .show(ctx,|ui|{
                 ui.add_space( self.formatowanie_spacja_srednia);

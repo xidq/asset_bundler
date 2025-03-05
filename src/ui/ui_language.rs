@@ -44,7 +44,7 @@ pub struct Language {
     pub szyfrowanie_przycisk_nie_ok: &'static str,
     pub szyfrowanie_przycisk_koniec: &'static str,
 
-    pub szyfrowanie_przysick_2: &'static str,
+    // pub szyfrowanie_przysick_2: &'static str,
     pub szyfrowanie_przycisk_3: &'static str,
     pub szyfrowanie_przycisk_4: &'static str,
 
@@ -57,23 +57,30 @@ pub struct Language {
     pub general_ui_wybierz_folder_wejsciowy: &'static str,
     pub general_ui_wybierz_folder_wyjsciowy: &'static str,
     pub general_ui_wybierz_folder: &'static str,
+    pub general_ui_wybierz_plik_general: &'static str,
 
     pub debug_deszyfracja_idx: &'static str,
     pub przetwarzanie_bez_alpha: &'static str,
     pub przetwarzanie_z_alpha: &'static str,
     
-    pub h_general_ui_wybierz_folder: &'static str,
+    // pub h_general_ui_wybierz_folder: &'static str,
     pub ukryte_sktory: &'static str,
     pub create_lua_file: &'static str,
 
     pub przetwarzanie_naglowek: &'static str,
     pub general_ui_alpha_tytul: &'static str,
-    pub general_ui_filter_tytul: &'static str,
+    pub general_ui_filter_png_tytul: &'static str,
     pub general_ui_warianty_tytul: &'static str,
     pub general_ui_rozdzielczosc_tytul: &'static str,
 
+
+
+
+    pub err_value_overflow: &'static str,
+    pub err_aspect_ratio: &'static str,
+
     //monit
-    pub problem_egzystencjonalny: &'static str,
+    // pub problem_egzystencjonalny: &'static str,
 
     //USTAWIENIA!!!!!!!
     pub ustawienia_tytul:&'static str,
@@ -84,6 +91,23 @@ pub struct Language {
     pub general_colors_red: &'static str,
     pub general_colors_green: &'static str,
     pub general_colors_blue: &'static str,
+
+
+    pub png_specyfic_filter_png_none:&'static str,
+    pub png_specyfic_filter_png_sub:&'static str,
+    pub png_specyfic_filter_png_up:&'static str,
+    pub png_specyfic_filter_png_avg:&'static str,
+    pub png_specyfic_filter_png_paeth:&'static str,
+    pub png_specyfic_filter_png_adaptive:&'static str,
+
+    pub png_specyfic_filter_Nearest:&'static str,
+    pub png_specyfic_filter_Triangle:&'static str,
+    pub png_specyfic_filter_CatmullRom:&'static str,
+    pub png_specyfic_filter_Gaussian:&'static str,
+    pub png_specyfic_filter_Lanczos3:&'static str,
+
+
+
 
 }
 
@@ -123,7 +147,7 @@ impl Language {
             szyfrowanie_przycisk_nie_ok: "Czegoś ci jeszcze brakuje UwU",
             szyfrowanie_przycisk_koniec: "Yay, koniec!",
 
-            szyfrowanie_przysick_2: "Yay, koniec!",
+            // szyfrowanie_przysick_2: "Yay, koniec!",
             szyfrowanie_przycisk_3: "erroru",
             szyfrowanie_przycisk_4: "erroru",
 
@@ -135,10 +159,11 @@ impl Language {
             general_ui_wybierz_folder_wejsciowy: "Folder Wejściowy",
             general_ui_wybierz_folder_wyjsciowy: "Folder Docelowy",
             general_ui_wybierz_folder: "Wybierz Folder",
+            general_ui_wybierz_plik_general: "Wybierz Plik",
 
             debug_deszyfracja_idx: "Deszyfracja zaszyfrowanego idx",
 
-            h_general_ui_wybierz_folder: "Wybierz folder",
+            // h_general_ui_wybierz_folder: "Wybierz folder",
 
             ukryte_sktory: "CTRL+R : przełącz szyfrowanie\nCTRL+B : brainroot (nie zaimplementowano)",
 
@@ -147,13 +172,18 @@ impl Language {
 
             przetwarzanie_naglowek:"Przetwarzanie",
             general_ui_alpha_tytul: "Alpha",
-            general_ui_filter_tytul: "Filtr",
+            general_ui_filter_png_tytul: "Filtr",
             general_ui_warianty_tytul: "Warianty",
             general_ui_rozdzielczosc_tytul: "Rozdzielczość",
+
+
+
+            err_value_overflow:"Poza limitem",
+            err_aspect_ratio:"Błąd: aspect ratio: ",
             
 
             //monit
-            problem_egzystencjonalny: "Ma problemy egzystencjonalne...",
+            // problem_egzystencjonalny: "Ma problemy egzystencjonalne...",
 
 
             //USTAWIENIA
@@ -168,6 +198,19 @@ impl Language {
 
             przetwarzanie_bez_alpha:"bez Alpha",
             przetwarzanie_z_alpha:"z Alpha",
+
+            png_specyfic_filter_png_none:"Żaden",
+            png_specyfic_filter_png_sub:"Sub",
+            png_specyfic_filter_png_up:"Up",
+            png_specyfic_filter_png_avg:"Średni",
+            png_specyfic_filter_png_paeth:"Paeth",
+            png_specyfic_filter_png_adaptive:"Adaptacyjny",
+
+            png_specyfic_filter_Nearest:"Najbliższe",
+            png_specyfic_filter_Triangle:"Triangle",
+            png_specyfic_filter_CatmullRom:"CatmullRom",
+            png_specyfic_filter_Gaussian:"Gaussian",
+            png_specyfic_filter_Lanczos3:"Lanczos3",
 
         }
 
@@ -205,7 +248,7 @@ impl Language {
             szyfrowanie_przycisk_nie_ok: "Seems u forgor somting UwU",
             szyfrowanie_przycisk_koniec: "Process ended",
 
-            szyfrowanie_przysick_2: "Process ended",
+            // szyfrowanie_przysick_2: "Process ended",
             szyfrowanie_przycisk_3: "erroru",
             szyfrowanie_przycisk_4: "erroru",
 
@@ -219,10 +262,12 @@ impl Language {
             general_ui_wybierz_folder_wyjsciowy: "Output Folder",
             general_ui_wybierz_folder: "Choose directory",
 
+            general_ui_wybierz_plik_general: "Choose file",
+
 
             debug_deszyfracja_idx: "Decrypt .idx file only",
 
-            h_general_ui_wybierz_folder: "Choose your desired folder",
+            // h_general_ui_wybierz_folder: "Choose your desired folder",
 
             ukryte_sktory:"CTRL+R : toogle encription\nCTRL+B for brainroot",
 
@@ -230,12 +275,12 @@ impl Language {
 
             przetwarzanie_naglowek:"Conversion",
             general_ui_alpha_tytul: "Alpha",
-            general_ui_filter_tytul: "Filter",
+            general_ui_filter_png_tytul: "Filter",
             general_ui_warianty_tytul: "Variants",
             general_ui_rozdzielczosc_tytul: "Resolution",
 
             //monit
-            problem_egzystencjonalny: "Have existencial crysis rn",
+            // problem_egzystencjonalny: "Have existencial crysis rn",
 
             // USTAWIENIA
             ustawienia_tytul: "Settings",
@@ -248,6 +293,24 @@ impl Language {
             general_colors_blue: "Blue",
             przetwarzanie_bez_alpha:"Without Alpha channel",
             przetwarzanie_z_alpha:"With Alpha channel",
+
+            err_value_overflow:"Value overflow",
+            err_aspect_ratio:"Error: aspect ratio: ",
+
+
+
+            png_specyfic_filter_png_none:"None",
+            png_specyfic_filter_png_sub:"Sub",
+            png_specyfic_filter_png_up:"Up",
+            png_specyfic_filter_png_avg:"Average",
+            png_specyfic_filter_png_paeth:"Paeth",
+            png_specyfic_filter_png_adaptive:"Adaptive",
+
+            png_specyfic_filter_Nearest:"Nearest",
+            png_specyfic_filter_Triangle:"Triangle",
+            png_specyfic_filter_CatmullRom:"CatmullRom",
+            png_specyfic_filter_Gaussian:"Gaussian",
+            png_specyfic_filter_Lanczos3:"Lanczos3",
         }
 
     }
@@ -282,7 +345,7 @@ impl Language {
             szyfrowanie_przycisk_nie_ok: "szyfrowanie_przycisk_nie_ok",
             szyfrowanie_przycisk_koniec: "szyfrowanie_przycisk_koniec",
 
-            szyfrowanie_przysick_2: "szyfrowanie_przysick_2",
+            // szyfrowanie_przysick_2: "szyfrowanie_przysick_2",
             szyfrowanie_przycisk_3: "szyfrowanie_przycisk_3",
             szyfrowanie_przycisk_4: "szyfrowanie_przycisk_4",
 
@@ -296,10 +359,12 @@ impl Language {
             general_ui_wybierz_folder_wyjsciowy: "general_ui_wybierz_folder_wyjsciowy",
             general_ui_wybierz_folder: "general_ui_wybierz_folder",
 
+            general_ui_wybierz_plik_general: "general_ui_wybierz_plik_general",
+
 
             debug_deszyfracja_idx: "debug_deszyfracja_idx",
 
-            h_general_ui_wybierz_folder: "h_general_ui_wybierz_folder",
+            // h_general_ui_wybierz_folder: "h_general_ui_wybierz_folder",
 
             ukryte_sktory:"ukryte_sktory",
 
@@ -309,13 +374,19 @@ impl Language {
             przetwarzanie_bez_alpha:"przetwarzanie_bez_alpha",
             przetwarzanie_z_alpha:"przetwarzanie_z_alpha",
             general_ui_alpha_tytul: "general_ui_alpha_tytul",
-            general_ui_filter_tytul: "general_ui_filter_tytul",
+            general_ui_filter_png_tytul: "general_ui_filter_png_tytul",
             general_ui_warianty_tytul: "general_ui_warianty_tytul",
             general_ui_rozdzielczosc_tytul: "general_ui_rozdzielczosc_tytul",
 
 
+
+
+            err_value_overflow:"err_value_overflow",
+            err_aspect_ratio:"err_aspect_ratio",
+
+
             //monit
-            problem_egzystencjonalny: "problem_egzystencjonalny",
+            // problem_egzystencjonalny: "problem_egzystencjonalny",
 
             // USTAWIENIA
             ustawienia_tytul: "ustawienia_tytul",
@@ -326,83 +397,99 @@ impl Language {
             general_colors_red: "general_colors_red",
             general_colors_green: "general_colors_green",
             general_colors_blue: "general_colors_blue",
+
+
+            png_specyfic_filter_png_none:"png_specyfic_filter_png_none",
+            png_specyfic_filter_png_sub:"png_specyfic_filter_png_sub",
+            png_specyfic_filter_png_up:"png_specyfic_filter_png_up",
+            png_specyfic_filter_png_avg:"png_specyfic_filter_png_avg",
+            png_specyfic_filter_png_paeth:"png_specyfic_filter_png_paeth",
+            png_specyfic_filter_png_adaptive:"png_specyfic_filter_png_adaptive",
+
+            png_specyfic_filter_Nearest:"png_specyfic_filter_Nearest",
+            png_specyfic_filter_Triangle:"png_specyfic_filter_Triangle",
+            png_specyfic_filter_CatmullRom:"png_specyfic_filter_CatmullRom",
+            png_specyfic_filter_Gaussian:"png_specyfic_filter_Gaussian",
+            png_specyfic_filter_Lanczos3:"png_specyfic_filter_Lanczos3",
+
+            
         }
 
     }
-    pub fn japanese() -> Self {
-        Language {
-            general_ui_label_binary: "バイナリファイル",
-            general_ui_label_images: "画像",
-            general_ui_label_brak: "なし",
+    // pub fn japanese() -> Self {
+    //     Language {
+    //         general_ui_label_binary: "バイナリファイル",
+    //         general_ui_label_images: "画像",
+    //         general_ui_label_brak: "なし",
     
-            // szablony
-            szablony_wybor_0: "すべてのファイル",
-            szablony_wybor_1: "アセット",
-            szablony_wybor_2: "画像",
-            szablony_wybor_3: "音声",
-            szablony_wybor_4: "3D モデル",
-            szablony_wybor_5: "文書",
-            szablony_wybor_6: "生写真",
+    //         // szablony
+    //         szablony_wybor_0: "すべてのファイル",
+    //         szablony_wybor_1: "アセット",
+    //         szablony_wybor_2: "画像",
+    //         szablony_wybor_3: "音声",
+    //         szablony_wybor_4: "3D モデル",
+    //         szablony_wybor_5: "文書",
+    //         szablony_wybor_6: "生写真",
     
-            szyfrowanie_naglowek: "圧縮",
-            general_ui_nazwa_tytul: "ファイル名",
-            general_ui_nazwa: "ファイルに名前を付けてください",
-            general_ui_kompresja_tytul: "圧縮方法",
-            szyfrowanie_kompresja: "圧縮強度",
-            general_ui_haslo_tytul: "パスワード",
-            general_ui_haslo: "何かを書いてください...",
-            general_ui_haslo_wylaczone: "パスワードは無効です.. わかりますか？",
+    //         szyfrowanie_naglowek: "圧縮",
+    //         general_ui_nazwa_tytul: "ファイル名",
+    //         general_ui_nazwa: "ファイルに名前を付けてください",
+    //         general_ui_kompresja_tytul: "圧縮方法",
+    //         szyfrowanie_kompresja: "圧縮強度",
+    //         general_ui_haslo_tytul: "パスワード",
+    //         general_ui_haslo: "何かを書いてください...",
+    //         general_ui_haslo_wylaczone: "パスワードは無効です.. わかりますか？",
     
-            szyfrowanie_szyfrowanie_tytul: "エンコーディング",
-            general_ui_szablony_tytul: "テンプレート",
+    //         szyfrowanie_szyfrowanie_tytul: "エンコーディング",
+    //         general_ui_szablony_tytul: "テンプレート",
     
-            szyfrowanie_przycisk_ok: "圧縮開始！",
-            szyfrowanie_przycisk_nie_ok: "何かを忘れたようです UwU",
-            szyfrowanie_przycisk_koniec: "処理終了",
+    //         szyfrowanie_przycisk_ok: "圧縮開始！",
+    //         szyfrowanie_przycisk_nie_ok: "何かを忘れたようです UwU",
+    //         szyfrowanie_przycisk_koniec: "処理終了",
     
-            szyfrowanie_przysick_2: "処理終了",
-            szyfrowanie_przycisk_3: "エラー",
-            szyfrowanie_przycisk_4: "エラー",
+    //         // szyfrowanie_przysick_2: "処理終了",
+    //         szyfrowanie_przycisk_3: "エラー",
+    //         szyfrowanie_przycisk_4: "エラー",
     
-            deszyfrowanie_naglowek: "解凍",
-            general_ui_wybierz_plik_dat: "ファイル .jrz/.jrzs",
-            general_ui_wybierz_plik_idx: "ファイル .idx",
-            deszyfrowanie_przycisk_ok: "デコード開始！！！",
+    //         deszyfrowanie_naglowek: "解凍",
+    //         general_ui_wybierz_plik_dat: "ファイル .jrz/.jrzs",
+    //         general_ui_wybierz_plik_idx: "ファイル .idx",
+    //         deszyfrowanie_przycisk_ok: "デコード開始！！！",
     
-            general_ui_wybierz_folder_wejsciowy: "入力フォルダ",
-            general_ui_wybierz_folder_wyjsciowy: "出力フォルダ",
-            general_ui_wybierz_folder: "ディレクトリを選択",
+    //         general_ui_wybierz_folder_wejsciowy: "入力フォルダ",
+    //         general_ui_wybierz_folder_wyjsciowy: "出力フォルダ",
+    //         general_ui_wybierz_folder: "ディレクトリを選択",
     
-            debug_deszyfracja_idx: ".idxファイルのみを復号化",
+    //         debug_deszyfracja_idx: ".idxファイルのみを復号化",
     
-            h_general_ui_wybierz_folder: "希望するフォルダを選択",
+    //         // h_general_ui_wybierz_folder: "希望するフォルダを選択",
     
-            ukryte_sktory: "CTRL+R : 暗号化を切り替える\nCTRL+B : brainrootを表示",
+    //         ukryte_sktory: "CTRL+R : 暗号化を切り替える\nCTRL+B : brainrootを表示",
     
-            create_lua_file: "暗号化中に追加のLuaファイルを作成",
+    //         create_lua_file: "暗号化中に追加のLuaファイルを作成",
     
-            przetwarzanie_naglowek: "変換",
-            general_ui_alpha_tytul: "アルファ",
-            general_ui_filter_tytul: "フィルター",
-            general_ui_warianty_tytul: "バリエーション",
-            general_ui_rozdzielczosc_tytul: "解像度",
+    //         przetwarzanie_naglowek: "変換",
+    //         general_ui_alpha_tytul: "アルファ",
+    //         general_ui_filter_png_tytul: "フィルター",
+    //         general_ui_warianty_tytul: "バリエーション",
+    //         general_ui_rozdzielczosc_tytul: "解像度",
     
-            // monit
-            problem_egzystencjonalny: "今、存在的危機を感じています",
+    //         // monit
+    //         // problem_egzystencjonalny: "今、存在的危機を感じています",
     
-            // USTAWIENIA
-            ustawienia_tytul: "設定",
-            ustawienia_skrot: "Ctrl+S でウィンドウを閉じる",
+    //         // USTAWIENIA
+    //         ustawienia_tytul: "設定",
+    //         ustawienia_skrot: "Ctrl+S でウィンドウを閉じる",
     
-            general_colors_white: "白",
-            general_colors_black: "黒",
-            general_colors_red: "赤",
-            general_colors_green: "緑",
-            general_colors_blue: "青",
-            przetwarzanie_bez_alpha: "アルファチャンネルなし",
-            przetwarzanie_z_alpha: "アルファチャンネルあり",
-        }
-    }
+    //         general_colors_white: "白",
+    //         general_colors_black: "黒",
+    //         general_colors_red: "赤",
+    //         general_colors_green: "緑",
+    //         general_colors_blue: "青",
+    //         przetwarzanie_bez_alpha: "アルファチャンネルなし",
+    //         przetwarzanie_z_alpha: "アルファチャンネルあり",
+    //     }
+    // }
     
 
 }

@@ -1,10 +1,16 @@
 use std::fs::{self, File};
 use std::io::{self, Read, Write};
 use std::path::Path;
-use std::thread::spawn;
-use std::time::{Duration,Instant};
+// use std::thread::spawn;
+use std::time::{/*Duration,*/Instant};
 use std::thread;
-use std::sync::{Arc,mpsc, Mutex};
+use std::sync::{Arc, Mutex};
+use std::io::ErrorKind;
+use crate::utils::arc_mutex_strip::{
+    get_locked_data_bool,
+    get_locked_data_u8,
+    get_locked_data_string
+};
 
 // use egui::mutex::Mutex;
 use walkdir::WalkDir;
@@ -80,7 +86,7 @@ pub fn sanitize_filename(filename: &str) -> String {
 fn matches_template(path: &Path, template: &str) -> bool {
     let ext = path.extension()
         .and_then(|s| s.to_str())
-        .unwrap_or("")
+        .unwrap_or_else(||"")
         .to_lowercase();
 
     let allowed_extensions = encrypt_asset_setting::get_template_extensions(template);
@@ -94,12 +100,12 @@ fn matches_template(path: &Path, template: &str) -> bool {
 fn get_type_id(path: &Path) -> String {
     let base = path.file_stem()
                    .and_then(|s| s.to_str())
-                   .unwrap_or("");
+                   .unwrap_or_else(||"");
     // Główny prefix przed pierwszym "_" lub "-"
     let san_base = sanitize_filename(base);
     san_base.split('_')
         .next()
-        .unwrap_or("")
+        .unwrap_or_else(||"")
         .to_string()
 }
 
@@ -107,7 +113,7 @@ fn get_type_id(path: &Path) -> String {
 fn get_type_variant(path: &Path) -> String {
     let base = path.file_stem()
                    .and_then(|s| s.to_str())
-                   .unwrap_or("");
+                   .unwrap_or_else(||"");
                 let san_base = sanitize_filename(base);
     let parts: Vec<&str> = san_base.split('_').collect();
     if parts.len() > 1{
@@ -121,7 +127,7 @@ fn get_type_variant(path: &Path) -> String {
 fn get_type_variant_size(path: &Path) -> String {
     let base = path.file_stem()
                    .and_then(|s| s.to_str())
-                   .unwrap_or("");
+                   .unwrap_or_else(||"");
                 let san_base = sanitize_filename(base);
     let parts: Vec<&str> = san_base.split('_').collect();
     if parts.len() > 2{
@@ -173,17 +179,17 @@ pub fn encrypt_folder(
     let arc_z_str_clone = Arc::clone(&arc_z_str);
 
     let nowy_watek = thread::spawn(move||-> Result<usize, io::Error>{
-        let strip_arc_z_u8_clone = arc_z_u8_clone.lock().unwrap();
+        let strip_arc_z_u8_clone = get_locked_data_u8(&arc_z_u8_clone)?;
         let toggle_encryption = strip_arc_z_u8_clone[0];
         let toggle_compression = strip_arc_z_u8_clone[1];
         let poziom_kompresji = strip_arc_z_u8_clone[2];
 
         // Odblokowujemy Mutex w `arc_z_bool_clone`
-        let strip_arc_z_bool_clone = arc_z_bool_clone.lock().unwrap();
+        let strip_arc_z_bool_clone = get_locked_data_bool(&arc_z_bool_clone)?;
         let debug_create_lua_file = strip_arc_z_bool_clone[0];
 
         // Odblokowujemy Mutex w `arc_z_str_clone`
-        let strip_arc_z_str_clone = arc_z_str_clone.lock().unwrap();
+        let strip_arc_z_str_clone = get_locked_data_string(&arc_z_str_clone)?;
         let input_folder = &strip_arc_z_str_clone[0];
         let output_file = &strip_arc_z_str_clone[1];
         let index_file = &strip_arc_z_str_clone[2];
@@ -259,11 +265,14 @@ pub fn encrypt_folder(
         // for loop for for in for for for getting data of each file
         for path in &file_entries {
 
-            let file_path = path.strip_prefix(&input_folder)
-                .unwrap()
-                .to_str()
-                .unwrap()
-                .replace("\\", "/"); // mandatory, I don't like windows style of path things, not visually appealing.
+            let file_path = match path.strip_prefix(&input_folder) {
+                Ok(p) => match p.to_str() {
+                    Some(s) => s.replace("\\", "/"),
+                    None => return Err(io::Error::new(ErrorKind::InvalidData, "Nie udało się przekształcić ścieżki na tekst")),
+                },
+                Err(_) => return Err(io::Error::new(ErrorKind::InvalidInput, "Ścieżka nie jest prefiksem")),
+            };
+            
 
             let unique_id = generate_unique_id(); 
             let type_name = encrypt_filetype::get_type(path);

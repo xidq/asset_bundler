@@ -1,7 +1,7 @@
-# cargo-features = ["edition2024"]
+cargo-features = ["edition2024"]
 [package]
 name = "asset_bundler"
-version = "0.3.3"
+version = "0.3.7"
 edition = "2024"
 
 [dependencies]
@@ -22,6 +22,7 @@ hmac = "0.12.1"
 image = { version = "0.25.5", features = ["webp"] }
 pbkdf2 = "0.12.2"
 rand = "0.9.0"
+rayon = "1.10.0"
 #image = { version = "0.25", features = ["png"] }
 rfd = "0.15.2"
 rodio = { version = "0.20.1", features = ["minimp3"] }
@@ -51,3 +52,4 @@ resolver = "2"
 lto = "thin"
 strip = "debuginfo"
 opt-level = "s"
+debug = false

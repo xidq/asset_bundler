@@ -1,27 +1,16 @@
 use egui::{
     Color32, 
-    Pos2, 
-    Response, 
-    RichText,
-    Rect,
-    Vec2,
     Context
 };
-use rfd::FileDialog;
-use std::sync::{
-    Arc, 
-    Mutex
-};
-use crate::ui::{
-    ui_defaults::Appencja,
-    ui_play_sound::play_finish_sound
-};
+
+use crate::ui::ui_defaults::Appencja;
 
 pub fn ui_right_panel_info_0_2(
-    proxy_self: &mut Appencja,
-    ctx: &Context,ui: &mut egui::Ui,
-    zolty_ciemny:Color32,
-    szarawy_ciemny:Color32
+    _proxy_self: &mut Appencja,
+    _ctx: &Context,
+    ui: &mut egui::Ui,
+    _zolty_ciemny:Color32,
+    _szarawy_ciemny:Color32
 ){                            ui.add(egui::Label::new("Lorem Ipsum, myślisz, że robisz wrażenie,
 Wszystko to bełkot, zero treści, to tylko pozorne istnienie.
 Kopiujesz, wklejasz, ale gdzie jest sens?

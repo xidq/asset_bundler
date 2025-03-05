@@ -1,4 +1,4 @@
-use crate::encrypt_bez_async_i_bez_chacha20;
+// use crate::encrypt_bez_async_i_bez_chacha20;
 use std::path::Path;
 
 pub fn get_type(path: &Path) -> String {
@@ -6,9 +6,9 @@ pub fn get_type(path: &Path) -> String {
                   .and_then(|s| s.to_str())
                   .unwrap_or("")
                   .to_lowercase();
-    let base = path.file_stem()
-                   .and_then(|s| s.to_str())
-                   .unwrap_or("");
+    // let base = path.file_stem()
+    //                .and_then(|s| s.to_str())
+    //                .unwrap_or("");
     match ext.as_str() {
         "glb" | "obj"  | "3mf" | "fbx" | "stl" | 
         "dae" | "ply"  | "x3d" | "3ds" | "max" | 

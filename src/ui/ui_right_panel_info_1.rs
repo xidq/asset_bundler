@@ -1,13 +1,12 @@
 use egui::{
     Color32,  
-    RichText, 
     Context, 
 };
 use crate::ui::ui_defaults::Appencja;
 
 
 
-pub fn right_panel_info_stats(proxy_self: &mut Appencja,ctx: &Context,ui: &mut egui::Ui, fiolet_ciemny:Color32,zolty_ciemny:Color32,szarawy_ciemny:Color32){
+pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32,_zolty_ciemny:Color32,_szarawy_ciemny:Color32){
 
 
     let tekst_plików=

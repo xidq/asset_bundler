@@ -9,10 +9,10 @@ use egui::{
     ComboBox
 };
 use rfd::FileDialog;
-use std::sync::{
+use std::{default, sync::{
     Arc, 
     Mutex
-};
+}};
 use crate::ui::{
     ui_defaults::Appencja,
     ui_play_sound::play_finish_sound,
@@ -155,15 +155,29 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         ui.add_space(proxy_self.formatowanie_spacja_mala);
                         ui.columns(2,|columns|{
                             columns[0].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 0, RichText::new(proxy_self.current_language.general_colors_white).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)).color(Color32::WHITE));
-                                ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 1, RichText::new(proxy_self.current_language.general_colors_black).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)).color(Color32::BLACK));
-                                ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 2, RichText::new(proxy_self.current_language.general_colors_red).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)).color(Color32::RED));
-                                ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 3, RichText::new(proxy_self.current_language.general_colors_green).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)).color(Color32::GREEN));
-                                ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 4, RichText::new(proxy_self.current_language.general_colors_blue).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)).color(Color32::BLUE));
+                                if ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 0, RichText::new(proxy_self.current_language.general_colors_white).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)).color(Color32::WHITE)).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 1, RichText::new(proxy_self.current_language.general_colors_black).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)).color(Color32::BLACK)).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 2, RichText::new(proxy_self.current_language.general_colors_red).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)).color(Color32::RED)).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 3, RichText::new(proxy_self.current_language.general_colors_green).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)).color(Color32::GREEN)).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.selectable_value(&mut proxy_self.foty_alpha_kolor, 4, RichText::new(proxy_self.current_language.general_colors_blue).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)).color(Color32::BLUE)).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             columns[1].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut proxy_self.foty_czy_alpha, 0, RichText::new(proxy_self.current_language.przetwarzanie_bez_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)));
-                                ui.selectable_value(&mut proxy_self.foty_czy_alpha, 1, RichText::new(proxy_self.current_language.przetwarzanie_z_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)));
+                                if ui.selectable_value(&mut proxy_self.foty_czy_alpha, 0, RichText::new(proxy_self.current_language.przetwarzanie_bez_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.selectable_value(&mut proxy_self.foty_czy_alpha, 1, RichText::new(proxy_self.current_language.przetwarzanie_z_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                                 
                             });
                         });
@@ -178,29 +192,39 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         ui.separator();
                         ui.add_space(proxy_self.formatowanie_spacja_srednia);
                         ui.vertical_centered_justified(|ui|{
-                            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_filter_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))).selectable(false));
+                            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_filter_png_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))).selectable(false));
                         });
                         ui.add_space(proxy_self.formatowanie_spacja_mala);
                         
                         ui.columns(5, |column|{
                             column[0].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut proxy_self.foty_filter, 0, RichText::new("Nearest").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_Nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
 
                             column[1].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut proxy_self.foty_filter, 1, RichText::new("Triangle").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_Triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
 
                             column[2].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut proxy_self.foty_filter, 2, RichText::new("Catmull\nRom").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 2, RichText::new("Catmull\nRom").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
 
                             column[3].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut proxy_self.foty_filter, 3, RichText::new("Gaussian").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_Gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
 
                             column[4].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut proxy_self.foty_filter, 4, RichText::new("Lanczos3").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_Lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                         });
 
@@ -224,27 +248,39 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             column[0].vertical(|ui|{
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    ui.checkbox(&mut proxy_self.foty_format_jpg, RichText::new("jpg").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                    if ui.checkbox(&mut proxy_self.foty_format_jpg, RichText::new("jpg").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                        proxy_self.czy_to_juz_koniec_foto = 0
+                                    };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                ui.checkbox(&mut proxy_self.foty_format_png, RichText::new("png").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                    if ui.checkbox(&mut proxy_self.foty_format_png, RichText::new("png").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    ui.checkbox(&mut proxy_self.foty_format_png_16, RichText::new("png 16bit").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                    if ui.checkbox(&mut proxy_self.foty_format_png_16, RichText::new("png 16bit").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                        proxy_self.czy_to_juz_koniec_foto = 0
+                                    };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    ui.checkbox(&mut proxy_self.foty_format_webp, RichText::new("webp").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                    if ui.checkbox(&mut proxy_self.foty_format_webp, RichText::new("webp").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                        proxy_self.czy_to_juz_koniec_foto = 0
+                                    };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    ui.checkbox(&mut proxy_self.foty_format_webp_lossy, RichText::new("webp lossy").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                    if ui.checkbox(&mut proxy_self.foty_format_webp_lossy, RichText::new("webp lossy").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                        proxy_self.czy_to_juz_koniec_foto = 0
+                                    };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    ui.checkbox(&mut proxy_self.foty_format_tga, RichText::new("tga").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                    if ui.checkbox(&mut proxy_self.foty_format_tga, RichText::new("tga").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                        proxy_self.czy_to_juz_koniec_foto = 0
+                                    };
                                 });
 
                             });
@@ -253,9 +289,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     ui.add(egui::Slider::new(&mut proxy_self.foty_format_jakosc_jpg, 0..=100))
     
                                 });
-                                ui.add_enabled(proxy_self.foty_format_png||proxy_self.foty_format_png_16,|ui: &mut egui::Ui|{
+                                if ui.add_enabled(proxy_self.foty_format_png||proxy_self.foty_format_png_16,|ui: &mut egui::Ui|{
                                     ui.horizontal(|ui|{
-                                        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_filter_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))).selectable(false));
+                                        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_filter_png_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))).selectable(false));
                                         ComboBox::from_label(""/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
                                         .width(200. / 2.)
                                         .selected_text(RichText::new(
@@ -283,8 +319,10 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         
                                     // ui.add(egui::Slider::new(&mut proxy_self.foty_format_jakosc_png, 0..=100))
     
-                                });
-                                ui.add_enabled(proxy_self.foty_format_png||proxy_self.foty_format_png_16,|ui: &mut egui::Ui|{
+                                }).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.add_enabled(proxy_self.foty_format_png||proxy_self.foty_format_png_16,|ui: &mut egui::Ui|{
                                     ui.horizontal(|ui|{
                                         ui.add(egui::Label::new(RichText::new("Kompresja").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))).selectable(false));
                                         ComboBox::from_id_salt("dropbox_png_quality")
@@ -306,20 +344,29 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                             
                                         }).response
     
-                                });
+                                }).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
 
-                                ui.add_enabled(false,|ui: &mut egui::Ui|{
+                                let sfdgdf= ui.add_enabled(false,|ui: &mut egui::Ui|{
                                     ui.add(egui::Slider::new(&mut proxy_self.foty_format_jakosc_webp, 0..=100))
     
                                 });
-                                ui.add_enabled(proxy_self.foty_format_webp_lossy,|ui: &mut egui::Ui|{
+                                if sfdgdf.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.add_enabled(proxy_self.foty_format_webp_lossy,|ui: &mut egui::Ui|{
                                     ui.add(egui::Slider::new(&mut proxy_self.foty_format_jakosc_webp_lossy, 0..=100))
     
-                                });
-                                ui.add_enabled(false,|ui: &mut egui::Ui|{
+                                }).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
+                                if ui.add_enabled(false,|ui: &mut egui::Ui|{
                                     ui.add(egui::Slider::new(&mut proxy_self.foty_format_jakosc_tga, 0..=100))
     
-                                });
+                                }).clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
 
                             });
                         });
@@ -345,7 +392,11 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_16k=false
                                     }
                                 }
+                                if foty_rozdzielczosc_16k_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
+
                             column[1].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_8k_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_8k, RichText::new("8k").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
                                 if foty_rozdzielczosc_8k_wybor.clicked(){
@@ -355,6 +406,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_8k=false
                                     }
                                 }
+                                if foty_rozdzielczosc_8k_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[2].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_4k_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_4k, RichText::new("4k").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -365,6 +419,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_4k=false
                                     }
                                 }
+                                if foty_rozdzielczosc_4k_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[3].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_2k_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_2k, RichText::new("2k").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -375,6 +432,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_2k=false
                                     }
                                 }
+                                if foty_rozdzielczosc_2k_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[4].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_1k_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_1k, RichText::new("1k").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -385,6 +445,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_1k=false
                                     }
                                 }
+                                if foty_rozdzielczosc_1k_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[5].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_512_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_512, RichText::new("512").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -395,6 +458,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_512=false
                                     }
                                 }
+                                if foty_rozdzielczosc_512_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[6].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_256_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_256, RichText::new("256").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -405,6 +471,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_256=false
                                     }
                                 }
+                                if foty_rozdzielczosc_256_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[7].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_128_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_128, RichText::new("128").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -415,6 +484,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_128=false
                                     }
                                 }
+                                if foty_rozdzielczosc_128_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[8].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_64_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_64, RichText::new("64").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -425,6 +497,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_64=false
                                     }
                                 }
+                                if foty_rozdzielczosc_64_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
                             column[9].vertical_centered_justified(|ui|{
                                 let foty_rozdzielczosc_32_wybor = ui.selectable_label(proxy_self.foty_rozdzielczosc_32, RichText::new("32").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -435,6 +510,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         proxy_self.foty_rozdzielczosc_32=false
                                     }
                                 }
+                                if foty_rozdzielczosc_32_wybor.clicked(){
+                                    proxy_self.czy_to_juz_koniec_foto = 0
+                                };
                             });
 
                         });
@@ -523,7 +601,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
 
 
 
-                        if ui.put(Rect::from_center_size(Pos2{x:(350. / 2.),y:773.},Vec2{x:250.,y:40.}),egui::Button::new(t_p_d_foto
+                        if ui.put(Rect::from_center_size(Pos2{x:(proxy_self.szerokosc_okna / 4.),y:proxy_self.wysokosc_btn_egzekucyjny},Vec2{x:250.,y:40.}),egui::Button::new(t_p_d_foto
                             .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)))
                             .min_size(egui::vec2(250.0, 40.0))
                             .corner_radius(10.)
@@ -575,7 +653,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
 
                                     let tx_clone = proxy_self.fot_tx.clone();
                                     std::thread::spawn(move || {
-                                        let result = crate::image_actions::image_operations::convert_images(
+                                        let result = crate::image_actions::image_actions_main::convert_images(
                                             arc_z_foto_wybor_formatu,
                                             arc_z_foto_wybor_formatu_jakosc,
                                             arc_z_foto_rozdzielczosc,

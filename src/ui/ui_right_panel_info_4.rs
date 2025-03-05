@@ -6,9 +6,9 @@ use crate::ui::ui_defaults::Appencja;
 
 pub fn ui_right_panel_info_0_4(
     proxy_self: &mut Appencja,
-    ctx: &Context,ui: &mut egui::Ui,
-    zolty_ciemny:Color32,
-    szarawy_ciemny:Color32
+    _ctx: &Context,ui: &mut egui::Ui,
+    _zolty_ciemny:Color32,
+    _szarawy_ciemny:Color32
 ){ ui.add(egui::Label::new("Brak:").selectable(false));
 ui.add(egui::Label::new("wszystkie pliki są pakowane").selectable(false));
 ui.add_space( proxy_self.formatowanie_spacja_srednia);

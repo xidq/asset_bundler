@@ -3,14 +3,19 @@ use std::io::{Read, Write};
 use std::usize;
 use std::path::Path;
 use std::time::Instant;
-use std::sync::{Arc,mpsc, Mutex};
+use std::sync::{Arc, Mutex};
 use std::path::PathBuf;
+use crate::utils::arc_mutex_strip::{
+    get_locked_data_u8,
+    get_locked_data_string,
+    get_locked_data_pathbuf
+};
 // use rodio::decoder;
 // use zstd::*;
 use std::thread;
 use chrono::offset::Local;
-use egui::output;
-use std::time::Duration;
+// use egui::output;
+// use std::time::Duration;
 
 use crate::moi_chacha20;
 // use crate::xor;
@@ -180,16 +185,16 @@ pub fn decrypt_files(
 
     println!("[Deszyfrowanie/decrypt_files] Rozpoczęcie procesu...");
     let nowy_watek = thread::spawn(move||-> Result<usize, std::io::Error>{
-        let strip_arc_z_u8_clone = arc_z_u8_clone.lock().unwrap();
+        let strip_arc_z_u8_clone = get_locked_data_u8(&arc_z_u8_clone)?;
         let toggle_encryption= strip_arc_z_u8_clone[0];
 
-        let strip_arc_z_path_clone = arc_z_path_clone.lock().unwrap();
+        let strip_arc_z_path_clone = get_locked_data_pathbuf(&arc_z_path_clone)?;
         let dat_path = &strip_arc_z_path_clone[0];
         let idx_path = &strip_arc_z_path_clone[1];
         let aoutput_folder = &strip_arc_z_path_clone[2];
         let output_folder: &str = Option::expect(aoutput_folder.to_str(), "&str" );
 
-        let strip_arc_z_str_clone = arc_z_str_clone.lock().unwrap();
+        let strip_arc_z_str_clone = get_locked_data_string(&arc_z_str_clone)?;
         let de_password = &strip_arc_z_str_clone[0];
 
         // Odczytaj informacje o plikach z indeksu

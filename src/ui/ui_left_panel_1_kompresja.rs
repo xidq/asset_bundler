@@ -180,7 +180,8 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         let output_name_input = TextEdit::singleline(&mut proxy_self.output_name)
                             .char_limit(50)
                             .min_size(egui::Vec2{x:200.,y:30.})
-                            .hint_text(&proxy_self.current_language.general_ui_nazwa.to_string());
+                            .hint_text(&proxy_self.current_language.general_ui_nazwa.to_string())
+                            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki));
                         ui.vertical_centered_justified(|ui|{
                             ui.add(output_name_input);
                         });
@@ -311,8 +312,8 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         ui.add_space(proxy_self.formatowanie_spacja_mala);
 
                         ComboBox::from_label(""/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
-                            .width(350. / 2.)
-                            .selected_text(RichText::new(proxy_self.template.clone()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)))
+                            .width(proxy_self.szerokosc_okna / 4.)
+                            .selected_text(RichText::new(proxy_self.template.clone()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
                             .show_ui(ui, |ui| {
 
                                 ui.selectable_value(&mut proxy_self.template, "none".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_0).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
@@ -402,7 +403,7 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
 
                         // ui.put(Rect::from_center_size(Pos2{x:1.,y:500.},Vec2{x:1.,y:2.}), egui::Label::new("gadfgs"));
-                        if ui.put(Rect::from_center_size(Pos2{x:(350. / 2.),y:773.},Vec2{x:250.,y:40.}),egui::Button::new(t_p_d
+                        if ui.put(Rect::from_center_size(Pos2{x:(proxy_self.szerokosc_okna / 4.),y:proxy_self.wysokosc_btn_egzekucyjny},Vec2{x:250.,y:40.}),egui::Button::new(t_p_d
                             .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)))
                         // ui.vertical_centered(|ui|{
                         //     if ui.add(egui::Button::new(t_p_d

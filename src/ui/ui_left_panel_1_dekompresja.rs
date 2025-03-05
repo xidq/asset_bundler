@@ -339,7 +339,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                     let deszyfr_butt_col = if sprawdzacz_plikow_dekompresja == true && proxy_self.de_czy_to_juz_koniec ==0{Color32::DARK_GREEN}else if sprawdzacz_plikow_dekompresja == true && proxy_self.de_czy_to_juz_koniec ==1 {zolty_ciemny} else {szarawy_ciemny};
 
 
-                        if ui.put(Rect::from_center_size(Pos2{x:(350. / 2.),y:773.},Vec2{x:250.,y:40.}),egui::Button::new(de_t_p_d
+                        if ui.put(Rect::from_center_size(Pos2{x:(proxy_self.szerokosc_okna / 4.),y:proxy_self.wysokosc_btn_egzekucyjny},Vec2{x:250.,y:40.}),egui::Button::new(de_t_p_d
                         .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))
                         .color(Color32::GRAY))
                         .min_size(egui::vec2(250.0, 40.0))

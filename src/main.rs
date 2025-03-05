@@ -6,6 +6,7 @@ mod encrypt_bez_async_i_bez_chacha20;
 mod decrypt_copy;
 // mod xor;
 mod ui;
+mod utils;
 // mod ui::ui_language;
 mod moi_chacha20;
 mod encrypt_filetype;
@@ -13,9 +14,10 @@ mod encrypt_asset_setting;
 // mod ui_window;
 // mod ui_play_sound;
 mod image_actions;
+mod image_channel_bundler;
 // use ui_window::*;
 // use ui_play_sound::*;
-use ui::*;
+// use ui::*;
 // use tokio::*;
 // use tokio::sync::mpsc;
 // use tokio::runtime::Runtime;
@@ -43,7 +45,7 @@ fn main() {
 
 
     let native_options = eframe::NativeOptions {
-        viewport: egui::ViewportBuilder::default().with_resizable(false).with_inner_size((700.0, 810.0)),
+        viewport: egui::ViewportBuilder::default().with_resizable(false).with_inner_size((740.0, 840.0)),
         // renderer: eframe::Renderer::default().egui_wgpu(),
         ..eframe::NativeOptions::default()
     };
