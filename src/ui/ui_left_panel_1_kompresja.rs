@@ -323,7 +323,17 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                         ComboBox::from_label(""/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
                             .width(proxy_self.szerokosc_okna / 4.)
-                            .selected_text(RichText::new(proxy_self.template.clone()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
+                            .selected_text(RichText::new( match proxy_self.template.as_str(){
+                                "none" => proxy_self.current_language.szablony_wybor_0,
+                                "assets" => proxy_self.current_language.szablony_wybor_1,
+                                "images" => proxy_self.current_language.szablony_wybor_2,
+                                "audio" => proxy_self.current_language.szablony_wybor_3,
+                                "3d_model" => proxy_self.current_language.szablony_wybor_4,
+                                "documents" => proxy_self.current_language.szablony_wybor_5,
+                                "raw_photos" => proxy_self.current_language.szablony_wybor_6,
+                                _ => proxy_self.current_language.err_value_overflow
+                            }/*proxy_self.template.clone()*/)
+                        .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
                             .show_ui(ui, |ui| {
 
                                 ui.selectable_value(&mut proxy_self.template, "none".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_0).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));

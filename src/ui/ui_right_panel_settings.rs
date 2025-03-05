@@ -19,10 +19,10 @@ pub fn ui_right_panel_settings_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &m
 
     ui.columns(2,|columns|{
         columns[0].vertical_centered_justified(|ui|{
-            ui.add(egui::Label::new(RichText::new("Głośność").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_glosnosc).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
         });
         columns[1].vertical_centered_justified(|ui|{
-            ui.add(egui::Slider::new(&mut proxy_self.ustawienia_glosnosc, 0f32..=1.).text(""));
+            ui.add(egui::Slider::new(&mut proxy_self.ustawienia_glosnosc, 0f32..=1.));
         });
     });
 

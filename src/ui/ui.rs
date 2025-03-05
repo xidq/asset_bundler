@@ -294,7 +294,7 @@ impl eframe::App for Appencja {
                 ui.horizontal(|ui|{
                     // ui.add(egui::Label::new(encrypt::encrypt_folder::Result);
 
-                    ui.add_space(if self.show_debug_labels{170.}else {230.});
+                    ui.add_space(if self.show_debug_labels{(self.szerokosc_okna / 2.) - 160.} else {(self.szerokosc_okna / 2.) - 90.});
                     ui.selectable_value(&mut self.toggle_language, 0, RichText::new("PL").size(self.formatowanie_rozmiar_czcionki_srednia));
                     ui.add(egui::Label::new("||").selectable(false));
                     ui.selectable_value(&mut self.toggle_language, 1, RichText::new("EN").size(self.formatowanie_rozmiar_czcionki_srednia));
@@ -387,14 +387,14 @@ impl eframe::App for Appencja {
 
 
                     columns[0].vertical_centered_justified(|ui|{
-                        ui.selectable_value(&mut self.ustawienia_menu, 0, "info");
+                        ui.selectable_value(&mut self.ustawienia_menu, 0, self.current_language.general_ui_info);
                     });
                     columns[1].vertical_centered_justified(|ui|{
-                        ui.selectable_value(&mut self.ustawienia_menu, 1, "ustawienia");
+                        ui.selectable_value(&mut self.ustawienia_menu, 1, self.current_language.general_ui_ustawienia);
                     });
                     if self.show_debug_labels{
                         columns[2].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.ustawienia_menu, 2, "debug");
+                            ui.selectable_value(&mut self.ustawienia_menu, 2, "Debug");
                         });
                     }
 
@@ -404,22 +404,22 @@ impl eframe::App for Appencja {
 
                 ui.separator();
                 if self.ustawienia_menu == 0{
-                    ui.columns(5,|columns|{
+                    ui.columns(2,|columns|{
                         columns[0].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.toggle_halp, 0, "Info");
+                            ui.selectable_value(&mut self.toggle_halp, 0, self.current_language.general_ui_info);
                         });
                         columns[1].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.toggle_halp, 1, "Stats");
+                            ui.selectable_value(&mut self.toggle_halp, 1, self.current_language.general_ui_statystyki);
                         });
-                        columns[2].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.toggle_halp, 2, "pakowanie");
-                        });
-                        columns[3].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.toggle_halp, 3, "rozpakowywanie");
-                        });
-                        columns[4].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.toggle_halp, 4, "filtrowanie");
-                        });
+                        // columns[2].vertical_centered_justified(|ui|{
+                        //     ui.selectable_value(&mut self.toggle_halp, 2, "pakowanie");
+                        // });
+                        // columns[3].vertical_centered_justified(|ui|{
+                        //     ui.selectable_value(&mut self.toggle_halp, 3, "rozpakowywanie");
+                        // });
+                        // columns[4].vertical_centered_justified(|ui|{
+                        //     ui.selectable_value(&mut self.toggle_halp, 4, "filtrowanie");
+                        // });
                     });
                 }
 

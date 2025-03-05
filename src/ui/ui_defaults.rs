@@ -197,7 +197,7 @@ impl Default for Appencja {
         output_name: String::from("output_file"),
         password: String::from("lubieplacki6969"),
         de_password: String::from("lubieplacki6969"),
-        template: String::from("None"),
+        template: String::from("none"),
         show_debug_labels: false, 
         debug_imput_idx_file: String::from(""),
         debug_output_idx_path: String::from(""),

@@ -78,7 +78,7 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                 ui.add(egui::Label::new(RichText::new("mala czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
             });
             columns[1].vertical_centered_justified(|ui|{
-                ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_mala,4f32..=12f32));
+                ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_mala,6f32..=14f32));
             });
         });
         ui.columns(2,|columns|{
@@ -86,7 +86,7 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                 ui.add(egui::Label::new(RichText::new("srednia czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
             });
             columns[1].vertical_centered_justified(|ui|{
-                ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_srednia,6f32..=18f32));
+                ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_srednia,10f32..=18f32));
             });
         });
         ui.columns(2,|columns|{
@@ -94,7 +94,12 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                 ui.add(egui::Label::new(RichText::new("duza czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
             });
             columns[1].vertical_centered_justified(|ui|{
-                ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_duza,8f32..=24f32));
+                let slider_response = ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_duza, 14f32..=22f32));
+
+                // Jeśli slider został dwukrotnie kliknięty, ustaw wartość na 18.
+                if slider_response.double_clicked() {
+                    proxy_self.formatowanie_rozmiar_czcionki_duza = 18.0;
+                }
             });
         });
 

@@ -39,6 +39,10 @@ pub struct Language {
     pub general_ui_haslo_wylaczone: &'static str,
     pub szyfrowanie_szyfrowanie_tytul: &'static str,
     pub general_ui_szablony_tytul: &'static str,
+    pub general_ui_info: &'static str,
+    pub general_ui_ustawienia: &'static str,
+    pub general_ui_statystyki: &'static str,
+    pub general_ui_glosnosc: &'static str,
 
     pub szyfrowanie_przycisk_ok: &'static str,
     pub szyfrowanie_przycisk_nie_ok: &'static str,
@@ -147,6 +151,11 @@ impl Language {
             general_ui_haslo_wylaczone: "Hasło wyłączone...",
             szyfrowanie_szyfrowanie_tytul:"Szyfrowanie",
             general_ui_szablony_tytul:"Szablony",
+            general_ui_info: "Info",
+            general_ui_ustawienia: "Ustawienia",
+            general_ui_statystyki: "Statystyki",
+            general_ui_glosnosc: "Głośność",
+        
 
             szyfrowanie_przycisk_ok: "Szyfrufruj!",
             szyfrowanie_przycisk_nie_ok: "Czegoś ci jeszcze brakuje UwU",
@@ -274,6 +283,7 @@ impl Language {
             general_ui_wybierz_plik_general: "Choose file",
 
 
+
             debug_deszyfracja_idx: "Decrypt .idx file only",
 
             // h_general_ui_wybierz_folder: "Choose your desired folder",
@@ -287,6 +297,10 @@ impl Language {
             general_ui_filter_png_tytul: "Filter",
             general_ui_warianty_tytul: "Variants",
             general_ui_rozdzielczosc_tytul: "Resolution",
+            general_ui_info: "Info",
+            general_ui_ustawienia: "Settings",
+            general_ui_statystyki: "Stats",
+            general_ui_glosnosc: "Volume",
 
             //monit
             // problem_egzystencjonalny: "Have existencial crysis rn",
@@ -390,6 +404,10 @@ impl Language {
             general_ui_filter_png_tytul: "general_ui_filter_png_tytul",
             general_ui_warianty_tytul: "general_ui_warianty_tytul",
             general_ui_rozdzielczosc_tytul: "general_ui_rozdzielczosc_tytul",
+            general_ui_info: "general_ui_info",
+            general_ui_ustawienia: "general_ui_ustawienia",
+            general_ui_statystyki: "general_ui_statystyki",
+            general_ui_glosnosc: "general_ui_glosnosc",
 
 
 
