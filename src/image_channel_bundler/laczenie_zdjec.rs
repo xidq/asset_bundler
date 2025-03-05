@@ -20,9 +20,9 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
         1 => ("png","rgb8"),
         2 => ("png","rgb16"),
         3 => ("webp","rgb8"),
-        3 => ("webp","rgb8"),
+        4 => ("webp","rgb8"),
         5 => ("tga","rgb8"),
-        _ => ("none","rgb8")
+        _ => ("jpg","rgb8")
     };
 
     let (wysokosc, szerokosc)=(foto_r.height(), foto_r.width());

@@ -107,6 +107,11 @@ pub struct Language {
     pub png_specyfic_filter_Lanczos3:&'static str,
 
 
+    pub png_specyfic_compression_none:&'static str,
+    pub png_specyfic_compression_default:&'static str,
+    pub png_specyfic_compression_best:&'static str,
+
+
 
 
 }
@@ -212,6 +217,10 @@ impl Language {
             png_specyfic_filter_Gaussian:"Gaussian",
             png_specyfic_filter_Lanczos3:"Lanczos3",
 
+            png_specyfic_compression_none:"Brak",
+            png_specyfic_compression_default:"Domyślna",
+            png_specyfic_compression_best:"Najlepsza",
+
         }
 
     }
@@ -311,6 +320,10 @@ impl Language {
             png_specyfic_filter_CatmullRom:"CatmullRom",
             png_specyfic_filter_Gaussian:"Gaussian",
             png_specyfic_filter_Lanczos3:"Lanczos3",
+
+            png_specyfic_compression_none:"None",
+            png_specyfic_compression_default:"Default",
+            png_specyfic_compression_best:"Best",
         }
 
     }
@@ -411,6 +424,10 @@ impl Language {
             png_specyfic_filter_CatmullRom:"png_specyfic_filter_CatmullRom",
             png_specyfic_filter_Gaussian:"png_specyfic_filter_Gaussian",
             png_specyfic_filter_Lanczos3:"png_specyfic_filter_Lanczos3",
+
+            png_specyfic_compression_none:"png_specyfic_compression_none",
+            png_specyfic_compression_default:"png_specyfic_compression_default",
+            png_specyfic_compression_best:"png_specyfic_compression_best",
 
             
         }

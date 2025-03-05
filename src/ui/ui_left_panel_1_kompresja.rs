@@ -83,15 +83,20 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                             }
 
-                            if proxy_self.imput_folder_path.len() < 28{
 
-                                ui.add(egui::Label::new(&proxy_self.imput_folder_path).selectable(false));
-
-                            }
 
                         });
+                        if proxy_self.imput_folder_path.len() >= 50 {
+                            let xxxx = &proxy_self.imput_folder_path;
+                            let startu = &xxxx[..=15];
+                            let endu = &xxxx[xxxx.len()-30 ..];
+                            ui.add(egui::Label::new(RichText::new(
+                                format!("{}/.../{}",startu,endu))
+                                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                            ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+    
 
-                        if proxy_self.imput_folder_path.len() >= 28{
+                        }else if !proxy_self.imput_folder_path.is_empty(){
 
                             ui.add(egui::Label::new(RichText::new(&proxy_self.imput_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
 
@@ -143,15 +148,20 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                             }
 
-                            if proxy_self.output_folder_path.len() < 28 {
-
-                                ui.add(egui::Label::new(&proxy_self.output_folder_path).selectable(false));
-
-                            }
-
                         });
+                        
 
-                        if proxy_self.output_folder_path.len() >= 28{
+                        if proxy_self.output_folder_path.len() >= 50 {
+                            let xxxx = &proxy_self.output_folder_path;
+                            let startu = &xxxx[..=15];
+                            let endu = &xxxx[xxxx.len()-30 ..];
+                            ui.add(egui::Label::new(RichText::new(
+                                format!("{}/.../{}",startu,endu))
+                                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                            ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+    
+
+                        }else if !proxy_self.output_folder_path.is_empty(){
 
                             ui.add(egui::Label::new(RichText::new(&proxy_self.output_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
 

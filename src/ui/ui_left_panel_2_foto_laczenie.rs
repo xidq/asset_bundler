@@ -10,12 +10,13 @@ use egui::{
 };
 use egui::TextEdit;
 use image::open;
-
+use std::sync::mpsc;
 use rfd::FileDialog;
 use std::{default, path::PathBuf, sync::{
     Arc, 
     Mutex
 }};
+use std::io;
 use crate::ui::{
     ui_defaults::Appencja,
     ui_play_sound::play_finish_sound,
@@ -32,6 +33,7 @@ pub fn ui_left_panel_foty_laczenie(
     let aspect_ratio_check = 
     if (proxy_self.pakowanie_foty_red_aspect_ratio == proxy_self.pakowanie_foty_green_aspect_ratio) &&
     (proxy_self.pakowanie_foty_red_aspect_ratio == proxy_self.pakowanie_foty_blue_aspect_ratio){true}else{false};
+    // let (tx, rx): (mpsc::Sender<Result<Arc<Mutex<Vec<usize>>>, io::Error>>, mpsc::Receiver<Result<Arc<Mutex<Vec<usize>>>, io::Error>>) = mpsc::channel();
 
 
 
@@ -122,6 +124,17 @@ pub fn ui_left_panel_foty_laczenie(
         
     });
     if !proxy_self.imput_r_file_path.to_string_lossy().is_empty(){
+        if proxy_self.imput_r_file_path.to_string_lossy().len() >= 50 {
+            let xxxx = &proxy_self.imput_r_file_path.to_string_lossy();
+            let startu = &xxxx[..=15];
+            let endu = &xxxx[xxxx.len()-30 ..];
+            ui.add(egui::Label::new(RichText::new(
+                format!("{}/.../{}",startu,endu))
+                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+            ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+
+
+        }else if !proxy_self.imput_r_file_path.to_string_lossy().is_empty(){
         //napis sciezki
         ui.add(egui::Label::new(
             RichText::new(
@@ -131,6 +144,7 @@ pub fn ui_left_panel_foty_laczenie(
             );
 
         ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        }
 
     }else{
         ui.add_space(proxy_self.formatowanie_spacja_duza);
@@ -216,7 +230,18 @@ pub fn ui_left_panel_foty_laczenie(
     });
     if !proxy_self.imput_g_file_path.to_string_lossy().is_empty(){
         //napis sciezki
-        ui.add(egui::Label::new(
+        if proxy_self.imput_g_file_path.to_string_lossy().len() >= 50 {
+            let xxxx = &proxy_self.imput_g_file_path.to_string_lossy();
+            let startu = &xxxx[..=15];
+            let endu = &xxxx[xxxx.len()-30 ..];
+            ui.add(egui::Label::new(RichText::new(
+                format!("{}/.../{}",startu,endu))
+                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+            ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+
+
+        }else if !proxy_self.imput_g_file_path.to_string_lossy().is_empty(){
+            ui.add(egui::Label::new(
             RichText::new(
                 proxy_self.imput_g_file_path.to_string_lossy())
                 .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
@@ -224,6 +249,7 @@ pub fn ui_left_panel_foty_laczenie(
             );
 
         ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        }
 
     }else{
         ui.add_space(proxy_self.formatowanie_spacja_duza);
@@ -311,6 +337,17 @@ pub fn ui_left_panel_foty_laczenie(
     });
     if !proxy_self.imput_b_file_path.to_string_lossy().is_empty(){
         //napis sciezki
+        if proxy_self.imput_b_file_path.to_string_lossy().len() >= 50 {
+            let xxxx = &proxy_self.imput_b_file_path.to_string_lossy();
+            let startu = &xxxx[..=15];
+            let endu = &xxxx[xxxx.len()-30 ..];
+            ui.add(egui::Label::new(RichText::new(
+                format!("{}/.../{}",startu,endu))
+                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+            ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+
+
+        }else if !proxy_self.imput_b_file_path.to_string_lossy().is_empty(){
         ui.add(egui::Label::new(
             RichText::new(
                 proxy_self.imput_b_file_path.to_string_lossy())
@@ -319,6 +356,7 @@ pub fn ui_left_panel_foty_laczenie(
             );
 
         ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        }
 
     }else{
         ui.add_space(proxy_self.formatowanie_spacja_duza);
@@ -387,26 +425,38 @@ pub fn ui_left_panel_foty_laczenie(
 
         }
 
-        if proxy_self.imput_b_file_path.to_string_lossy().len() < 28{
+        if proxy_self.imput_out_folder_path.to_string_lossy().len() < 28{
             //napis sciezki
             ui.add(egui::Label::new(
-                RichText::new(proxy_self.imput_b_file_path.to_string_lossy())
+                RichText::new(proxy_self.imput_out_folder_path.to_string_lossy())
                 .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
                 .selectable(false)
             );
 
         }
     });
-    if proxy_self.imput_b_file_path.to_string_lossy().len() >=28{
+    if proxy_self.imput_out_folder_path.to_string_lossy().len() >=28{
         //napis sciezki
+        if proxy_self.imput_out_folder_path.to_string_lossy().len() >= 50 {
+            let xxxx = &proxy_self.imput_out_folder_path.to_string_lossy();
+            let startu = &xxxx[..=15];
+            let endu = &xxxx[xxxx.len()-30 ..];
+            ui.add(egui::Label::new(RichText::new(
+                format!("{}/.../{}",startu,endu))
+                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+            ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+
+
+        }else if !proxy_self.imput_b_file_path.to_string_lossy().is_empty(){
         ui.add(egui::Label::new(
             RichText::new(
-                proxy_self.imput_b_file_path.to_string_lossy())
+                proxy_self.imput_out_folder_path.to_string_lossy())
                 .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
                 .selectable(false)
             );
 
         ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        }
 
     }else{
         ui.add_space(proxy_self.formatowanie_spacja_duza);
@@ -760,13 +810,13 @@ pub fn ui_left_panel_foty_laczenie(
 
 
     let hjgfkjlh = if sprawdzacz_przycisku_fotx && proxy_self.pakowanie_foty_czy_to_juz_koniec !=1 {true}else{false};
-
+    let tx_clonea = proxy_self.tx.clone();
     let fotox_butt_col = match (sprawdzacz_przycisku_fotx,proxy_self.pakowanie_foty_czy_to_juz_koniec){
         (true,0)=>Color32::DARK_GREEN,
         (true,1)=>zolty_ciemny,
         _=>szarawy_ciemny
     };
-    match proxy_self.fotx_rx.try_recv() {
+    match proxy_self.rx.try_recv() {
         Ok(Ok(ghdfjsasx)) => {
             let danene = ghdfjsasx.lock().unwrap();
             proxy_self.pakowanie_foty_czy_to_juz_koniec = 2;
@@ -844,7 +894,7 @@ pub fn ui_left_panel_foty_laczenie(
 
 
 
-                let tx_clonea = proxy_self.fotx_tx.clone();
+
                 std::thread::spawn(move || {
                     let result = crate::image_channel_bundler::image_channel_bundler_main::image_channel_bundler(
                         arc_z_path,
@@ -856,6 +906,7 @@ pub fn ui_left_panel_foty_laczenie(
                     match tx_clonea.send(result) {
                         Ok(_) => println!("Wysłano wynik"),
                         Err(e) => eprintln!("Błąd wysyłania: {}", e),
+                        
                     }
                 });
                 println!("ui po thread!");

@@ -82,17 +82,22 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                         }
 
-                        if proxy_self.imput_de_dat_folder_path.len() < 28{
 
-                            ui.add(egui::Label::new(RichText::new(&proxy_self.imput_de_dat_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
-                        
-                        }
 
                     });
+                    if proxy_self.imput_de_dat_folder_path.len() >= 50 {
+                        let xxxx = &proxy_self.imput_de_dat_folder_path;
+                        let startu = &xxxx[..=15];
+                        let endu = &xxxx[xxxx.len()-30 ..];
+                        ui.add(egui::Label::new(RichText::new(
+                            format!("{}/.../{}",startu,endu))
+                            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
 
-                    if proxy_self.imput_de_dat_folder_path.len() >=28{
+                    }else if !proxy_self.imput_de_dat_folder_path.is_empty(){
+                        
 
-                        ui.add(egui::Label::new(RichText::new(&proxy_self.output_de_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                        ui.add(egui::Label::new(RichText::new(&proxy_self.imput_de_dat_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
                         ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
 
                     }else{
@@ -140,16 +145,21 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                         }
 
-                        if proxy_self.imput_de_idx_folder_path.len() < 28 {
 
-                            ui.add(egui::Label::new(RichText::new(&proxy_self.imput_de_idx_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
-                        }
 
 
                     });
 
-                    if proxy_self.imput_de_idx_folder_path.len() >= 28 {
 
+                    if proxy_self.imput_de_idx_folder_path.len() >= 50 {
+                        let xxxx = &proxy_self.imput_de_idx_folder_path;
+                        let startu = &xxxx[..=15];
+                        let endu = &xxxx[xxxx.len()-30 ..];
+                        ui.add(egui::Label::new(RichText::new(
+                            format!("{}/.../{}",startu,endu))
+                            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+                    }else if !proxy_self.imput_de_idx_folder_path.is_empty(){
                         ui.add(egui::Label::new(RichText::new(&proxy_self.imput_de_idx_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
                         ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
 
@@ -185,11 +195,6 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                         }
 
-                        if proxy_self.output_de_folder_path.len() < 28 {
-
-                            ui.add(egui::Label::new(RichText::new(&proxy_self.output_de_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
-
-                        }
 
                         let btn_pozycjonowanie_deszyfrowanie_folder_wyjsciowy = Pos2::new(
                             btn_deszyfrowanie_folder_folder_wyjsciowy.rect.min.x - proxy_self.offset_cirkul,
@@ -204,18 +209,22 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                             ui.painter().circle_stroke(btn_pozycjonowanie_deszyfrowanie_folder_wyjsciowy, proxy_self.pusty_cirkul_sajz, (proxy_self.pusty_cirkul_ma_stroke,proxy_self.pusty_cirkul_kolor));
 
                         }
-                        if proxy_self.output_de_folder_path.len() < 28{
-                            ui.add(egui::Label::new(RichText::new(&proxy_self.output_de_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
-                        }
+
 
 
                     });
 
-                    if proxy_self.output_de_folder_path.len() >= 28 {
-
+                    if proxy_self.output_de_folder_path.len() >= 50 {
+                        let xxxx = &proxy_self.output_de_folder_path;
+                        let startu = &xxxx[..=15];
+                        let endu = &xxxx[xxxx.len()-30 ..];
+                        ui.add(egui::Label::new(RichText::new(
+                            format!("{}/.../{}",startu,endu))
+                            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+                    }else if !proxy_self.output_de_folder_path.is_empty() {
                         ui.add(egui::Label::new(RichText::new(&proxy_self.output_de_folder_path).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
                         ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
-
                     }else{
                         ui.add_space(proxy_self.formatowanie_spacja_duza);
                     }
@@ -303,7 +312,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         _ => RichText::new("")
                     };
 
-                    match proxy_self.de_rx.try_recv() {
+                    match proxy_self.rx.try_recv() {
                         Ok(Ok(kgfghkh)) => {
                             let danene = kgfghkh.lock().unwrap();
                             proxy_self.de_czy_to_juz_koniec = 2;
@@ -358,7 +367,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                                 let arc_z_path = Arc::new(Mutex::new(vec![dat_file.clone(),idx_file.clone(),output_folder.clone()]));
                                 let arc_z_u8 = Arc::new(Mutex::new(vec![proxy_self.toggle_encryption.clone()]));
 
-                                let de_tx_clone = proxy_self.de_tx.clone();
+                                let de_tx_clone = proxy_self.tx.clone();
                                 std::thread::spawn(move || {
                                     let de_result = decrypt_copy::decrypt_files(
                                                 arc_z_path,

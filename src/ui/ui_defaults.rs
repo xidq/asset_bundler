@@ -58,14 +58,7 @@ pub struct Appencja {
   pub tx: mpsc::Sender<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
   pub rx: mpsc::Receiver<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
 
-  pub de_tx: mpsc::Sender<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
-  pub de_rx: mpsc::Receiver<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
 
-  pub fot_tx: mpsc::Sender<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
-  pub fot_rx: mpsc::Receiver<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
-
-  pub fotx_tx: mpsc::Sender<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
-  pub fotx_rx: mpsc::Receiver<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
 
   pub sz_loading: u8,
   pub sz_loading_anim: &'static str,
@@ -188,9 +181,7 @@ impl Default for Appencja {
 
     fn default() -> Self {
       let (tx, rx) = mpsc::channel();
-      let (de_tx, de_rx) = mpsc::channel();
-      let (fot_tx, fot_rx) = mpsc::channel();
-      let (fotx_tx, fotx_rx) = mpsc::channel();
+
       Appencja {
         imput_r_file_path: PathBuf::new(),
         imput_g_file_path: PathBuf::new(),
@@ -228,12 +219,7 @@ impl Default for Appencja {
         // rozszerzenie_pliku: "dat",
         tx,
         rx,
-        de_tx,
-        de_rx,
-        fot_tx,
-        fot_rx,
-        fotx_tx,
-        fotx_rx,
+
         sz_loading: 0,
         de_loading: 0,
 
