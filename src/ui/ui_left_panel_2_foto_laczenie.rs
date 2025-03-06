@@ -1,3 +1,4 @@
+// use eframe::App;
 use egui::{
     Color32, 
     Pos2, 
@@ -510,7 +511,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         ui.add(egui::Label::new(
             RichText::new(
-                "Rozszerzenie")
+                proxy_self.current_language.general_ui_rozszerzenie_tytul)
                 .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)))
                 .selectable(false)
             );
@@ -527,16 +528,21 @@ pub fn ui_left_panel_foty_laczenie(
                     2=>"png 16bit",
                     3=>"webp",
                     4=>"tga",
-                    _ => "lol"
+                    _ => proxy_self.current_language.err_value_overflow
                 }
                 ).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
                 .show_ui(ui, |ui| {
 
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 0, RichText::new("jpg").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 1, RichText::new("png").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 2, RichText::new("png16").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 3, RichText::new("webp").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 4, RichText::new("tga").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                if ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 0, RichText::new("jpg").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
+                    .clicked(){proxy_self.pakowanie_foty_jakosc=Appencja::default().pakowanie_foty_jakosc};
+                if ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 1, RichText::new("png").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
+                    .clicked(){proxy_self.pakowanie_foty_jakosc=1};
+                if ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 2, RichText::new("png16").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
+                .clicked(){proxy_self.pakowanie_foty_jakosc=1};
+                if ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 3, RichText::new("webp").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
+                .clicked(){proxy_self.pakowanie_foty_jakosc=Appencja::default().pakowanie_foty_jakosc};
+                if ui.selectable_value(&mut proxy_self.pakowanie_foty_rozszerzenie, 4, RichText::new("tga").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
+                .clicked(){proxy_self.pakowanie_foty_jakosc=Appencja::default().pakowanie_foty_jakosc};
                 }).response.clicked(){
                     proxy_self.pakowanie_foty_czy_to_juz_koniec = 0
                 }
@@ -545,24 +551,33 @@ pub fn ui_left_panel_foty_laczenie(
         column[1].vertical_centered_justified(|ui|{
             match proxy_self.pakowanie_foty_rozszerzenie{
                 0=>{
-                        proxy_self.pakowanie_foty_jakosc=75;
+                        // &mut proxy_self.pakowanie_foty_jakosc=75;
                         ui.vertical(|ui|{
                             ui.spacing_mut().slider_width = 50.0;
-                            ui.add(egui::Slider::new(&mut proxy_self.pakowanie_foty_jakosc, 0..=100).show_value(true))
+                            if ui.add(egui::Slider::new(&mut proxy_self.pakowanie_foty_jakosc, 0..=100).show_value(true))
+                            .double_clicked(){
+                                proxy_self.pakowanie_foty_jakosc=Appencja::default().pakowanie_foty_jakosc
+                            }
                         });
                     },
                 1|2=>{
-                        proxy_self.pakowanie_foty_jakosc=1;
+                        // proxy_self.pakowanie_foty_jakosc=1;
                         ui.vertical(|ui|{
                             ui.spacing_mut().slider_width = 50.0;
-                            ui.add(egui::Slider::new(&mut proxy_self.pakowanie_foty_jakosc, 0..=2).show_value(true))
+                            if ui.add(egui::Slider::new(&mut proxy_self.pakowanie_foty_jakosc, 0..=2).show_value(true))
+                            .double_clicked(){
+                                proxy_self.pakowanie_foty_jakosc=1
+                            }
                         });
                     },
                 3=>{
-                        proxy_self.pakowanie_foty_jakosc=75;
+                        // proxy_self.pakowanie_foty_jakosc=75;
                         ui.vertical(|ui|{
                             ui.spacing_mut().slider_width = 50.0;
-                        ui.add(egui::Slider::new(&mut proxy_self.pakowanie_foty_jakosc, 0..=100).show_value(true));
+                            if ui.add(egui::Slider::new(&mut proxy_self.pakowanie_foty_jakosc, 0..=100).show_value(true))
+                            .double_clicked(){
+                                proxy_self.pakowanie_foty_jakosc=Appencja::default().pakowanie_foty_jakosc
+                            }
                         });
                     },
                 _=> {ui.label("");}
@@ -623,7 +638,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         ui.add(egui::Label::new(
             RichText::new(
-                "Rozdzielczość")
+                proxy_self.current_language.general_ui_rozdzielczosc_tytul)
                 .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)))
                 .selectable(false)
             );
@@ -708,7 +723,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         ui.add(egui::Label::new(
             RichText::new(
-                "Filtr")
+                proxy_self.current_language.general_ui_filter_png_tytul)
                 .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)))
                 .selectable(false)
             );
@@ -719,20 +734,20 @@ pub fn ui_left_panel_foty_laczenie(
         .width(320.)
         .selected_text(RichText::new(
             match proxy_self.pakowanie_foty_filter{
-                0 => proxy_self.current_language.png_specyfic_filter_nearest,
-                1=> proxy_self.current_language.png_specyfic_filter_triangle,
-                2=> proxy_self.current_language.png_specyfic_filter_catmullrom,
-                3=>proxy_self.current_language.png_specyfic_filter_gaussian,
-                4=>proxy_self.current_language.png_specyfic_filter_lanczos3,
+                0 => proxy_self.current_language.image_specyfic_filter_nearest,
+                1=> proxy_self.current_language.image_specyfic_filter_triangle,
+                2=> proxy_self.current_language.image_specyfic_filter_catmullrom,
+                3=>proxy_self.current_language.image_specyfic_filter_gaussian,
+                4=>proxy_self.current_language.image_specyfic_filter_lanczos3,
                 _ => proxy_self.current_language.err_value_overflow
             }
             ).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
             .show_ui(ui, |ui| {
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 2, RichText::new(proxy_self.current_language.png_specyfic_filter_catmullrom).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 0, RichText::new(proxy_self.current_language.image_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 1, RichText::new(proxy_self.current_language.image_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 2, RichText::new(proxy_self.current_language.image_specyfic_filter_catmullrom).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 3, RichText::new(proxy_self.current_language.image_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                ui.selectable_value(&mut proxy_self.pakowanie_foty_filter, 4, RichText::new(proxy_self.current_language.image_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
                 }).response.clicked(){
                 proxy_self.pakowanie_foty_czy_to_juz_koniec = 0
             }
@@ -845,19 +860,19 @@ pub fn ui_left_panel_foty_laczenie(
     }
     ui.add_space( proxy_self.formatowanie_spacja_srednia);
     let t_p_d_fotox= match proxy_self.pakowanie_foty_czy_to_juz_koniec{
-        0 => RichText::new(tekst_przycisku_kompresji.to_string()),
-        1 => RichText::new(proxy_self.sz_loading_anim.to_string()).monospace().color(Color32::BLACK),
-        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
-        3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
-        4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+        0 => RichText::new(tekst_przycisku_kompresji.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+        1 => RichText::new(proxy_self.sz_loading_anim.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,1)).color(Color32::BLACK),
+        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)),
+        3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+        4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
         _ => RichText::new("".to_string())
     };
 
 
 
     if ui.put(Rect::from_center_size(Pos2{x:(proxy_self.szerokosc_okna / 4.),y:proxy_self.wysokosc_btn_egzekucyjny},Vec2{x:250.,y:40.}),egui::Button::new(t_p_d_fotox
-        .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
-        .min_size(egui::vec2(250.0, 40.0))
+        )
+        .min_size(egui::vec2((proxy_self.szerokosc_okna / 2.) - 100.0, 40.0))
         .corner_radius(10.)
         .fill(fotox_butt_col))
         .clicked() && hjgfkjlh{

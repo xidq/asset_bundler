@@ -210,13 +210,13 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         
                         ui.columns(5, |column|{
                             column[0].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 0, RichText::new(proxy_self.current_language.image_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
 
                             column[1].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 1, RichText::new(proxy_self.current_language.image_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
@@ -228,13 +228,13 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             });
 
                             column[3].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 3, RichText::new(proxy_self.current_language.image_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
 
                             column[4].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.foty_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.foty_filter, 4, RichText::new(proxy_self.current_language.image_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).clicked(){
                                     proxy_self.czy_to_juz_koniec_foto = 0
                                 };
                             });
@@ -313,7 +313,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                                 2=>proxy_self.current_language.png_specyfic_filter_png_up,
                                                 3=>proxy_self.current_language.png_specyfic_filter_png_avg,
                                                 4=>proxy_self.current_language.png_specyfic_filter_png_paeth,
-                                                5=>proxy_self.current_language.png_specyfic_filter_png_paeth,
+                                                5=>proxy_self.current_language.png_specyfic_filter_png_adaptive,
                                                 _ => proxy_self.current_language.err_value_overflow
                                             }
                                         ).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)))
@@ -324,7 +324,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                             ui.selectable_value(&mut proxy_self.foty_format_png_filter, 2, RichText::new(proxy_self.current_language.png_specyfic_filter_png_up).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
                                             ui.selectable_value(&mut proxy_self.foty_format_png_filter, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_png_avg).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
                                             ui.selectable_value(&mut proxy_self.foty_format_png_filter, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_png_paeth).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.foty_format_png_filter, 5, RichText::new(proxy_self.current_language.png_specyfic_filter_png_paeth).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
+                                            ui.selectable_value(&mut proxy_self.foty_format_png_filter, 5, RichText::new(proxy_self.current_language.png_specyfic_filter_png_adaptive).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki)));
                                             }).response
 
                                         }).response
@@ -604,19 +604,19 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         }
                         ui.add_space( proxy_self.formatowanie_spacja_srednia);
                         let t_p_d_foto= match proxy_self.czy_to_juz_koniec_foto{
-                            0 => RichText::new(tekst_przycisku_kompresji.to_string()),
-                            1 => RichText::new(proxy_self.sz_loading_anim.to_string()).monospace().color(Color32::BLACK),
-                            2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
-                            3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
-                            4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+                            0 => RichText::new(tekst_przycisku_kompresji.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+                            1 => RichText::new(proxy_self.sz_loading_anim.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,1)).color(Color32::BLACK),
+                            2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+                            3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+                            4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
                             _ => RichText::new("".to_string())
                         };
 
 
 
                         if ui.put(Rect::from_center_size(Pos2{x:(proxy_self.szerokosc_okna / 4.),y:proxy_self.wysokosc_btn_egzekucyjny},Vec2{x:250.,y:40.}),egui::Button::new(t_p_d_foto
-                            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)))
-                            .min_size(egui::vec2(250.0, 40.0))
+                            )
+                            .min_size(egui::vec2((proxy_self.szerokosc_okna / 2.) - 100.0, 40.0))
                             .corner_radius(10.)
                             .fill(foto_butt_col))
                             .clicked() && hjgfkjlh{

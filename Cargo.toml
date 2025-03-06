@@ -1,7 +1,7 @@
 # cargo-features = ["edition2024"]
 [package]
 name = "asset_bundler"
-version = "0.3.9"
+version = "0.3.11"
 edition = "2024"
 
 [dependencies]

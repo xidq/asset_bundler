@@ -76,6 +76,14 @@ pub struct Language {
     pub general_ui_filter_png_tytul: &'static str,
     pub general_ui_warianty_tytul: &'static str,
     pub general_ui_rozdzielczosc_tytul: &'static str,
+    pub general_ui_rozszerzenie_tytul: &'static str,
+    pub general_ui_rozpakowano_tytul: &'static str,
+    pub general_ui_spakowano_tytul: &'static str,
+    pub general_ui_przetworzono_tytul: &'static str,
+    // pub general_ui_z_ekspresja: &'static str,
+    pub general_ui_w_czasie_tytul: &'static str,
+    pub general_ui_z_oryginalnych_tytul:&'static str,
+    pub general_ui_kompilacja_rgb_tytul:&'static str,
 
 
 
@@ -104,11 +112,11 @@ pub struct Language {
     pub png_specyfic_filter_png_paeth:&'static str,
     pub png_specyfic_filter_png_adaptive:&'static str,
 
-    pub png_specyfic_filter_nearest:&'static str,
-    pub png_specyfic_filter_triangle:&'static str,
-    pub png_specyfic_filter_catmullrom:&'static str,
-    pub png_specyfic_filter_gaussian:&'static str,
-    pub png_specyfic_filter_lanczos3:&'static str,
+    pub image_specyfic_filter_nearest:&'static str,
+    pub image_specyfic_filter_triangle:&'static str,
+    pub image_specyfic_filter_catmullrom:&'static str,
+    pub image_specyfic_filter_gaussian:&'static str,
+    pub image_specyfic_filter_lanczos3:&'static str,
 
 
     pub png_specyfic_compression_none:&'static str,
@@ -189,6 +197,17 @@ impl Language {
             general_ui_filter_png_tytul: "Filtr",
             general_ui_warianty_tytul: "Warianty",
             general_ui_rozdzielczosc_tytul: "Rozdzielczość",
+            general_ui_rozszerzenie_tytul: "Rozszerzenie",
+
+            general_ui_rozpakowano_tytul: "Rozpakowano",
+            general_ui_spakowano_tytul: "Spakowano",
+            general_ui_przetworzono_tytul: "Przetworzono",
+            // general_ui_z_ekspresja: "z",
+            general_ui_w_czasie_tytul: "w czasie",
+            general_ui_z_oryginalnych_tytul: "z oryginalnych",
+            general_ui_kompilacja_rgb_tytul: "Kompilacja RGB",
+
+
 
 
 
@@ -220,11 +239,11 @@ impl Language {
             png_specyfic_filter_png_paeth:"Paeth",
             png_specyfic_filter_png_adaptive:"Adaptacyjny",
 
-            png_specyfic_filter_nearest:"Najbliższe",
-            png_specyfic_filter_triangle:"Triangle",
-            png_specyfic_filter_catmullrom:"CatmullRom",
-            png_specyfic_filter_gaussian:"Gaussian",
-            png_specyfic_filter_lanczos3:"Lanczos3",
+            image_specyfic_filter_nearest:"Najbliższe",
+            image_specyfic_filter_triangle:"Triangle",
+            image_specyfic_filter_catmullrom:"CatmullRom",
+            image_specyfic_filter_gaussian:"Gaussian",
+            image_specyfic_filter_lanczos3:"Lanczos3",
 
             png_specyfic_compression_none:"Brak",
             png_specyfic_compression_default:"Domyślna",
@@ -297,10 +316,19 @@ impl Language {
             general_ui_filter_png_tytul: "Filter",
             general_ui_warianty_tytul: "Variants",
             general_ui_rozdzielczosc_tytul: "Resolution",
+            general_ui_rozszerzenie_tytul: "Extension",
             general_ui_info: "Info",
             general_ui_ustawienia: "Settings",
             general_ui_statystyki: "Stats",
             general_ui_glosnosc: "Volume",
+            general_ui_rozpakowano_tytul: "Unpacked",
+            general_ui_spakowano_tytul: "Packed",
+            general_ui_przetworzono_tytul: "Processed",
+            general_ui_kompilacja_rgb_tytul:"RGB stacking",
+
+            // general_ui_z_ekspresja: "from",
+            general_ui_w_czasie_tytul: "in time",
+            general_ui_z_oryginalnych_tytul: "from oryginal",
 
             //monit
             // problem_egzystencjonalny: "Have existencial crysis rn",
@@ -329,11 +357,11 @@ impl Language {
             png_specyfic_filter_png_paeth:"Paeth",
             png_specyfic_filter_png_adaptive:"Adaptive",
 
-            png_specyfic_filter_nearest:"Nearest",
-            png_specyfic_filter_triangle:"Triangle",
-            png_specyfic_filter_catmullrom:"CatmullRom",
-            png_specyfic_filter_gaussian:"Gaussian",
-            png_specyfic_filter_lanczos3:"Lanczos3",
+            image_specyfic_filter_nearest:"Nearest",
+            image_specyfic_filter_triangle:"Triangle",
+            image_specyfic_filter_catmullrom:"CatmullRom",
+            image_specyfic_filter_gaussian:"Gaussian",
+            image_specyfic_filter_lanczos3:"Lanczos3",
 
             png_specyfic_compression_none:"None",
             png_specyfic_compression_default:"Default",
@@ -387,6 +415,13 @@ impl Language {
             general_ui_wybierz_folder: "general_ui_wybierz_folder",
 
             general_ui_wybierz_plik_general: "general_ui_wybierz_plik_general",
+            general_ui_rozpakowano_tytul: "general_ui_rozpakowano_tytul",
+            general_ui_spakowano_tytul: "general_ui_rozpakowano_tytul",
+            general_ui_przetworzono_tytul: "general_ui_rozpakowano_tytul",
+
+            // general_ui_z_ekspresja: "general_ui_z_ekspresja",
+            general_ui_w_czasie_tytul: "general_ui_w_czasie_tytul",
+            general_ui_z_oryginalnych_tytul: "general_ui_z_oryginalnych_tytul",
 
 
             // debug_deszyfracja_idx: "debug_deszyfracja_idx",
@@ -404,10 +439,12 @@ impl Language {
             general_ui_filter_png_tytul: "general_ui_filter_png_tytul",
             general_ui_warianty_tytul: "general_ui_warianty_tytul",
             general_ui_rozdzielczosc_tytul: "general_ui_rozdzielczosc_tytul",
+            general_ui_rozszerzenie_tytul: "general_ui_rozszerzenie_tytul",
             general_ui_info: "general_ui_info",
             general_ui_ustawienia: "general_ui_ustawienia",
             general_ui_statystyki: "general_ui_statystyki",
             general_ui_glosnosc: "general_ui_glosnosc",
+            general_ui_kompilacja_rgb_tytul:"general_ui_kompilacja_rgb_tytul",
 
 
 
@@ -437,11 +474,11 @@ impl Language {
             png_specyfic_filter_png_paeth:"png_specyfic_filter_png_paeth",
             png_specyfic_filter_png_adaptive:"png_specyfic_filter_png_adaptive",
 
-            png_specyfic_filter_nearest:"png_specyfic_filter_nearest",
-            png_specyfic_filter_triangle:"png_specyfic_filter_triangle",
-            png_specyfic_filter_catmullrom:"png_specyfic_filter_catmullrom",
-            png_specyfic_filter_gaussian:"png_specyfic_filter_gaussian",
-            png_specyfic_filter_lanczos3:"png_specyfic_filter_lanczos3",
+            image_specyfic_filter_nearest:"image_specyfic_filter_nearest",
+            image_specyfic_filter_triangle:"image_specyfic_filter_triangle",
+            image_specyfic_filter_catmullrom:"image_specyfic_filter_catmullrom",
+            image_specyfic_filter_gaussian:"image_specyfic_filter_gaussian",
+            image_specyfic_filter_lanczos3:"image_specyfic_filter_lanczos3",
 
             png_specyfic_compression_none:"png_specyfic_compression_none",
             png_specyfic_compression_default:"png_specyfic_compression_default",

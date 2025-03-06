@@ -296,11 +296,11 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
                     // };
                     let de_t_p_d= match proxy_self.de_czy_to_juz_koniec{
-                        0 => RichText::new(tekst_przycisku_kompresji.to_string()),
-                        1 => RichText::new(proxy_self.de_loading_anim).monospace().color(Color32::BLACK),
-                        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
-                        3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
-                        4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+                        0 => RichText::new(tekst_przycisku_kompresji.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+                        1 => RichText::new(proxy_self.de_loading_anim).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,1)).color(Color32::BLACK),
+                        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+                        3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
+                        4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki)),
                         _ => RichText::new("")
                     };
 
@@ -347,9 +347,8 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                     };
 
                         if ui.put(Rect::from_center_size(Pos2{x:(proxy_self.szerokosc_okna / 4.),y:proxy_self.wysokosc_btn_egzekucyjny},Vec2{x:250.,y:40.}),egui::Button::new(de_t_p_d
-                        .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))
                         .color(Color32::GRAY))
-                        .min_size(egui::vec2(250.0, 40.0))
+                        .min_size(egui::vec2((proxy_self.szerokosc_okna / 2.) - 100.0, 40.0))
                         .corner_radius(10.)
                         .fill(deszyfr_butt_col))
                         .clicked() && sprawdzacz_plikow_dekompresja{

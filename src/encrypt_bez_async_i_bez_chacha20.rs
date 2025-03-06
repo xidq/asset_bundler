@@ -68,9 +68,8 @@ fn generate_unique_id() -> String {
 // here is function as u can see
 pub fn sanitize_filename(filename: &str) -> String {
     let mut sanitized = filename
-        .replace([' ', '?', '%'], "-");   // Zamiana '%' na '-'
-            // Zmiana kropek (oprócz tej przed rozszerzeniem)
-    let parts: Vec<&str> = sanitized.rsplitn(2, '.').collect();
+        .replace([' ', '?', '%'], "-");
+        let parts: Vec<&str> = sanitized.rsplitn(2, '.').collect();
     if parts.len() == 2 {
         sanitized = parts[1].replace('.', "-") + "." + parts[0]; // Zmieniamy kropki przed rozszerzeniem
     }
@@ -99,7 +98,7 @@ fn get_type_id(path: &Path) -> String {
     let base = path.file_stem()
                    .and_then(|s| s.to_str())
                    .unwrap_or("");
-    // Główny prefix przed pierwszym "_" lub "-"
+
     let san_base = sanitize_filename(base);
     san_base.split('_')
         .next()
@@ -386,6 +385,7 @@ pub fn encrypt_folder(
         // putting things into idx(index) file
         let mut idx_data = Vec::new();
         for (
+
             type_name, 
             type_name_id, 
             type_name_variant, 
@@ -394,6 +394,7 @@ pub fn encrypt_folder(
             new_file_path, 
             file_size, 
             offset
+            
         ) in &file_infos {
 
             // let sanitized_file_path = sanitize_filename(new_file_path);
@@ -404,6 +405,7 @@ pub fn encrypt_folder(
 
                 "{} {} {} {} {} {} {} {}", 
                 type_name, type_name_id, type_name_variant, type_name_variant_size, unique_id, new_file_path, file_size, offset
+
             );
 
             idx_data.push(entry);
@@ -464,6 +466,7 @@ pub fn encrypt_folder(
             
             // Grupowanie plików na podstawie `type_name`
             for (
+
                 type_name, 
                 type_name_id, 
                 type_name_variant, 
@@ -472,6 +475,7 @@ pub fn encrypt_folder(
                 new_file_path, 
                 file_size, 
                 offset
+
             ) in &file_infos {
 
                 file_groups.entry(type_name.clone()) // creatin' or modyfyin' group

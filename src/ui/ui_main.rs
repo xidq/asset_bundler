@@ -324,7 +324,7 @@ impl eframe::App for Appencja {
                         ui.selectable_value(&mut self.ustawienie_lewy_panel_foty_podopcje, 0, RichText::new(self.current_language.przetwarzanie_naglowek).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.wybor_czcionki)));
                         });
                         columns[1].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.ustawienie_lewy_panel_foty_podopcje, 1, RichText::new("Kompilowanie RGB").font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.wybor_czcionki)));
+                            ui.selectable_value(&mut self.ustawienie_lewy_panel_foty_podopcje, 1, RichText::new(self.current_language.general_ui_kompilacja_rgb_tytul).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.wybor_czcionki)));
                         });
                     });
                 } else {
