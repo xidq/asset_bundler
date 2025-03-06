@@ -6,7 +6,7 @@ I'm quite new to programming etc.\
 You can:\
 -pack/compress files into binary\
 -unpack/decompress files from binary\
--batch convert images
+-batch convert images\
 -merge 3 images into 1 (for textures etc)
 
 asset_bundler is compiled for linux\
