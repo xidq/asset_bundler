@@ -22,9 +22,9 @@ use crate::ui::ui_defaults::Appencja;
 // use chrono::offset::Local;
 // use crate::ui::ui_play_sound::play_finish_sound;
 use crate::ui::{
-    ui_left_panel_1_kompresja::ui_left_panel_encrypt,
-    ui_left_panel_1_dekompresja::ui_left_panel_decrypt,
-    ui_left_panel_2_foto_przetwarzanie::ui_left_panel_foty_przetwarzanie,
+    ui_left_panel_1_pack::ui_left_panel_encrypt,
+    ui_left_panel_1_unpack::ui_left_panel_decrypt,
+    ui_left_panel_2_konwersja::ui_left_panel_foty_przetwarzanie,
     ui_right_panel_info_0::right_panel_info_main,
     ui_right_panel_info_1::right_panel_info_stats,
     ui_right_panel_info_2::ui_right_panel_info_0_2,

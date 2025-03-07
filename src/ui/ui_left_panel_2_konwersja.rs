@@ -13,11 +13,13 @@ use std::sync::{
     Arc, 
     Mutex
 };
-use crate::ui::{
+use crate::{
+    ui::{
     ui_defaults::Appencja,
     ui_play_sound::play_finish_sound,
     ui_change_font::wybrana_aktualna_czcionka
-};
+},
+utils::loading::animacja};
 
 pub fn ui_left_panel_foty_przetwarzanie(
     proxy_self: &mut Appencja,
@@ -44,7 +46,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             let btn_foty_folder_wejsciowy : Response = ui.button(RichText::new(proxy_self.current_language.general_ui_wybierz_folder).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
 
                             if btn_foty_folder_wejsciowy.clicked() {
-                                proxy_self.general_ui_status_przetwarzania = 0;
+                                proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0;
                                 if let Some(path) = FileDialog::new().pick_folder() {
 
                                     proxy_self.ui_konwersja_specyfic_sciezka_folder_wejsciowy = path.to_string_lossy().to_string();
@@ -106,7 +108,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             let btn_foty_folder_wyjsciowy : Response = ui.button(RichText::new(proxy_self.current_language.general_ui_wybierz_folder).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
 
                             if btn_foty_folder_wyjsciowy.clicked() {
-                                proxy_self.general_ui_status_przetwarzania = 0;
+                                proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0;
                                 if let Some(path) = FileDialog::new().pick_folder() {
     //(?)
                                     proxy_self.ui_konwersja_specyfic_sciezka_folder_wyjsciowy = path.to_string_lossy().to_string();
@@ -168,27 +170,27 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         ui.columns(2,|columns|{
                             columns[0].vertical_centered_justified(|ui|{
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 0, RichText::new(proxy_self.current_language.general_colors_white).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::WHITE)).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 1, RichText::new(proxy_self.current_language.general_colors_black).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::BLACK)).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 2, RichText::new(proxy_self.current_language.general_colors_red).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::RED)).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 3, RichText::new(proxy_self.current_language.general_colors_green).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::GREEN)).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 4, RichText::new(proxy_self.current_language.general_colors_blue).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::BLUE)).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             columns[1].vertical_centered_justified(|ui|{
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha, 0, RichText::new(proxy_self.current_language.przetwarzanie_bez_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha, 1, RichText::new(proxy_self.current_language.przetwarzanie_z_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 
                             });
@@ -211,31 +213,31 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         ui.columns(5, |column|{
                             column[0].vertical_centered_justified(|ui|{
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 0, RichText::new(proxy_self.current_language.image_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[1].vertical_centered_justified(|ui|{
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 1, RichText::new(proxy_self.current_language.image_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[2].vertical_centered_justified(|ui|{
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 2, RichText::new("Catmull\nRom").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[3].vertical_centered_justified(|ui|{
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 3, RichText::new(proxy_self.current_language.image_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[4].vertical_centered_justified(|ui|{
                                 if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 4, RichText::new(proxy_self.current_language.image_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                         });
@@ -261,37 +263,37 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
                                     if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_jpg, RichText::new("jpg").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                        proxy_self.general_ui_status_przetwarzania = 0
+                                        proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
                                     if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_png, RichText::new("png").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
                                     if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_png_16, RichText::new("png 16bit").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                        proxy_self.general_ui_status_przetwarzania = 0
+                                        proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
                                     if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossless, RichText::new("webp").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                        proxy_self.general_ui_status_przetwarzania = 0
+                                        proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
                                     if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossy, RichText::new("webp lossy").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                        proxy_self.general_ui_status_przetwarzania = 0
+                                        proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
                                     if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_tga, RichText::new("tga").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
-                                        proxy_self.general_ui_status_przetwarzania = 0
+                                        proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
 
@@ -332,7 +334,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     // ui.add(egui::Slider::new(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_png, 0..=100))
     
                                 }).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.add_enabled(proxy_self.ui_konwersja_specyfic_dane_bool_png||proxy_self.ui_konwersja_specyfic_dane_bool_png_16,|ui: &mut egui::Ui|{
                                     ui.horizontal(|ui|{
@@ -357,7 +359,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         }).response
     
                                 }).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
 
                                 let sfdgdf= ui.add_enabled(false,|ui: &mut egui::Ui|{
@@ -365,19 +367,19 @@ pub fn ui_left_panel_foty_przetwarzanie(
     
                                 });
                                 if sfdgdf.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.add_enabled(proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossy,|ui: &mut egui::Ui|{
                                     ui.add(egui::Slider::new(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_webp_lossy, 0..=100))
     
                                 }).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 if ui.add_enabled(false,|ui: &mut egui::Ui|{
                                     ui.add(egui::Slider::new(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_tga, 0..=100))
     
                                 }).clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
 
                             });
@@ -405,7 +407,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_16k_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
@@ -419,7 +421,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_8k_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[2].vertical_centered_justified(|ui|{
@@ -432,7 +434,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_4k_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[3].vertical_centered_justified(|ui|{
@@ -445,7 +447,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_2k_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[4].vertical_centered_justified(|ui|{
@@ -458,7 +460,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_1k_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[5].vertical_centered_justified(|ui|{
@@ -471,7 +473,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_512_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[6].vertical_centered_justified(|ui|{
@@ -484,7 +486,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_256_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[7].vertical_centered_justified(|ui|{
@@ -497,7 +499,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_128_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[8].vertical_centered_justified(|ui|{
@@ -510,7 +512,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_64_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             column[9].vertical_centered_justified(|ui|{
@@ -523,7 +525,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                     }
                                 }
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_32_wybor.clicked(){
-                                    proxy_self.general_ui_status_przetwarzania = 0
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
@@ -560,10 +562,10 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             {&proxy_self.current_language.szyfrowanie_przycisk_nie_ok};
                         
 
-                        let hjgfkjlh = !proxy_self.ui_konwersja_specyfic_sciezka_folder_wejsciowy.is_empty() && proxy_self.general_ui_status_przetwarzania !=1 && !proxy_self.ui_konwersja_specyfic_sciezka_folder_wyjsciowy.is_empty();
+                        let hjgfkjlh = !proxy_self.ui_konwersja_specyfic_sciezka_folder_wejsciowy.is_empty() && proxy_self.ui_konwersja_specyfic_status_przetwarzania !=1 && !proxy_self.ui_konwersja_specyfic_sciezka_folder_wyjsciowy.is_empty();
                         let foto_butt_col = match (
                             sprawdzacz_przycisku_fot,
-                            proxy_self.general_ui_status_przetwarzania
+                            proxy_self.ui_konwersja_specyfic_status_przetwarzania
                         ){
                             (true,0) => Color32::DARK_GREEN,
                             (true,1) => zolty_ciemny,
@@ -572,7 +574,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         match proxy_self.rx.try_recv() {
                             Ok(Ok(ghdfjsas)) => {
                                 let danene = ghdfjsas.lock().unwrap();
-                                proxy_self.general_ui_status_przetwarzania = 2;
+                                proxy_self.ui_konwersja_specyfic_status_przetwarzania = 2;
                                 proxy_self.ui_konwersja_specyfic_statystyki_utworzone_pliki = danene[1];
                                 proxy_self.ui_konwersja_specyfic_statystyki_przetworzone_pliki = danene[0];
                                 proxy_self.ui_konwersja_specyfic_statystyki_czas_sekundy = danene[2] as u64;
@@ -580,50 +582,22 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                 play_finish_sound(proxy_self.ui_ustawienia_glosnosc);
                             }
                             Ok(Err(e)) => {
-                                proxy_self.general_ui_status_przetwarzania = 3;
+                                proxy_self.ui_konwersja_specyfic_status_przetwarzania = 3;
                                 proxy_self.ui_konwersja_specyfic_error_3= e.to_string();
                                 // eprintln!("Błąd: {}", e);
                             }
                             Err(std::sync::mpsc::TryRecvError::Empty) => {
                                 ctx.request_repaint();
-                                match proxy_self.general_ui_loading{
-                                    781 => {proxy_self.general_ui_loading = 0; proxy_self.general_ui_loading_tekst="[______]"},
-                                    751..=780 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=_____]"},
-                                    721..=750 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[==____]"},
-                                    691..=720 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[===___]"},
-                                    661..=690 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[====__]"},
-                                    631..=660 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=====_]"},
-                                    601..=630 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[======]"},
-                                    571..=600 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[<=====]"},
-                                    541..=570 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_<====]"},
-                                    511..=540 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[__<===]"},
-                                    481..=510 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[___<==]"},
-                                    451..=480 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[____<=]"},
-                                    421..=450 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_____<]"},
-                                    391..=420 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[______]"},
-                                    361..=390 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_____=]"},
-                                    331..=360 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[____==]"},
-                                    301..=330 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[___===]"},
-                                    271..=300 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[__====]"},
-                                    241..=270 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_=====]"},
-                                    211..=240 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[======]"},
-                                    181..=210 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=====>]"},
-                                    151..=180 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[====>_]"},
-                                    121..=150 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[===>__]"},
-                                    91..=120 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[==>___]"},
-                                    61..=90 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=>____]"},
-                                    31..=60 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[>_____]"},
-                                    _ => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[______]"},
-                                } 
+                                (proxy_self.general_ui_loading,proxy_self.general_ui_loading_tekst)=animacja(proxy_self.general_ui_loading);
 
                             }
                             Err(std::sync::mpsc::TryRecvError::Disconnected) => {
-                                proxy_self.general_ui_status_przetwarzania = 4;
+                                proxy_self.ui_konwersja_specyfic_status_przetwarzania = 4;
                                 proxy_self.ui_konwersja_specyfic_error_3 = "Disconected".to_string();
                             }
                         }
                         ui.add_space( proxy_self.formatowanie_spacja_srednia);
-                        let t_p_d_foto= match proxy_self.general_ui_status_przetwarzania{
+                        let t_p_d_foto= match proxy_self.ui_konwersja_specyfic_status_przetwarzania{
                             0 => RichText::new(tekst_przycisku_kompresji.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
                             1 => RichText::new(proxy_self.general_ui_loading_tekst.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,1)).color(Color32::BLACK),
                             2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
@@ -644,7 +618,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
 
 
                                 // if hjgfkjlh{
-                                    proxy_self.general_ui_status_przetwarzania = 0;
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0;
                                     proxy_self.general_ui_loading = 0;
                                     let arc_z_foto_rozdzielczosc = Arc::new(Mutex::new(vec![
                                         proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k,
@@ -701,7 +675,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         }
                                     });
                                     
-                                    proxy_self.general_ui_status_przetwarzania = 1;
+                                    proxy_self.ui_konwersja_specyfic_status_przetwarzania = 1;
 
                                 // }
                             }

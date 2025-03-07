@@ -19,11 +19,13 @@ use std::sync::{
 };
 use crate::encrypt_asset_setting::get_template_extensions;
 // use std::io;
-use crate::ui::{
+use crate::{
+    ui::{
     ui_defaults::Appencja,
     ui_play_sound::play_finish_sound,
     ui_change_font::wybrana_aktualna_czcionka
-};
+},
+utils::loading::animacja};
 
 pub fn ui_left_panel_foty_laczenie(
     proxy_self: &mut Appencja,
@@ -70,7 +72,7 @@ pub fn ui_left_panel_foty_laczenie(
         );
 
         if btn_foty_folder_wejsciowy.clicked() {
-            proxy_self.general_ui_status_przetwarzania = 0;
+            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0;
             if let Some(path) = FileDialog::new().add_filter("Images", &get_template_extensions("images_converter")).pick_file() {
 
                 proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony = path.clone();
@@ -180,7 +182,7 @@ pub fn ui_left_panel_foty_laczenie(
         );
 
         if btn_foty_folder_wejsciowy.clicked() {
-            proxy_self.general_ui_status_przetwarzania = 0;
+            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0;
             if let Some(path) = FileDialog::new().add_filter("Images", &get_template_extensions("images_converter")).pick_file() {
 
                 proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony = path.clone();
@@ -287,7 +289,7 @@ pub fn ui_left_panel_foty_laczenie(
         );
 
         if btn_foty_folder_wejsciowy.clicked() {
-            proxy_self.general_ui_status_przetwarzania = 0;
+            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0;
             if let Some(path) = FileDialog::new().add_filter("Images", &get_template_extensions("images_converter")).pick_file() {
 
                 proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski = path.clone();
@@ -394,7 +396,7 @@ pub fn ui_left_panel_foty_laczenie(
         );
 
         if btn_foty_folder_wejsciowy.clicked() {
-            proxy_self.general_ui_status_przetwarzania = 0;
+            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0;
             if let Some(path) = FileDialog::new().pick_folder() {
 
                 proxy_self.ui_laczenie_specyfic_sciezka_folder_wyjsciowy = path.clone();
@@ -491,12 +493,12 @@ pub fn ui_left_panel_foty_laczenie(
     // ui.columns(2,|column|{
     //     column[0].vertical_centered_justified(|ui|{
     //         if ui.selectable_value(&mut proxy_self.ui_laczenie_specyfic_dane_bity, 8, RichText::new("8bit").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::WHITE)).clicked(){
-    //             proxy_self.general_ui_status_przetwarzania = 0
+    //             proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0
     //         };
     //     });
     //     column[1].vertical_centered_justified(|ui|{
     //         if ui.selectable_value(&mut proxy_self.ui_laczenie_specyfic_dane_bity, 16, RichText::new("16bit").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::WHITE)).clicked(){
-    //             proxy_self.general_ui_status_przetwarzania = 0
+    //             proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0
     //         };
     //     });
     // });
@@ -545,7 +547,7 @@ pub fn ui_left_panel_foty_laczenie(
                 if ui.selectable_value(&mut proxy_self.ui_laczenie_specyfic_dane_rozszerzenia, 4, RichText::new("tga").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
                 .clicked(){proxy_self.ui_laczenie_specyfic_dane_jakosc=Appencja::default().ui_laczenie_specyfic_dane_jakosc};
                 }).response.clicked(){
-                    proxy_self.general_ui_status_przetwarzania = 0
+                    proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0
                 }
 
         });
@@ -609,7 +611,7 @@ pub fn ui_left_panel_foty_laczenie(
                         ui.selectable_value(&mut proxy_self.ui_laczenie_specyfic_dane_filter_png, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_png_paeth).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
                         ui.selectable_value(&mut proxy_self.ui_laczenie_specyfic_dane_filter_png, 5, RichText::new(proxy_self.current_language.png_specyfic_filter_png_adaptive).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
                         }).response.clicked(){
-                            proxy_self.general_ui_status_przetwarzania = 0
+                            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0
                         }},
 
                 _=> {ui.label("");}
@@ -705,7 +707,7 @@ pub fn ui_left_panel_foty_laczenie(
                     .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))
                 );
         }).response.clicked(){
-                proxy_self.general_ui_status_przetwarzania = 0
+                proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0
             }
 
     });
@@ -750,7 +752,7 @@ pub fn ui_left_panel_foty_laczenie(
                 ui.selectable_value(&mut proxy_self.ui_laczenie_specyfic_dane_filter, 3, RichText::new(proxy_self.current_language.image_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
                 ui.selectable_value(&mut proxy_self.ui_laczenie_specyfic_dane_filter, 4, RichText::new(proxy_self.current_language.image_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
                 }).response.clicked(){
-                proxy_self.general_ui_status_przetwarzania = 0
+                proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0
             }
 
     });
@@ -821,9 +823,9 @@ pub fn ui_left_panel_foty_laczenie(
         {&proxy_self.current_language.szyfrowanie_przycisk_nie_ok};
 
 
-    let hjgfkjlh = sprawdzacz_przycisku_fotx && proxy_self.general_ui_status_przetwarzania !=1;
+    let hjgfkjlh = sprawdzacz_przycisku_fotx && proxy_self.ui_laczenie_specyfic_status_przetwarzania !=1;
     let tx_clonea = proxy_self.tx.clone();
-    let fotox_butt_col = match (sprawdzacz_przycisku_fotx,proxy_self.general_ui_status_przetwarzania){
+    let fotox_butt_col = match (sprawdzacz_przycisku_fotx,proxy_self.ui_laczenie_specyfic_status_przetwarzania){
         (true,0)=>Color32::DARK_GREEN,
         (true,1)=>zolty_ciemny,
         _=>szarawy_ciemny
@@ -831,59 +833,31 @@ pub fn ui_left_panel_foty_laczenie(
     match proxy_self.rx.try_recv() {
         Ok(Ok(ghdfjsasx)) => {
             let danene = ghdfjsasx.lock().unwrap();
-            proxy_self.general_ui_status_przetwarzania = 2;
+            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 2;
             proxy_self.ui_laczenie_specyfic_statystyki_czas_sekundy = danene[0] as u64;
             proxy_self.ui_laczenie_specyfic_statystyki_czas_milisekundy = danene[1] as u32;
             play_finish_sound(proxy_self.ui_ustawienia_glosnosc);
         }
         Ok(Err(e)) => {
-            proxy_self.general_ui_status_przetwarzania = 3;
+            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 3;
             proxy_self.ui_laczenie_specyfic_error_3 = e.to_string();
             // eprintln!("Błąd: {}", e);
         }
         Err(std::sync::mpsc::TryRecvError::Empty) => {
             ctx.request_repaint();
-                match proxy_self.general_ui_loading{
-                    781 => {proxy_self.general_ui_loading = 0; proxy_self.general_ui_loading_tekst="[______]"},
-                    751..=780 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=_____]"},
-                    721..=750 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[==____]"},
-                    691..=720 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[===___]"},
-                    661..=690 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[====__]"},
-                    631..=660 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=====_]"},
-                    601..=630 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[======]"},
-                    571..=600 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[<=====]"},
-                    541..=570 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_<====]"},
-                    511..=540 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[__<===]"},
-                    481..=510 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[___<==]"},
-                    451..=480 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[____<=]"},
-                    421..=450 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_____<]"},
-                    391..=420 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[______]"},
-                    361..=390 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_____=]"},
-                    331..=360 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[____==]"},
-                    301..=330 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[___===]"},
-                    271..=300 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[__====]"},
-                    241..=270 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[_=====]"},
-                    211..=240 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[======]"},
-                    181..=210 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=====>]"},
-                    151..=180 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[====>_]"},
-                    121..=150 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[===>__]"},
-                    91..=120 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[==>___]"},
-                    61..=90 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[=>____]"},
-                    31..=60 => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[>_____]"},
-                    _ => {proxy_self.general_ui_loading += 1; proxy_self.general_ui_loading_tekst="[______]"},
-                }  
+            (proxy_self.general_ui_loading,proxy_self.general_ui_loading_tekst)=animacja(proxy_self.general_ui_loading);
 
         }
         Err(std::sync::mpsc::TryRecvError::Disconnected) => {
-            proxy_self.general_ui_status_przetwarzania = 4;
+            proxy_self.ui_laczenie_specyfic_status_przetwarzania = 4;
             proxy_self.ui_laczenie_specyfic_error_3 = "Disconected".to_string();
         }
     }
     ui.add_space( proxy_self.formatowanie_spacja_srednia);
-    let t_p_d_fotox= match proxy_self.general_ui_status_przetwarzania{
+    let t_p_d_fotox= match proxy_self.ui_laczenie_specyfic_status_przetwarzania{
         0 => RichText::new(tekst_przycisku_kompresji.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
         1 => RichText::new(proxy_self.general_ui_loading_tekst.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,1)).color(Color32::BLACK),
-        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)),
+        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
         3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
         4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
         _ => RichText::new("".to_string())
@@ -902,7 +876,7 @@ pub fn ui_left_panel_foty_laczenie(
 
 
             // if hjgfkjlh{
-                proxy_self.general_ui_status_przetwarzania = 0;
+                proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0;
                 proxy_self.general_ui_loading = 0;
                 let arc_z_path = Arc::new(Mutex::new(vec![
                     proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.clone(),
@@ -944,7 +918,7 @@ pub fn ui_left_panel_foty_laczenie(
                 });
                 println!("ui po thread!");
                 
-                proxy_self.general_ui_status_przetwarzania = 1;
+                proxy_self.ui_laczenie_specyfic_status_przetwarzania = 1;
 
             }
         // }

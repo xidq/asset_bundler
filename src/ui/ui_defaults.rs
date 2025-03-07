@@ -17,7 +17,7 @@ pub struct Appencja {
   pub general_ui_przelacz_jezyk:u8,
   pub general_ui_loading: u16,
   pub general_ui_loading_tekst:&'static str,
-  pub general_ui_status_przetwarzania:u8,
+  // pub general_ui_status_przetwarzania:u8,
   pub general_ui_szerokosc_okna:f32,
   pub general_ui_przelacz_tryb_debug: bool,
   pub general_ui_licznik_czasu_debug: u8,
@@ -69,6 +69,7 @@ pub struct Appencja {
   pub ui_pack_specyfic_statystyki_czas_sekundy:u64,
   pub ui_pack_specyfic_statystyki_czas_milisekundy:u32,
   pub ui_pack_specyfic_error_3:String,
+  pub ui_pack_specyfic_status_przetwarzania:u8,
 
 
   //wartości specyficzne dla ui rozpakowywania:
@@ -81,6 +82,7 @@ pub struct Appencja {
   pub ui_unpack_specyfic_statystyki_czas_sekundy: u64,
   pub ui_unpack_specyfic_statystyki_czas_milisekundy: u32,
   pub ui_unpack_specyfic_error_3:String,
+  pub ui_unpack_specyfic_status_przetwarzania:u8,
 
 
   //wartości specyficzne dla ui łączenia rgb:
@@ -101,6 +103,7 @@ pub struct Appencja {
   pub ui_laczenie_specyfic_dane_filter_png:u8,
   pub ui_laczenie_specyfic_dane_jakosc:u8,
   pub ui_laczenie_specyfic_error_3:String,
+  pub ui_laczenie_specyfic_status_przetwarzania:u8,
 
   //wartosci specyficzne dla ui konwersji zdjęć
   pub ui_konwersja_specyfic_sciezka_folder_wejsciowy: String,
@@ -135,6 +138,7 @@ pub struct Appencja {
   pub ui_konwersja_specyfic_statystyki_przetworzone_pliki:usize,
   pub ui_konwersja_specyfic_statystyki_utworzone_pliki:usize,
   pub ui_konwersja_specyfic_error_3:String,
+  pub ui_konwersja_specyfic_status_przetwarzania:u8,
 
 
   //Ustawienia
@@ -165,7 +169,7 @@ impl Default for Appencja {
         general_ui_przelacz_jezyk:0,
         general_ui_loading: 0,
         general_ui_loading_tekst: "",
-        general_ui_status_przetwarzania:0,
+        // general_ui_status_przetwarzania:0,
         general_ui_szerokosc_okna:740.,
         general_ui_przelacz_tryb_debug: false, 
         general_ui_licznik_czasu_debug:0,
@@ -217,6 +221,7 @@ impl Default for Appencja {
         ui_pack_specyfic_statystyki_przetworzone_pliki:0,
         ui_pack_specyfic_statystyki_czas_sekundy:0,
         ui_pack_specyfic_statystyki_czas_milisekundy:0,
+        ui_pack_specyfic_status_przetwarzania:0,
 
 
         //wartości specyficzne dla ui rozpakowywania:
@@ -229,6 +234,7 @@ impl Default for Appencja {
         ui_unpack_specyfic_statystyki_czas_sekundy:0,
         ui_unpack_specyfic_statystyki_czas_milisekundy:0,
         ui_unpack_specyfic_statystyki_przetworzone_pliki:0,
+        ui_unpack_specyfic_status_przetwarzania:0,
 
 
         //wartości specyficzne dla ui łączenia rgb:
@@ -249,6 +255,7 @@ impl Default for Appencja {
         ui_laczenie_specyfic_stosunek_czerwony:1.,
         ui_laczenie_specyfic_stosunek_zielony:1.,
         ui_laczenie_specyfic_stosunek_niebieski:1.,
+        ui_laczenie_specyfic_status_przetwarzania:0,
 
 
         //wartosci specyficzne dla ui konwersji zdjęć
@@ -284,6 +291,7 @@ impl Default for Appencja {
         ui_konwersja_specyfic_dane_rozdzielczosc_128:false,
         ui_konwersja_specyfic_dane_rozdzielczosc_64:false,
         ui_konwersja_specyfic_dane_rozdzielczosc_32:false,
+        ui_konwersja_specyfic_status_przetwarzania:0,
 
 
         //Ustawienia
