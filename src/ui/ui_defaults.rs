@@ -1,238 +1,146 @@
 use egui::{Color32/*,FontId, FontFamily*/};
-
-
 use crate::ui::ui_language;
-use std::path::PathBuf;
-use std::sync::mpsc;
-use std::sync::Arc;
+use std::{
+  path::PathBuf,
+  sync::{mpsc,Arc},
+};
 
-// #[derive(PartialEq, Debug)]
-// pub enum FormatyZdjec{
-// Jpg(UstawieniaFormatuZdjec),
-// Png(UstawieniaFormatuZdjec),
-// Png16(UstawieniaFormatuZdjec),
-// Webp(UstawieniaFormatuZdjec),
-// Webplossy(UstawieniaFormatuZdjec),
-// Tga(UstawieniaFormatuZdjec),
-// }
-// #[derive(PartialEq, Debug)]
-// pub struct UstawieniaFormatuZdjec{
-//   // pub wybraniec:bool,
-//   pub rozdzielczosc:u16,
-//   pub jakosc:u8,
-//   pub filter_reskalowania:FilterReskalowania,
-//   pub filter_png:PngFilter,
-//   pub png_kompresja:PngCompression,
-//   pub alpha:bool,
-//   pub apha_kolor:u8,
-// }
-
-// impl Default for UstawieniaFormatuZdjec{
-//   fn default() -> Self {
-//     UstawieniaFormatuZdjec{
-//     // wybraniec:false,
-//     rozdzielczosc:1024,
-//     jakosc:75,
-//     filter_reskalowania:FilterReskalowania::Lanczos3,
-//     filter_png:PngFilter::Adaptive,
-//     png_kompresja:PngCompression::Normal,
-//     alpha:false,
-//     apha_kolor:0,
-//     }
-//   }
-// }
-// #[derive(PartialEq, Debug, Clone)]
-// pub enum FilterReskalowania{
-//   Nearest,
-//   Triangle,
-//   CatmullRom,
-//   Gaussian,
-//   Lanczos3,
-// }
-// #[derive(PartialEq, Debug)]
-// pub enum PngFilter {
-//     NoFilter,
-//     Sub,
-//     Up,
-//     Average,
-//     Paeth,
-//     Adaptive,
-// }
-// #[derive(PartialEq, Debug)]
-// pub enum PngCompression {
-//     Fast,
-//     Normal,
-//     Best,
-// }
 
 
 pub struct Appencja {
-  // pub format_zdjec_ogolny: FormatyZdjec,
 
 
-
-
-  pub imput_r_file_path: PathBuf,
-  pub imput_g_file_path: PathBuf,
-  pub imput_b_file_path: PathBuf,
-  pub imput_out_folder_path: PathBuf,
-  pub imput_folder_path: String,
-  pub imput_foty_folder_path: String,
-  pub output_foty_folder_path: String,
-  pub output_folder_path: String,
-  pub imput_de_dat_folder_path: String,
-  pub imput_de_idx_folder_path: String,
-  pub output_de_folder_path: String,
-  pub output_name: String,
-  // pub rozdzielczosc_formatu_zdjec:u16,
-  pub password: String,
-  pub de_password: String,
-  pub template: String,
-  pub show_debug_labels: bool,
-  // pub debug_imput_idx_file:String,
-  // pub debug_output_idx_path:String,
-  // pub debug_idx_password:String,
-  pub debug_create_lua_file: bool,
-  pub toggle_encryption: u8,
-  pub toggle_de_encryption: u8,
-  pub toggle_language:u8,
-  pub current_language: ui_language::Language,
-  pub brainroot: bool,
-  pub toggle_compression: u8,
-  pub poziom_kompresji:u8,
-  //pub // rozszerzenie_pliku:&'static str,
-  pub kllikker:i32,
-  pub rotation_image:f32,
-
-  pub zapis_pracuje:bool,
-  pub czy_to_juz_koniec:u8,
-  pub czy_to_juz_koniec_foto:u8,
-  pub de_czy_to_juz_koniec:u8,
-
-  pub settings_toggle:bool,
-  pub wysokosc_btn_egzekucyjny:f32,
-  pub szerokosc_okna:f32,
-
-
-  pub szyfrowanie_err_3:String,
-  // pub szyfrowanie_err_4:String,
-
-
-//    pub // encryption_result: Option<Result<Arc<Mutex<Vec<usize>>>, String>>,
-//    pub // encryption_rx: Option<mpsc::Receiver<Result<Arc<Mutex<Vec<usize>>>, String>>>,
+  //wartości ogólne:
   pub tx: mpsc::Sender<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
   pub rx: mpsc::Receiver<Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error>>,
+  pub current_language: ui_language::Language,
+  pub general_ui_przelacz_jezyk:u8,
+  pub general_ui_loading: u16,
+  pub general_ui_loading_tekst:&'static str,
+  pub general_ui_status_przetwarzania:u8,
+  pub general_ui_szerokosc_okna:f32,
+  pub general_ui_przelacz_tryb_debug: bool,
+  pub general_ui_licznik_czasu_debug: u8,
+  pub general_ui_przelacz_binarny_zdjecia: bool,
+  pub general_ui_przelacz_binarny_opcje:u8,
+  pub general_ui_przelacz_zdjecia_opcje:u8,
+  pub general_ui_przelacz_brainroot: bool,
+  pub general_ui_przelacz_ustawienia:bool,
+  pub general_ui_przelacz_info_ustawienia:u8,
+  pub general_ui_przelacz_info_opcje:u8,
 
 
-
-  pub sz_loading: u8,
-  pub sz_loading_anim: &'static str,
-  pub de_loading_anim: &'static str,
-  pub de_loading: u8,
-  pub wybor_czcionki: u8,
-
-  pub timestamp_sekundy:u64,
-  pub timestamp_milisekundy:u32,
-  pub przetworzone_pliki:usize,
-  pub de_timestamp_sekundy:u64,
-  pub de_timestamp_milisekundy:u32,
-  pub de_przetworzone_pliki:usize,
-
-  pub foto_timestamp_sekundy:u64,
-  pub foto_timestamp_milisekundy:u32,
-  pub foto_przetworzone_pliki:usize,
-  pub foto_utworzone_pliki:usize,
-
-  pub foto_laczenie_timestamp_sekundy:u64,
-  pub foto_laczenie_timestamp_milisekundy:u32,
+  //debug menu specyfic
+  pub ui_debug_specyfic_klikacz:i32,
+  pub ui_debug_specyfic_obrot:f32,
 
 
-  pub ustawienie_lewy_panel_foty_szyfrowanie: bool,
-  pub ustawienie_lewy_panel_szyfrowanie_podopcje:u8,
-  pub ustawienie_lewy_panel_foty_podopcje:u8,
-
-  pub ustawienia_menu:u8,
-  pub toggle_halp:u8,
-  // pub toggle_halp_komunikat:bool,
-  // pub nie_krzycz_zmniejszacz:f32,
-  // pub nie_krzycz_iter:i32,
-  pub ustawienia_glosnosc:f32,
-
-
-  pub foty_czy_alpha:u8,
-  pub foty_alpha_kolor:u8,
-
-  pub foty_filter:u8,
-
-
-  pub foty_format_jpg:bool,
-  pub foty_format_png:bool,
-  pub foty_format_png_16:bool,
-  pub foty_format_webp:bool,
-  pub foty_format_webp_lossy:bool,
-  pub foty_format_tga:bool,
-  // pub foty_format_heic:bool,
-  pub foty_format_png_filter:u8,
-
-  pub foty_format_jakosc_jpg:u8,
-  pub foty_format_jakosc_png:u8,
-  // pub foty_format_jakosc_png_16:u8,
-  pub foty_format_jakosc_webp:u8,
-  pub foty_format_jakosc_webp_lossy:u8,
-  pub foty_format_jakosc_tga:u8,
-  // pub foty_format_jakosc_heic:u8,
-
-  pub foty_rozdzielczosc_16k:bool,
-  pub foty_rozdzielczosc_8k:bool,
-  pub foty_rozdzielczosc_4k:bool,
-  pub foty_rozdzielczosc_2k:bool,
-  pub foty_rozdzielczosc_1k:bool,
-  pub foty_rozdzielczosc_512:bool,
-  pub foty_rozdzielczosc_256:bool,
-  pub foty_rozdzielczosc_128:bool,
-  pub foty_rozdzielczosc_64:bool,
-  pub foty_rozdzielczosc_32:bool,
-  // pub foty_rozdzielczosc_16:bool,
-  // pub foty_rozdzielczosc_8:bool,
-
-
-  //formatowanie
+  //wartości formatowanie:
+  //rozmiary i czcionki
+  pub formatowanie_wybor_czcionki: u8,
   pub formatowanie_rozmiar_czcionki_mala:f32,
   pub formatowanie_rozmiar_czcionki_srednia:f32,
   pub formatowanie_rozmiar_czcionki_duza:f32,
-
+  pub formatowanie_wysokosc_przycisku:f32,
+  //kółko
+  pub formatowanie_rozmiar_kolko:f32,
+  pub formatowanie_rozmiar_kolko_puste:f32,
+  pub formatowanie_rozmiar_kolko_puste_stroke: f32,
+  pub formatowanie_kolor_kolko_puste:Color32,
+  pub formatowanie_offset_kolko: f32,
+  //odstępy
   pub formatowanie_spacja_mala:f32,
   pub formatowanie_spacja_srednia:f32,
   pub formatowanie_spacja_duza:f32,
-
-  //kółka
-  pub full_cirkul_sajz:f32,
-  pub full_cirkul_kolor: Color32,
-  pub pusty_cirkul_sajz:f32,
-  pub pusty_cirkul_kolor:Color32,
-  pub pusty_cirkul_ma_stroke: f32,
-  pub offset_cirkul: f32,
-  pub debug_interval: u8,
-  
+  //kolory
+  pub formatowanie_kolor_kolko_pelne: Color32,
 
 
+  //wartości specyficzne dla ui pakowania:
+  pub ui_pack_specyfic_password: String,
+  pub ui_pack_specyfic_template: String,
+  pub ui_pack_specyfic_folder_wejsciowy: String,
+  pub ui_pack_specyfic_folder_wyjsciowy: String,
+  pub ui_pack_specyfic_nazwa_pliku: String,
+  pub ui_pack_specyfic_wybor_kompresji: u8,
+  pub ui_pack_specyfic_poziom_kompresji: u8,
+  pub ui_pack_specyfic_wybor_szyfrowania: u8,
+  pub ui_pack_specyfic_statystyki_przetworzone_pliki: usize,
+  pub ui_pack_specyfic_statystyki_czas_sekundy:u64,
+  pub ui_pack_specyfic_statystyki_czas_milisekundy:u32,
+  pub ui_pack_specyfic_error_3:String,
 
 
+  //wartości specyficzne dla ui rozpakowywania:
+  pub ui_unpack_specyfic_sciezka_plik_binarny: String,
+  pub ui_unpack_specyfic_sciezka_plik_indeksu: String,
+  pub ui_unpack_specyfic_sciezka_folder_wyjsciowy: String,
+  pub ui_unpack_specyfic_zmiana_szyfrowania: u8,
+  pub ui_unpack_specyfic_password: String,
+  pub ui_unpack_specyfic_statystyki_przetworzone_pliki: usize,
+  pub ui_unpack_specyfic_statystyki_czas_sekundy: u64,
+  pub ui_unpack_specyfic_statystyki_czas_milisekundy: u32,
+  pub ui_unpack_specyfic_error_3:String,
 
 
+  //wartości specyficzne dla ui łączenia rgb:
+  pub ui_laczenie_specyfic_sciezka_plik_czerwony: PathBuf,
+  pub ui_laczenie_specyfic_sciezka_plik_zielony: PathBuf,
+  pub ui_laczenie_specyfic_sciezka_plik_niebieski: PathBuf,
+  pub ui_laczenie_specyfic_sciezka_folder_wyjsciowy: PathBuf,
+  pub ui_laczenie_specyfic_stosunek_czerwony:f32,
+  pub ui_laczenie_specyfic_stosunek_zielony:f32,
+  pub ui_laczenie_specyfic_stosunek_niebieski:f32,
+  pub ui_laczenie_specyfic_dane_rozszerzenia:u8,
+  pub ui_laczenie_specyfic_statystyki_czas_sekundy:u64,
+  pub ui_laczenie_specyfic_statystyki_czas_milisekundy:u32,
+  pub ui_laczenie_specyfic_nazwa_pliku:String,
+  pub ui_laczenie_specyfic_dane_filter:u8,
+  pub ui_laczenie_specyfic_dane_rozdzielczosc:u8,
+  pub ui_laczenie_specyfic_dane_bity:u8,
+  pub ui_laczenie_specyfic_dane_filter_png:u8,
+  pub ui_laczenie_specyfic_dane_jakosc:u8,
+  pub ui_laczenie_specyfic_error_3:String,
 
-  //IMAGE PAKOWANIE W JEDEN
-  pub pakowanie_foty_bit_depth:u8,
-  pub pakowanie_foty_rozszerzenie:u8,
-  pub pakowanie_foty_czy_to_juz_koniec:u8,
-  pub pakowanie_foty_rozdzielczosc:u8,
-  pub pakowanie_foty_filter:u8,
-  pub pakowanie_foty_nazwa:String,
-  pub pakowanie_foty_jakosc:u8,
-  pub pakowanie_foty_png_filter:u8,
-  pub pakowanie_foty_red_aspect_ratio:f32,
-  pub pakowanie_foty_green_aspect_ratio:f32,
-  pub pakowanie_foty_blue_aspect_ratio:f32,
+  //wartosci specyficzne dla ui konwersji zdjęć
+  pub ui_konwersja_specyfic_sciezka_folder_wejsciowy: String,
+  pub ui_konwersja_specyfic_sciezka_folder_wyjsciowy: String,
+  pub ui_konwersja_specyfic_dane_alpha_kolor:u8,
+  pub ui_konwersja_specyfic_dane_alpha:u8,
+  pub ui_konwersja_specyfic_dane_filter:u8,
+  pub ui_konwersja_specyfic_dane_bool_jpg:bool,
+  pub ui_konwersja_specyfic_dane_bool_png:bool,
+  pub ui_konwersja_specyfic_dane_bool_png_16:bool,
+  pub ui_konwersja_specyfic_dane_bool_webp_lossless:bool,
+  pub ui_konwersja_specyfic_dane_bool_webp_lossy:bool,
+  pub ui_konwersja_specyfic_dane_bool_tga:bool,
+  pub ui_konwersja_specyfic_dane_jakosc_jpg:u8,
+  pub ui_konwersja_specyfic_dane_jakosc_png:u8,
+  pub ui_konwersja_specyfic_dane_jakosc_webp_lossless:u8,
+  pub ui_konwersja_specyfic_dane_jakosc_webp_lossy:u8,
+  pub ui_konwersja_specyfic_dane_jakosc_tga:u8,
+  pub ui_konwersja_specyfic_dane_filter_png:u8,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_16k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_8k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_4k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_2k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_1k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_512:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_256:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_128:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_64:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczosc_32:bool,
+  pub ui_konwersja_specyfic_statystyki_czas_sekundy:u64,
+  pub ui_konwersja_specyfic_statystyki_czas_milisekundy:u32,
+  pub ui_konwersja_specyfic_statystyki_przetworzone_pliki:usize,
+  pub ui_konwersja_specyfic_statystyki_utworzone_pliki:usize,
+  pub ui_konwersja_specyfic_error_3:String,
+
+
+  //Ustawienia
+  pub ui_ustawienia_tworzenie_pliku_lua: bool,
+  pub ui_ustawienia_glosnosc:f32,
+
 }
 
 
@@ -250,158 +158,139 @@ impl Default for Appencja {
 
       Appencja {
 
-        // format_zdjec_ogolny: FormatyZdjec::Jpg(UstawieniaFormatuZdjec::default()),
-      
-        debug_interval:0,
-
-        imput_r_file_path: PathBuf::new(),
-        imput_g_file_path: PathBuf::new(),
-        imput_b_file_path: PathBuf::new(),
-        imput_out_folder_path: PathBuf::new(),
-        imput_folder_path: String::from(""),
-        imput_foty_folder_path: String::from(""),
-        output_foty_folder_path: String::from(""),
-        output_folder_path: String::from(""),
-        imput_de_dat_folder_path: String::from(""),
-        imput_de_idx_folder_path: String::from(""),
-        output_de_folder_path: String::from(""),
-        output_name: String::from("output_file"),
-        password: String::from("lubieplacki6969"),
-        de_password: String::from("lubieplacki6969"),
-        template: String::from("none"),
-        show_debug_labels: false, 
-        // debug_imput_idx_file: String::from(""),
-        // debug_output_idx_path: String::from(""),
-        // debug_idx_password: String::from("lubieplacki6969"),
-        debug_create_lua_file: false, 
-        toggle_encryption:0,
-        toggle_de_encryption:0,
-        toggle_language:0,
-        current_language: ui_language::Language::polish(),
-        brainroot:false,
-        toggle_compression:0,
-        poziom_kompresji:3,
-        kllikker:0,
-        rotation_image:0.0,
-        // rozdzielczosc_formatu_zdjec:2048,
-        wybor_czcionki: 0,
-        wysokosc_btn_egzekucyjny:803.,
-        szerokosc_okna:740.,
-        // rozszerzenie_pliku: "dat",
+        //wartości ogólne:
         tx,
         rx,
+        current_language: ui_language::Language::polish(),
+        general_ui_przelacz_jezyk:0,
+        general_ui_loading: 0,
+        general_ui_loading_tekst: "",
+        general_ui_status_przetwarzania:0,
+        general_ui_szerokosc_okna:740.,
+        general_ui_przelacz_tryb_debug: false, 
+        general_ui_licznik_czasu_debug:0,
+        general_ui_przelacz_binarny_zdjecia:false,
+        general_ui_przelacz_binarny_opcje:0,
+        general_ui_przelacz_zdjecia_opcje:0,
+        general_ui_przelacz_brainroot:false,
+        general_ui_przelacz_ustawienia:false,
+        general_ui_przelacz_info_ustawienia:0,
+        general_ui_przelacz_info_opcje:0,
 
-        sz_loading: 0,
-        de_loading: 0,
 
-        sz_loading_anim: "",
-        de_loading_anim: "",
-
-        zapis_pracuje: false,
-        czy_to_juz_koniec:0,
-        czy_to_juz_koniec_foto:0,
-        de_czy_to_juz_koniec:0,
-
-        settings_toggle:false,
+        //debug menu specyfic
+        ui_debug_specyfic_klikacz:0,
+        ui_debug_specyfic_obrot:0.0,
 
 
-        szyfrowanie_err_3:"".to_string(),
-        // szyfrowanie_err_4:"".to_string(),
-
-        // encryption_result: None,
-        // encryption_rx: None,
-
-        przetworzone_pliki:0,
-        timestamp_sekundy:0,
-        timestamp_milisekundy:0,
-        de_timestamp_sekundy:0,
-        de_timestamp_milisekundy:0,
-        de_przetworzone_pliki:0,
-        foto_timestamp_sekundy:0,
-        foto_timestamp_milisekundy:0,
-        foto_przetworzone_pliki:0,
-        foto_utworzone_pliki:0,
-        foto_laczenie_timestamp_sekundy:0,
-        foto_laczenie_timestamp_milisekundy:0,
-
-        ustawienie_lewy_panel_foty_szyfrowanie:false,
-        ustawienie_lewy_panel_szyfrowanie_podopcje:0,
-        ustawienie_lewy_panel_foty_podopcje:0,
-
-        //kliki
-        ustawienia_menu:0,
-        toggle_halp:0,
-        // toggle_halp_komunikat:false,
-        // nie_krzycz_zmniejszacz:1.,
-        // nie_krzycz_iter:0,
-        ustawienia_glosnosc:1.,
-
-        foty_czy_alpha:0,
-        foty_alpha_kolor:0,
-        foty_filter:4,
-
-        foty_format_jpg:false,
-        foty_format_png:false,
-        foty_format_png_16:false,
-        foty_format_webp:false,
-        foty_format_webp_lossy:false,
-        foty_format_tga:false,
-        // foty_format_heic:false,
-        foty_format_png_filter:5,
-
-        foty_format_jakosc_jpg:75,
-        foty_format_jakosc_png:2,
-        // foty_format_jakosc_png_16:2,
-        foty_format_jakosc_webp:75,
-        foty_format_jakosc_webp_lossy:75,
-        foty_format_jakosc_tga:75,
-        // foty_format_jakosc_heic:75,
-    
-
-        foty_rozdzielczosc_16k:false,
-        foty_rozdzielczosc_8k:false,
-        foty_rozdzielczosc_4k:false,
-        foty_rozdzielczosc_2k:false,
-        foty_rozdzielczosc_1k:false,
-        foty_rozdzielczosc_512:false,
-        foty_rozdzielczosc_256:false,
-        foty_rozdzielczosc_128:false,
-        foty_rozdzielczosc_64:false,
-        foty_rozdzielczosc_32:false,
-        // foty_rozdzielczosc_16:false,
-        // foty_rozdzielczosc_8:false,
-
-        //formatowanie
+        //wartości formatowanie:
+        //rozmiary i czcionki
+        formatowanie_wybor_czcionki: 0,
         formatowanie_rozmiar_czcionki_mala:10.,
         formatowanie_rozmiar_czcionki_srednia:14.,
         formatowanie_rozmiar_czcionki_duza:18.,
-
+        formatowanie_wysokosc_przycisku:803.,
+        //kółko
+        formatowanie_rozmiar_kolko_puste:5.,
+        formatowanie_rozmiar_kolko_puste_stroke:1.5,
+        formatowanie_offset_kolko:14.,
+        formatowanie_rozmiar_kolko:7.,
+        //odstępy
         formatowanie_spacja_mala:5.,
         formatowanie_spacja_srednia:10.,
         formatowanie_spacja_duza:20.,
-
-        //kółka
-        full_cirkul_sajz:7.,
-        full_cirkul_kolor: Color32::GREEN,
-        pusty_cirkul_sajz:5.,
-        pusty_cirkul_kolor: Color32::GRAY,
-        pusty_cirkul_ma_stroke:1.5,
-        offset_cirkul:14.,
+        //kolory
+        formatowanie_kolor_kolko_puste: Color32::GRAY,
+        formatowanie_kolor_kolko_pelne: Color32::GREEN,
 
 
+        //wartości specyficzne dla ui pakowania:
+        ui_pack_specyfic_folder_wejsciowy: String::from(""),
+        ui_pack_specyfic_folder_wyjsciowy: String::from(""),
+        ui_pack_specyfic_nazwa_pliku: String::from("output_file"),
+        ui_pack_specyfic_password: String::from("lubieplacki6969"),
+        ui_pack_specyfic_template: String::from("none"),
+        ui_pack_specyfic_wybor_szyfrowania:0,
+        ui_pack_specyfic_wybor_kompresji:0,
+        ui_pack_specyfic_poziom_kompresji:3,
+        ui_pack_specyfic_error_3:"".to_string(),
+        ui_pack_specyfic_statystyki_przetworzone_pliki:0,
+        ui_pack_specyfic_statystyki_czas_sekundy:0,
+        ui_pack_specyfic_statystyki_czas_milisekundy:0,
 
-          //IMAGE PAKOWANIE W JEDEN
-        pakowanie_foty_bit_depth:8,
-        pakowanie_foty_rozszerzenie:0,
-        pakowanie_foty_czy_to_juz_koniec:0,
-        pakowanie_foty_rozdzielczosc:4,
-        pakowanie_foty_filter:4,
-        pakowanie_foty_nazwa:"".to_string(),
-        pakowanie_foty_jakosc:75,
-        pakowanie_foty_png_filter:5,
-        pakowanie_foty_red_aspect_ratio:1.,
-        pakowanie_foty_green_aspect_ratio:1.,
-        pakowanie_foty_blue_aspect_ratio:1.,
+
+        //wartości specyficzne dla ui rozpakowywania:
+        ui_unpack_specyfic_sciezka_plik_binarny: String::from(""),
+        ui_unpack_specyfic_sciezka_plik_indeksu: String::from(""),
+        ui_unpack_specyfic_sciezka_folder_wyjsciowy: String::from(""),
+        ui_unpack_specyfic_password: String::from("lubieplacki6969"),
+        ui_unpack_specyfic_zmiana_szyfrowania:0,
+        ui_unpack_specyfic_error_3:"".to_string(),
+        ui_unpack_specyfic_statystyki_czas_sekundy:0,
+        ui_unpack_specyfic_statystyki_czas_milisekundy:0,
+        ui_unpack_specyfic_statystyki_przetworzone_pliki:0,
+
+
+        //wartości specyficzne dla ui łączenia rgb:
+        ui_laczenie_specyfic_sciezka_plik_czerwony: PathBuf::new(),
+        ui_laczenie_specyfic_sciezka_plik_zielony: PathBuf::new(),
+        ui_laczenie_specyfic_sciezka_plik_niebieski: PathBuf::new(),
+        ui_laczenie_specyfic_sciezka_folder_wyjsciowy: PathBuf::new(),
+        ui_laczenie_specyfic_error_3:"".to_string(),
+        ui_laczenie_specyfic_statystyki_czas_sekundy:0,
+        ui_laczenie_specyfic_statystyki_czas_milisekundy:0,
+        ui_laczenie_specyfic_dane_bity:8,
+        ui_laczenie_specyfic_dane_rozszerzenia:0,
+        ui_laczenie_specyfic_dane_rozdzielczosc:4,
+        ui_laczenie_specyfic_dane_filter:4,
+        ui_laczenie_specyfic_nazwa_pliku:"".to_string(),
+        ui_laczenie_specyfic_dane_jakosc:75,
+        ui_laczenie_specyfic_dane_filter_png:5,
+        ui_laczenie_specyfic_stosunek_czerwony:1.,
+        ui_laczenie_specyfic_stosunek_zielony:1.,
+        ui_laczenie_specyfic_stosunek_niebieski:1.,
+
+
+        //wartosci specyficzne dla ui konwersji zdjęć
+        ui_konwersja_specyfic_sciezka_folder_wejsciowy: String::from(""),
+        ui_konwersja_specyfic_sciezka_folder_wyjsciowy: String::from(""),
+        ui_konwersja_specyfic_error_3:"".to_string(),
+        ui_konwersja_specyfic_statystyki_czas_sekundy:0,
+        ui_konwersja_specyfic_statystyki_czas_milisekundy:0,
+        ui_konwersja_specyfic_statystyki_przetworzone_pliki:0,
+        ui_konwersja_specyfic_statystyki_utworzone_pliki:0,
+        ui_konwersja_specyfic_dane_alpha:0,
+        ui_konwersja_specyfic_dane_alpha_kolor:0,
+        ui_konwersja_specyfic_dane_filter:4,
+        ui_konwersja_specyfic_dane_bool_jpg:false,
+        ui_konwersja_specyfic_dane_bool_png:false,
+        ui_konwersja_specyfic_dane_bool_png_16:false,
+        ui_konwersja_specyfic_dane_bool_webp_lossless:false,
+        ui_konwersja_specyfic_dane_bool_webp_lossy:false,
+        ui_konwersja_specyfic_dane_bool_tga:false,
+        ui_konwersja_specyfic_dane_filter_png:5,
+        ui_konwersja_specyfic_dane_jakosc_jpg:75,
+        ui_konwersja_specyfic_dane_jakosc_png:2,
+        ui_konwersja_specyfic_dane_jakosc_webp_lossless:75,
+        ui_konwersja_specyfic_dane_jakosc_webp_lossy:75,
+        ui_konwersja_specyfic_dane_jakosc_tga:75,
+        ui_konwersja_specyfic_dane_rozdzielczosc_16k:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_8k:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_4k:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_2k:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_1k:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_512:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_256:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_128:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_64:false,
+        ui_konwersja_specyfic_dane_rozdzielczosc_32:false,
+
+
+        //Ustawienia
+
+        ui_ustawienia_tworzenie_pliku_lua: false, 
+        ui_ustawienia_glosnosc:1.,
+
       }
 
     }

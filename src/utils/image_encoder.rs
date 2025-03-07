@@ -8,7 +8,7 @@ use image::codecs::png::CompressionType;
 use image::codecs::png::FilterType;
 use image::ImageEncoder;
 // use std::fs::create_dir_all;
-use chrono::Local;
+// use chrono::Local;
 use image::ImageFormat;
 use webp::Encoder;
 use crate::utils::comunicat::komunikat;
@@ -20,7 +20,7 @@ use crate::utils::comunicat::komunikat;
 
 
 pub fn foto_enkodery(fotu:DynamicImage,sciezka:PathBuf,rozszerzenie:u8,quality:&u8,png_filter:&u8){
-    let nazwa_funkcji = "foto_enkodery";
+    // let nazwa_funkcji = "foto_enkodery";
 
 
 

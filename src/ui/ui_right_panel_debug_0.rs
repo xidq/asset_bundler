@@ -18,20 +18,20 @@ use crate::ui::{
 
 
 pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32){
-    if proxy_self.kllikker < 50{
+    if proxy_self.ui_debug_specyfic_klikacz < 50{
         let to_je_foto = ui.add(egui::Image::new(egui::include_image!("../br/ok.png")).sense(egui::Sense::click())
         .max_height(330.0)
         .max_width(300.0)
         .maintain_aspect_ratio(true)
         .fit_to_original_size(1.)
-        .rotate( proxy_self.rotation_image, egui::Vec2::splat(0.5))
+        .rotate( proxy_self.ui_debug_specyfic_obrot, egui::Vec2::splat(0.5))
         // .rounding(10.0));
         
         );
         if to_je_foto.clicked() {
-            play_ahh_sound(proxy_self.ustawienia_glosnosc);
-            proxy_self.rotation_image += rand::random_range(0.0..=PI);
-            proxy_self.kllikker+=1;
+            play_ahh_sound(proxy_self.ui_ustawienia_glosnosc);
+            proxy_self.ui_debug_specyfic_obrot += rand::random_range(0.0..=PI);
+            proxy_self.ui_debug_specyfic_klikacz+=1;
             
         }
     }else{
@@ -40,21 +40,21 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
         .max_width(300.0)
         .maintain_aspect_ratio(true)
         .fit_to_original_size(1.)
-        .rotate( proxy_self.rotation_image, egui::Vec2::splat(0.5))
+        .rotate( proxy_self.ui_debug_specyfic_obrot, egui::Vec2::splat(0.5))
         // .rounding(10.0));
         
         );
 
         if to_je_foto.clicked() {
-            play_ahh_sound(proxy_self.ustawienia_glosnosc);
-            proxy_self.rotation_image += rand::random_range(0.0..=PI);
-            proxy_self.rotation_image %= 2.0 * PI; 
-            proxy_self.kllikker+=1;
+            play_ahh_sound(proxy_self.ui_ustawienia_glosnosc);
+            proxy_self.ui_debug_specyfic_obrot += rand::random_range(0.0..=PI);
+            proxy_self.ui_debug_specyfic_obrot %= 2.0 * PI; 
+            proxy_self.ui_debug_specyfic_klikacz+=1;
             
         }
     }
 
-    ui.add(egui::Label::new(proxy_self.kllikker.to_string()).selectable(false));
+    ui.add(egui::Label::new(proxy_self.ui_debug_specyfic_klikacz.to_string()).selectable(false));
 
 
         //  _                   
@@ -75,7 +75,7 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
 
         ui.columns(2,|columns|{
             columns[0].vertical_centered_justified(|ui|{
-                ui.add(egui::Label::new(RichText::new("mala czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                ui.add(egui::Label::new(RichText::new("mala czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
             });
             columns[1].vertical_centered_justified(|ui|{
                 ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_mala,6f32..=14f32));
@@ -83,7 +83,7 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
         });
         ui.columns(2,|columns|{
             columns[0].vertical_centered_justified(|ui|{
-                ui.add(egui::Label::new(RichText::new("srednia czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                ui.add(egui::Label::new(RichText::new("srednia czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
             });
             columns[1].vertical_centered_justified(|ui|{
                 ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_srednia,10f32..=18f32));
@@ -91,7 +91,7 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
         });
         ui.columns(2,|columns|{
             columns[0].vertical_centered_justified(|ui|{
-                ui.add(egui::Label::new(RichText::new("duza czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
+                ui.add(egui::Label::new(RichText::new("duza czcionka").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
             });
             columns[1].vertical_centered_justified(|ui|{
                 let slider_response = ui.add(egui::Slider::new(&mut proxy_self.formatowanie_rozmiar_czcionki_duza, 14f32..=22f32));

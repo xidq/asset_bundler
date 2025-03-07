@@ -12,13 +12,13 @@ use crate::ui::{
 
 pub fn right_panel_info_main(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32,_zolty_ciemny:Color32,_szarawy_ciemny:Color32){
     ui.separator();
-    ui.add(egui::Label::new(RichText::new("CTRL + E for aditional menu").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))).selectable(false));
-    ui.add(egui::Label::new(RichText::new("wiadomość TODO!".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))));
-    ui.add(egui::Label::new(RichText::new("do konwersji zdjęć obsługiwane na ten moment:\n jpg | jpeg | png | webp | tga ".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))));
-    ui.add(egui::Label::new(RichText::new("może działać ale nie musi:\n inne rozszerzenia zdjęć".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))));
-    ui.add(egui::Label::new(RichText::new("Konwersja zdjęć działa wielowątkowo".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))));
-    ui.add(egui::Label::new(RichText::new("Tworzone są w podfolderach jak drzewno oryginalnego folderu".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.wybor_czcionki))));
-    ui.add(egui::Label::new(RichText::new("Rozdzielczoś jest ustawiana dla dłuższej krawędzi".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.wybor_czcionki))));
+    ui.add(egui::Label::new(RichText::new("CTRL + E for aditional menu").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+    ui.add(egui::Label::new(RichText::new("wiadomość TODO!".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));
+    ui.add(egui::Label::new(RichText::new("do konwersji zdjęć obsługiwane na ten moment:\n jpg | jpeg | png | webp | tga ".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));
+    ui.add(egui::Label::new(RichText::new("może działać ale nie musi:\n inne rozszerzenia zdjęć".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));
+    ui.add(egui::Label::new(RichText::new("Konwersja zdjęć działa wielowątkowo".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));
+    ui.add(egui::Label::new(RichText::new("Tworzone są w podfolderach jak drzewno oryginalnego folderu".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));
+    ui.add(egui::Label::new(RichText::new("Rozdzielczoś jest ustawiana dla dłuższej krawędzi".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))));
  
     // // Wyświetlanie tekstu z aktualnym kolorem
     // ui.add(egui::Label::new(if proxy_self.nie_krzycz_iter<5{
