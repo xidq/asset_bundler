@@ -442,7 +442,7 @@ pub fn ui_left_panel_encrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                                     proxy_self.czy_to_juz_koniec = 0;
                                     let rozszerzenie_plikku = if proxy_self.toggle_encryption == 0 {"jrz"} else if proxy_self.toggle_encryption == 1 {"jrzs"} else{"bin"};
                                     let output_file = format!("{}/{}.{}" , proxy_self.output_folder_path, proxy_self.output_name,rozszerzenie_plikku);
-                                    let index_file = format!("{}/{}.idx", proxy_self.output_folder_path, proxy_self.output_name);
+                                    let index_file = format!("{}/{}{}.idx", proxy_self.output_folder_path,rozszerzenie_plikku, proxy_self.output_name);
 
                                     let arc_z_u8 = Arc::new(Mutex::new(vec![proxy_self.toggle_encryption,proxy_self.toggle_compression,proxy_self.poziom_kompresji]));
                                     let arc_z_bool = Arc::new(Mutex::new(vec![proxy_self.debug_create_lua_file]));

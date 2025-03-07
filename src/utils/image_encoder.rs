@@ -11,6 +11,7 @@ use image::ImageEncoder;
 use chrono::Local;
 use image::ImageFormat;
 use webp::Encoder;
+use crate::utils::comunicat::komunikat;
 
 
 
@@ -19,6 +20,7 @@ use webp::Encoder;
 
 
 pub fn foto_enkodery(fotu:DynamicImage,sciezka:PathBuf,rozszerzenie:u8,quality:&u8,png_filter:&u8){
+    let nazwa_funkcji = "foto_enkodery";
 
 
 
@@ -35,31 +37,22 @@ pub fn foto_enkodery(fotu:DynamicImage,sciezka:PathBuf,rozszerzenie:u8,quality:&
 }
 
 fn jpg_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
-    //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-    let func_id = "jpg_enkoder w utils::image_encoder.rs" ;
-    let current_time = Local::now();
-    let formatted_time = current_time.format("%H:%M:%S").to_string();
-    //    println!("[{func_id}]\n{formatted_time}:   zaczynam konwersje {}",rozszerzenie_string);
-    //***************************************************************
-    println!("[{func_id}]\n{formatted_time}:   encoder JPG rozpoczęty");
+    let nazwa_funkcji = "jpg_enkoder";
+    komunikat(nazwa_funkcji,"encoder JPG rozpoczęty");
     let mut output_file = std::fs::File::create(&sciezka).unwrap();
     let mut encoder = JpegEncoder::new_with_quality(&mut output_file, *quality);
     
     if let Err(e) = encoder.encode(&fotu.to_rgb8(), fotu.width(), fotu.height(),image::ExtendedColorType::Rgb8) {
-        eprintln!("[{func_id}]\n{formatted_time}:   Błąd zapisu obrazu JPG: {}", e);
+        let err_reader = format!("Błąd zapisu obrazu JPG: {}", e);
+        komunikat(nazwa_funkcji,&err_reader);
        
     }
-    println!("[{func_id}]\n{formatted_time}:   encoder JPG zakończony\n");
+    komunikat(nazwa_funkcji,"encoder JPG zakończony\n");
 }
 
 fn png_enkoder(fotu:DynamicImage,sciezka:PathBuf,png_compression:&u8,png_filter:&u8){
-        //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        let func_id = "png_enkoder w utils::image_encoder.rs" ;
-        let current_time = Local::now();
-        let formatted_time = current_time.format("%H:%M:%S").to_string();
-        //    println!("[{func_id}]\n{formatted_time}:   zaczynam konwersje {}",rozszerzenie_string);
-        //***************************************************************
-        println!("[{func_id}]\n{formatted_time}:   encoder PNG rozpoczęty");
+    let nazwa_funkcji = "png_enkoder";
+        komunikat(nazwa_funkcji,"encoder PNG rozpoczęty");
     let afdgdsgfsdasddgd = match png_compression{
         0 => CompressionType::Fast,
         2 => CompressionType::Best,
@@ -92,37 +85,30 @@ fn png_enkoder(fotu:DynamicImage,sciezka:PathBuf,png_compression:&u8,png_filter:
 
     // match 
     if let Err(e) = encoder.write_image(&img_bytes, fotu.width(), fotu.height(),color_type) {
-        eprintln!("[{func_id}]\n{formatted_time}:   Błąd zapisu obrazu PNG: {}", e);
-        
+        let err_reader = format!("Błąd zapisu obrazu PNG: {}", e);
+        komunikat(nazwa_funkcji,&err_reader);
     }
-    println!("[{func_id}]\n{formatted_time}:   encoder PNG zakończony\n");
+    komunikat(nazwa_funkcji,"encoder PNG zakończony\n");
 }
 
 fn webp_enkoder(fotu:DynamicImage,sciezka:PathBuf){
-        //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        let func_id = "webp_enkoder w utils::image_encoder.rs" ;
-        let current_time = Local::now();
-        let formatted_time = current_time.format("%H:%M:%S").to_string();
-        //    println!("[{func_id}]\n{formatted_time}:   zaczynam konwersje {}",rozszerzenie_string);
-        //***************************************************************
-        println!("[{func_id}]\n{formatted_time}:   encoder WEBP rozpoczęty");
+    let nazwa_funkcji = "webp_enkoder";
+    komunikat(nazwa_funkcji,"encoder WEBP rozpoczęty");
 
     // let mut webp_options = image::codecs::webp::WebPEncoder;
     // let save_options = image::WebPEncoder::new().with_quality(*jakosc as f32 / 100.0);
 
     // Zapisz plik w formacie PNG
     if let Err(e) = fotu.save_with_format(sciezka, ImageFormat::WebP) {
-        eprintln!("[{func_id}]\n{formatted_time}:   Błąd zapisu obrazu WEBP: {}", e);
+
+        let err_reader = format!("Błąd zapisu obrazu WEBP: {}", e);
+        komunikat(nazwa_funkcji,&err_reader);
     }
+    komunikat(nazwa_funkcji,"encoder WEBP zakończony")
 }
 fn webp_lossy_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
-    //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-    let func_id = "webp_lossy_enkoder w utils::image_encoder.rs" ;
-    let current_time = Local::now();
-    let formatted_time = current_time.format("%H:%M:%S").to_string();
-    //    println!("[{func_id}]\n{formatted_time}:   zaczynam konwersje {}",rozszerzenie_string);
-    //***************************************************************
-    println!("[{func_id}]\n{formatted_time}:   encoder WEBP lossy rozpoczęty");
+    let nazwa_funkcji = "webp_lossy_enkoder";
+    komunikat(nazwa_funkcji,"encoder WEBP lossy rozpoczęty");
     // Tworzymy encoder WebP
     let encoder = Encoder::from_image(&fotu).unwrap();
 
@@ -131,25 +117,22 @@ fn webp_lossy_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
 
     // Zapisz zakodowany plik WebP
     if let Err(e) = std::fs::write(&sciezka, &*webp_data) {
-        eprintln!("[{func_id}]\n{formatted_time}:   Błąd zapisu obrazu WEBP lossy: {}", e);
+        let err_reader = format!("Błąd zapisu obrazu WEBP lossy: {}", e);
+        komunikat(nazwa_funkcji,&err_reader);
 
     }
-    println!("[{func_id}]\n{formatted_time}:   encoder WEBP lossy zakończony\n");
+    komunikat(nazwa_funkcji,"encoder WEBP lossy zakończony\n");
 }
 
 fn tga_enkoder(fotu:DynamicImage,sciezka:PathBuf){
-    //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-    let func_id = "tga_enkoder w utils::image_encoder.rs" ;
-    let current_time = Local::now();
-    let formatted_time = current_time.format("%H:%M:%S").to_string();
-    //    println!("[{func_id}]\n{formatted_time}:   zaczynam konwersje {}",rozszerzenie_string);
-    //***************************************************************
-    println!("[{func_id}]\n{formatted_time}:   encoder WEBP lossy rozpoczęty");
+    let nazwa_funkcji = "tga_enkoder";
+    komunikat(nazwa_funkcji,"encoder TGA rozpoczęty");
     // Zapisz plik w formacie PNG
     if let Err(e) = fotu.save_with_format(sciezka, ImageFormat::Tga) {
-        eprintln!("[{func_id}]\n{formatted_time}:   Błąd zapisu obrazu Tga: {}", e);
+        let err_reader = format!("Błąd zapisu obrazu Tga: {}", e);
+        komunikat(nazwa_funkcji,&err_reader);
 
     }
-    println!("[{func_id}]\n{formatted_time}:   encoder TGA zakończony\n");
+    komunikat(nazwa_funkcji,"encoder TGA zakończony\n");
 
 }

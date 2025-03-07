@@ -43,6 +43,14 @@ pub fn encrypt_chacha(data: &[u8], password: &str) -> Vec<u8> {
     
     result
 }
+
+
+
+
+
+
+
+
 pub fn decrypt(data: &[u8], password: &str) -> Vec<u8> {
     // Weryfikacja minimalnej długości
     assert!(

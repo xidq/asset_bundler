@@ -5,10 +5,13 @@ use image::Rgb;
 // use image::ImageFormat;
 use image::GenericImageView;
 use std::fs::create_dir_all;
+use crate::utils::comunicat::komunikat;
+
 
 pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_extensioun:u8,nazwa_pliku:&str,quality:u8,png_filter:u8){
+    let nazwa_funkcji="polaczenie_rgb";
     if foto.len() != 3 {
-        eprintln!("Oczekiwano dokładnie trzech obrazów RGB!");
+        komunikat(nazwa_funkcji,"Oczekiwano dokładnie trzech obrazów RGB!");
         return;
     }
 
@@ -16,7 +19,7 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
     let foto_g = &foto[1];
     let foto_b = &foto[2];
     let badfgdf = match file_extensioun{
-        0 => "jpg",
+        // 0 => "jpg",
         1 => "png",
         2 => "png",
         3 => "webp",
@@ -31,39 +34,23 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
 
 
     // Łączymy obrazy
-    println!("laczenie obrazow");
-    // match dandandan{ 
-        // "rgb16"=>{
-        //         for y in 0..wysokosc {
-        //             for x in 0..szerokosc {
-        //                 // Pobieramy wartości pikseli z każdego obrazu
-        //                 let r = foto_r.get_pixel(x, y)[0] as u16; // Czerwony
-        //                 let g = foto_g.get_pixel(x, y)[0]as u16; // Zielony
-        //                 let b = foto_b.get_pixel(x, y)[0]as u16; // Niebieski
 
-        //                 // Tworzymy nowy piksel z kanałami RGB
-        //                 let nowy_pikselsht: Rgb<u16> = Rgb([r, g, b]); 
+    komunikat(nazwa_funkcji,"Oczekiwano dokładnie trzech obrazów RGB!");
 
-        //                 // Ustawiamy piksel w nowym obrazie
-        //                 poskladane_foto.put_pixel(x, y, nowy_pikselsht);
-        //             }
-        //         }
-        //     },
-        // _=>{
-                for y in 0..wysokosc {
-                    for x in 0..szerokosc {
-                        // Pobieramy wartości pikseli z każdego obrazu
-                        let r = foto_r.get_pixel(x, y)[0]; // Czerwony
-                        let g = foto_g.get_pixel(x, y)[0]; // Zielony
-                        let b = foto_b.get_pixel(x, y)[0]; // Niebieski
+        for y in 0..wysokosc {
+            for x in 0..szerokosc {
+                // Pobieramy wartości pikseli z każdego obrazu
+                let r = foto_r.get_pixel(x, y)[0]; // Czerwony
+                let g = foto_g.get_pixel(x, y)[0]; // Zielony
+                let b = foto_b.get_pixel(x, y)[0]; // Niebieski
 
-                        // Tworzymy nowy piksel z kanałami RGB
-                        let nowy_pikselsht = Rgb([r, g, b]); 
+                // Tworzymy nowy piksel z kanałami RGB
+                let nowy_pikselsht = Rgb([r, g, b]); 
 
-                        // Ustawiamy piksel w nowym obrazie
-                        poskladane_foto.put_pixel(x, y, nowy_pikselsht);
-                    }
-                }
+                // Ustawiamy piksel w nowym obrazie
+                poskladane_foto.put_pixel(x, y, nowy_pikselsht);
+            }
+        }
             // },
     // }
     let file_name: &str = if nazwa_pliku.is_empty(){
@@ -81,35 +68,10 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
         create_dir_all(parent).unwrap(); // Zignorujemy ewentualne błędy przy tworzeniu katalogu
     }
     
-    // let dynamic_img: DynamicImage = match dandandan{ 
-    //     "rgb8"=>DynamicImage::ImageRgb8(poskladane_foto),
-    //     "rgb16"=>DynamicImage::ImageRgb16(poskladane_foto),
-    //     _=>DynamicImage::ImageRgb8(poskladane_foto),
-    // };
 
     let gafdhsgfhfd = DynamicImage::ImageRgb8(poskladane_foto);
     crate::utils::image_encoder::foto_enkodery(gafdhsgfhfd, output_path, file_extensioun, &quality, &png_filter);
-    // match file_extensioun{
-    //     0 => {
-    //         if let Err(e) = poskladane_foto.save_with_format(output_path, ImageFormat::Jpeg) {
-    //         eprintln!("Błąd zapisu obrazu jpg: {}", e);
-    //         }else{println!("zapis do jpg");}
-    //     },
-    //     1 => {if let Err(e) = poskladane_foto.save_with_format(output_path, ImageFormat::Png) {
-    //         eprintln!("Błąd zapisu obrazu png: {}", e);
-    //         }else{println!("zapis do png");}
-    //     },
-    //     2 => {if let Err(e) = poskladane_foto.save_with_format(output_path, ImageFormat::WebP) {
-    //         eprintln!("Błąd zapisu obrazu webp: {}", e);
-    //         }else{println!("zapis do webp");}
-    //     },
-    //     3 => {if let Err(e) = poskladane_foto.save_with_format(output_path, ImageFormat::Tga) {
-    //         eprintln!("Błąd zapisu obrazu tga: {}", e);
-    //         }else{println!("zapis do tga");}
-    //     },
-        
-    //     _ => {eprintln!("Błąd zapisu obrazu unknown:;");}
-    // };
+
 
 
 

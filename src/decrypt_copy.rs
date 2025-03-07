@@ -298,11 +298,17 @@ fn try_decompress_zstd(data: &[u8]) -> std::io::Result<Option<Vec<u8>>> {
             return Ok(None);
         }
     };
-
+    
     // Dekompresuj
     let mut decompressed = Vec::new();
     match decoder.read_to_end(&mut decompressed) {
-        Ok(_) => Ok(Some(decompressed)),
+        Ok(_) => {
+            // Usuwamy ostatnie 4 bajty bez sprawdzania wartości
+            if decompressed.len() >= 4 {
+                decompressed.truncate(decompressed.len() - 4);
+            }
+            Ok(Some(decompressed))
+        },
         Err(e) => {
             println!("[ERROR] Błąd dekompresji: {}", e);
             Ok(None)

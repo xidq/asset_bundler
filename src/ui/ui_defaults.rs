@@ -1,11 +1,76 @@
 use egui::{Color32/*,FontId, FontFamily*/};
 
+
 use crate::ui::ui_language;
 use std::path::PathBuf;
 use std::sync::mpsc;
 use std::sync::Arc;
 
+// #[derive(PartialEq, Debug)]
+// pub enum FormatyZdjec{
+// Jpg(UstawieniaFormatuZdjec),
+// Png(UstawieniaFormatuZdjec),
+// Png16(UstawieniaFormatuZdjec),
+// Webp(UstawieniaFormatuZdjec),
+// Webplossy(UstawieniaFormatuZdjec),
+// Tga(UstawieniaFormatuZdjec),
+// }
+// #[derive(PartialEq, Debug)]
+// pub struct UstawieniaFormatuZdjec{
+//   // pub wybraniec:bool,
+//   pub rozdzielczosc:u16,
+//   pub jakosc:u8,
+//   pub filter_reskalowania:FilterReskalowania,
+//   pub filter_png:PngFilter,
+//   pub png_kompresja:PngCompression,
+//   pub alpha:bool,
+//   pub apha_kolor:u8,
+// }
+
+// impl Default for UstawieniaFormatuZdjec{
+//   fn default() -> Self {
+//     UstawieniaFormatuZdjec{
+//     // wybraniec:false,
+//     rozdzielczosc:1024,
+//     jakosc:75,
+//     filter_reskalowania:FilterReskalowania::Lanczos3,
+//     filter_png:PngFilter::Adaptive,
+//     png_kompresja:PngCompression::Normal,
+//     alpha:false,
+//     apha_kolor:0,
+//     }
+//   }
+// }
+// #[derive(PartialEq, Debug, Clone)]
+// pub enum FilterReskalowania{
+//   Nearest,
+//   Triangle,
+//   CatmullRom,
+//   Gaussian,
+//   Lanczos3,
+// }
+// #[derive(PartialEq, Debug)]
+// pub enum PngFilter {
+//     NoFilter,
+//     Sub,
+//     Up,
+//     Average,
+//     Paeth,
+//     Adaptive,
+// }
+// #[derive(PartialEq, Debug)]
+// pub enum PngCompression {
+//     Fast,
+//     Normal,
+//     Best,
+// }
+
+
 pub struct Appencja {
+  // pub format_zdjec_ogolny: FormatyZdjec,
+
+
+
 
   pub imput_r_file_path: PathBuf,
   pub imput_g_file_path: PathBuf,
@@ -19,7 +84,7 @@ pub struct Appencja {
   pub imput_de_idx_folder_path: String,
   pub output_de_folder_path: String,
   pub output_name: String,
-
+  // pub rozdzielczosc_formatu_zdjec:u16,
   pub password: String,
   pub de_password: String,
   pub template: String,
@@ -147,6 +212,7 @@ pub struct Appencja {
   pub pusty_cirkul_kolor:Color32,
   pub pusty_cirkul_ma_stroke: f32,
   pub offset_cirkul: f32,
+  pub debug_interval: u8,
   
 
 
@@ -183,6 +249,11 @@ impl Default for Appencja {
       let (tx, rx) = mpsc::channel();
 
       Appencja {
+
+        // format_zdjec_ogolny: FormatyZdjec::Jpg(UstawieniaFormatuZdjec::default()),
+      
+        debug_interval:0,
+
         imput_r_file_path: PathBuf::new(),
         imput_g_file_path: PathBuf::new(),
         imput_b_file_path: PathBuf::new(),
@@ -212,7 +283,7 @@ impl Default for Appencja {
         poziom_kompresji:3,
         kllikker:0,
         rotation_image:0.0,
-
+        // rozdzielczosc_formatu_zdjec:2048,
         wybor_czcionki: 0,
         wysokosc_btn_egzekucyjny:803.,
         szerokosc_okna:740.,

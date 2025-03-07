@@ -686,6 +686,74 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             }
 
                                             
+    #[cfg(debug_assertions)]
+    match (proxy_self.show_debug_labels ,proxy_self.debug_interval){
+        (true, 61..=u8::MAX) => {proxy_self.debug_interval = 0},
+        (true, 60) => {
+            println!("arc_z_rozdzielczosc: 16k {}, 8k {}, 4k {}, 2k {}, 1k {}, 512 {}, 256 {}, 128 {}, 64 {}, 32 {}",
+            proxy_self.foty_rozdzielczosc_16k,
+            proxy_self.foty_rozdzielczosc_8k,
+            proxy_self.foty_rozdzielczosc_4k,
+            proxy_self.foty_rozdzielczosc_2k,
+            proxy_self.foty_rozdzielczosc_1k,
+            proxy_self.foty_rozdzielczosc_512,
+            proxy_self.foty_rozdzielczosc_256,
+            proxy_self.foty_rozdzielczosc_128,
+            proxy_self.foty_rozdzielczosc_64,
+            proxy_self.foty_rozdzielczosc_32
+        );
 
+
+        let fdghdkh=[
+            (proxy_self.foty_format_jpg,"jpg "),
+            (proxy_self.foty_format_png,"png "),
+            (proxy_self.foty_format_png_16,"png_16 "),
+            (proxy_self.foty_format_webp,"webp "),
+            (proxy_self.foty_format_webp_lossy,"webp_lossy "),
+            (proxy_self.foty_format_tga,"tga"),
+        ];
+        let mut wybrane_rozszerzenia_tekst = String::new();
+        for (xxx,xxy) in fdghdkh{
+
+            if xxx{
+                wybrane_rozszerzenia_tekst.push_str(xxy);
+                wybrane_rozszerzenia_tekst.push_str(",");
+            }
+
+        }
+        // let wyjscie_arc_z_danymi = match (            
+        //     proxy_self.foty_format_jpg,
+        //     proxy_self.foty_format_png,
+        //     proxy_self.foty_format_png_16,
+        //     proxy_self.foty_format_webp,
+        //     proxy_self.foty_format_webp_lossy,
+        //     proxy_self.foty_format_tga
+        // ){
+        //     _ => "lol"
+        // };
+        println!("arc_z_rozszerzenie: {}",
+            wybrane_rozszerzenia_tekst
+        );
+        println!("arc_z_jakość: jpg {}, png {}, png_16 {}, webp {}, webp_lossy {}, tga {}",
+            proxy_self.foty_format_jakosc_jpg,
+            proxy_self.foty_format_jakosc_png,
+            proxy_self.foty_format_jakosc_png,
+            proxy_self.foty_format_jakosc_webp,
+            proxy_self.foty_format_jakosc_webp_lossy,
+            proxy_self.foty_format_jakosc_tga
+        );
+        println!("arc_z_danymi: filter {}, alpha {}, alpha kolor {}, png_filter {}",
+            proxy_self.foty_filter,
+            proxy_self.foty_czy_alpha,
+            proxy_self.foty_alpha_kolor,
+            proxy_self.foty_format_png_filter,
+        );
+        println!("-------------------------------------------------------------------");
+
+            proxy_self.debug_interval += 1 ;
+        },
+        (true, 0..60) => {proxy_self.debug_interval += 1; }
+        _ => {}
+    }
                             
 }

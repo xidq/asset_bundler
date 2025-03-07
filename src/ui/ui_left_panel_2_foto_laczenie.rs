@@ -17,6 +17,7 @@ use std::sync::{
     Arc, 
     Mutex
 };
+use crate::encrypt_asset_setting::get_template_extensions;
 // use std::io;
 use crate::ui::{
     ui_defaults::Appencja,
@@ -70,7 +71,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         if btn_foty_folder_wejsciowy.clicked() {
             proxy_self.czy_to_juz_koniec = 0;
-            if let Some(path) = FileDialog::new().pick_file() {
+            if let Some(path) = FileDialog::new().add_filter("Images", &get_template_extensions("images_converter")).pick_file() {
 
                 proxy_self.imput_r_file_path = path.clone();
             }
@@ -180,7 +181,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         if btn_foty_folder_wejsciowy.clicked() {
             proxy_self.czy_to_juz_koniec = 0;
-            if let Some(path) = FileDialog::new().pick_file() {
+            if let Some(path) = FileDialog::new().add_filter("Images", &get_template_extensions("images_converter")).pick_file() {
 
                 proxy_self.imput_g_file_path = path.clone();
 
@@ -287,7 +288,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         if btn_foty_folder_wejsciowy.clicked() {
             proxy_self.czy_to_juz_koniec = 0;
-            if let Some(path) = FileDialog::new().pick_file() {
+            if let Some(path) = FileDialog::new().add_filter("Images", &get_template_extensions("images_converter")).pick_file() {
 
                 proxy_self.imput_b_file_path = path.clone();
 
@@ -617,7 +618,7 @@ pub fn ui_left_panel_foty_laczenie(
     });
 
 
-    match proxy_self.pakowanie_foty_png_filter{
+    match proxy_self.pakowanie_foty_rozszerzenie{
         0|1|3|4 => proxy_self.pakowanie_foty_bit_depth = 8,
         2 => proxy_self.pakowanie_foty_bit_depth = 16,
         _ => proxy_self.pakowanie_foty_bit_depth = 69
@@ -895,7 +896,7 @@ pub fn ui_left_panel_foty_laczenie(
                     println!("{:?}",arc_z_string);
                 let arc_z_u8 = Arc::new(Mutex::new(vec![
                     proxy_self.pakowanie_foty_rozdzielczosc,
-                    proxy_self.pakowanie_foty_png_filter,
+                    proxy_self.pakowanie_foty_rozszerzenie,
                     proxy_self.pakowanie_foty_bit_depth,
                     proxy_self.pakowanie_foty_filter,
                     proxy_self.pakowanie_foty_jakosc,
@@ -929,8 +930,34 @@ pub fn ui_left_panel_foty_laczenie(
 
                         
 
+#[cfg(debug_assertions)]
+match (proxy_self.show_debug_labels ,proxy_self.debug_interval){
+    (true, 61..=u8::MAX) => {proxy_self.debug_interval = 0},
+    (true, 60) => {
+        println!("arc_z_path: R {:?},G {:?},B {:?},Out {:?}",
+        proxy_self.imput_r_file_path,
+        proxy_self.imput_g_file_path,
+        proxy_self.imput_b_file_path,
+        proxy_self.imput_out_folder_path
+    );
+    println!("arc_z_string: {}",
+        proxy_self.pakowanie_foty_nazwa
+    );
+    println!("arc_z_u8: res {}, ext {}, depth{}, filter{}, quality{}, png {}",
+        proxy_self.pakowanie_foty_rozdzielczosc,
+        proxy_self.pakowanie_foty_rozszerzenie,
+        proxy_self.pakowanie_foty_bit_depth,
+        proxy_self.pakowanie_foty_filter,
+        proxy_self.pakowanie_foty_jakosc,
+        proxy_self.pakowanie_foty_png_filter
+    );
+    println!("-------------------------------------------------------------------");
 
-
+        proxy_self.debug_interval += 1 ;
+    },
+    (true, 0..60) => {proxy_self.debug_interval += 1; }
+    _ => {}
+}
 
 
 }
