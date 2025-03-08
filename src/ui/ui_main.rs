@@ -4,7 +4,7 @@ use egui::{CentralPanel, /*FontFamily,*/FontDefinitions,FontData};
 use ecolor::Hsva;
 // use rfd::*;
 // use crate::utils::*;
-
+use std::time::Instant;
 use std::sync::Arc;
 // use crate::{image_actions, ui_play_sound::*};
 // use crate::encrypt;
@@ -271,6 +271,16 @@ impl eframe::App for Appencja {
 
         CentralPanel::default()
         .show(ctx, |_ui| { //.frame(centralny_panel)
+            #[cfg(feature = "statystyki")]
+            let tick: u8 =1;
+            #[cfg(feature = "statystyki")]
+            if self.general_ui_licznik_czasu_debug >= 60 / tick{
+                self.general_ui_licznik_czasu_debug = 0
+            } else {
+                self.general_ui_licznik_czasu_debug +=1
+            }
+
+
 
 
         // -------------------------------------------------------------------------------------------------------------------------------------------
@@ -361,6 +371,7 @@ impl eframe::App for Appencja {
 
             
                 }); // zamknięcie scroll area
+
                 
             }); //zamkniecie left panel
 

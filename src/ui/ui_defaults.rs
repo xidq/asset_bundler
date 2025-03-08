@@ -1,8 +1,10 @@
-use egui::{Color32/*,FontId, FontFamily*/};
+
+use egui::Color32;
 use crate::ui::ui_language;
 use std::{
   path::PathBuf,
-  sync::{mpsc,Arc},
+  sync::{mpsc,Arc}
+  // , time::Duration,
 };
 
 
@@ -28,6 +30,8 @@ pub struct Appencja {
   pub general_ui_przelacz_ustawienia:bool,
   pub general_ui_przelacz_info_ustawienia:u8,
   pub general_ui_przelacz_info_opcje:u8,
+  #[cfg(feature = "statystyki")]
+  pub general_ui_statystyki_klatki:Vec<(u128,u128)>,
 
 
   //debug menu specyfic
@@ -180,6 +184,8 @@ impl Default for Appencja {
         general_ui_przelacz_ustawienia:false,
         general_ui_przelacz_info_ustawienia:0,
         general_ui_przelacz_info_opcje:0,
+        #[cfg(feature = "statystyki")]
+        general_ui_statystyki_klatki:Vec::new(),
 
 
         //debug menu specyfic

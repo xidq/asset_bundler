@@ -10,14 +10,16 @@ use egui::{
 use std::f32::consts::PI;
 // use rfd::FileDialog;
 // use crate::decrypt_copy;
+#[cfg(not(feature = "raw"))]
+use crate::ui::ui_play_sound::play_ahh_sound;
 use crate::ui::{
     ui_defaults::Appencja,
-    ui_play_sound::play_ahh_sound,
     ui_change_font::wybrana_aktualna_czcionka
 };
 
 
 pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32){
+    #[cfg(not(feature = "raw"))]
     if proxy_self.ui_debug_specyfic_klikacz < 50{
         let to_je_foto = ui.add(egui::Image::new(egui::include_image!("../br/ok.png")).sense(egui::Sense::click())
         .max_height(330.0)

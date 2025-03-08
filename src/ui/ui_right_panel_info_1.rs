@@ -2,6 +2,7 @@ use egui::{
     Color32,  
     Context, RichText, 
 };
+use std::time::{Instant,Duration};
 use crate::ui::ui_defaults::Appencja;
 use crate::ui::ui_change_font::wybrana_aktualna_czcionka;
 
@@ -135,6 +136,109 @@ pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                                     .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
                                     .selectable(false)
                                 );
+
+                                #[cfg(feature = "statystyki")]
+                                if proxy_self.general_ui_przelacz_tryb_debug{
+
+
+
+                                    static mut LAST_FRAME: Option<Instant> = None;
+                                    unsafe {
+                                        let now = Instant::now();
+                                        // Jeżeli to nie jest pierwsza klatka, oblicz czas od poprzedniego renderowania
+                                        if let Some(last_frame) = LAST_FRAME {
+
+                                            let frame_duration = now.duration_since(last_frame);
+                                            match proxy_self.general_ui_licznik_czasu_debug{
+                                                0=>{proxy_self.general_ui_statystyki_klatki.push((frame_duration.as_millis(),frame_duration.as_nanos()));},
+                                                _=>{}
+                                            };
+
+                                            if proxy_self.general_ui_statystyki_klatki.len() > 600 {
+                                                proxy_self.general_ui_statystyki_klatki.remove(0);
+                                            }
+                                            fn dostan_srednia(xoxo:&Vec<(u128,u128)>)->(u128,u128){
+                                                let suma_milisekund: u128 = xoxo.iter().map(|(milli, _)| milli).sum();
+                                                let suma_nanosekund: u128 = xoxo.iter().map(|(_, nano)| nano).sum();
+                                    
+                                                // Zwracamy średnią w milisekundach i nanosekundach
+                                                let srednia_milisekund = if suma_milisekund>0{suma_milisekund / xoxo.len() as u128}else{000 as u128};
+                                                let srednia_nanosekund = if suma_nanosekund>0{suma_nanosekund / xoxo.len() as u128}else{000 as u128};
+                                                let ddddddd = srednia_nanosekund / 10000;
+                                    
+                                                (srednia_milisekund, ddddddd)
+                                            }
+                                            let fdgdgf:u128= 1;
+                                            let sfddfgff:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(milli, _)| milli).min().unwrap()}else{&fdgdgf};
+                                            let sfddfgfdf:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(_, nano)| nano).min().unwrap()}else{&fdgdgf};
+                                            let aaaa:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(milli, _)| milli).max().unwrap()}else{&fdgdgf};
+                                            let aaaab:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(_, nano)| nano).max().unwrap()}else{&fdgdgf};
+                                            let (czas_mili,czas_nano)=dostan_srednia(&proxy_self.general_ui_statystyki_klatki);
+                                            ui.label(format!("minimalny czas {}.{}ms",sfddfgff,sfddfgfdf));
+                                            ui.label(format!("średni czas {}.{}ms",czas_mili,czas_nano));
+                                            ui.label(format!("maksymalny czas {}.{}ms",aaaa,aaaab));
+
+                                        }
+                                
+                                        // Zaktualizuj LAST_FRAME dla następnej klatki
+                                        LAST_FRAME = Some(now);
+                                    }
+                                
+
+                                    if proxy_self.general_ui_przelacz_binarny_zdjecia && proxy_self.general_ui_przelacz_zdjecia_opcje==0{
+                                            ui.label(format!("arc_z_rozdzielczosc: 16k {}, 8k {}, 4k {}, 2k {}, 1k {}, 512 {}, 256 {}, 128 {}, 64 {}, 32 {}",
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_8k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_4k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_2k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_1k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_512,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_256,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_128,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_64,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_32
+                                            ));
+                                
+                                
+                                        let fdghdkh=[
+                                            (proxy_self.ui_konwersja_specyfic_dane_bool_jpg,"jpg "),
+                                            (proxy_self.ui_konwersja_specyfic_dane_bool_png,"png "),
+                                            (proxy_self.ui_konwersja_specyfic_dane_bool_png_16,"png_16 "),
+                                            (proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossless,"webp "),
+                                            (proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossy,"webp_lossy "),
+                                            (proxy_self.ui_konwersja_specyfic_dane_bool_tga,"tga"),
+                                        ];
+                                        let mut wybrane_rozszerzenia_tekst = String::new();
+                                        for (xxx,xxy) in fdghdkh{
+                                
+                                            if xxx{
+                                                wybrane_rozszerzenia_tekst.push_str(xxy);
+                                                wybrane_rozszerzenia_tekst.push(',');
+                                            }
+                                
+                                        }
+                                
+                                        ui.label(format!("arc_z_rozszerzenie: {}",
+                                            wybrane_rozszerzenia_tekst
+                                        ));
+                                        ui.label(format!("arc_z_jakość: jpg {}, png {}, png_16 {}, webp {}, webp_lossy {}, tga {}",
+                                            proxy_self.ui_konwersja_specyfic_dane_jakosc_jpg,
+                                            proxy_self.ui_konwersja_specyfic_dane_jakosc_png,
+                                            proxy_self.ui_konwersja_specyfic_dane_jakosc_png,
+                                            proxy_self.ui_konwersja_specyfic_dane_jakosc_webp_lossless,
+                                            proxy_self.ui_konwersja_specyfic_dane_jakosc_webp_lossy,
+                                            proxy_self.ui_konwersja_specyfic_dane_jakosc_tga
+                                        ));
+                                        ui.label(format!("arc_z_danymi: filter {}, alpha {}, alpha kolor {}, png_filter {}",
+                                            proxy_self.ui_konwersja_specyfic_dane_filter,
+                                            proxy_self.ui_konwersja_specyfic_dane_alpha,
+                                            proxy_self.ui_konwersja_specyfic_dane_alpha_kolor,
+                                            proxy_self.ui_konwersja_specyfic_dane_filter_png,
+                                        ));
+
+                                
+                                    }
+                                }
 
                             
                         

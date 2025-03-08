@@ -19,11 +19,14 @@ use std::sync::{
 };
 use crate::encrypt_asset_setting::get_template_extensions;
 // use std::io;
+#[cfg(not(feature = "raw"))]
+use crate::ui::ui_play_sound::play_finish_sound;
 use crate::{
     ui::{
     ui_defaults::Appencja,
-    ui_play_sound::play_finish_sound,
-    ui_change_font::wybrana_aktualna_czcionka
+    ui_change_font::wybrana_aktualna_czcionka,
+    
+
 },
 utils::loading::animacja};
 
@@ -836,6 +839,7 @@ pub fn ui_left_panel_foty_laczenie(
             proxy_self.ui_laczenie_specyfic_status_przetwarzania = 2;
             proxy_self.ui_laczenie_specyfic_statystyki_czas_sekundy = danene[0] as u64;
             proxy_self.ui_laczenie_specyfic_statystyki_czas_milisekundy = danene[1] as u32;
+            #[cfg(not(feature = "raw"))]
             play_finish_sound(proxy_self.ui_ustawienia_glosnosc);
         }
         Ok(Err(e)) => {

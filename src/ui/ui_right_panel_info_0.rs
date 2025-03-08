@@ -44,7 +44,7 @@ pub fn right_panel_info_main(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut e
     //     proxy_self.nie_krzycz_zmniejszacz = proxy_self.nie_krzycz_zmniejszacz * 1.1;
     //     proxy_self.nie_krzycz_iter += 1
     // }
-    
+    #[cfg(not(feature = "raw"))]
     ui.add(egui::Image::new(egui::include_image!("../br/ezgif-762e334d60199c.gif"))
     .sense(egui::Sense::click())
     .max_height(330.0)

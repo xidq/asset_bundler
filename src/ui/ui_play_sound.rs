@@ -1,7 +1,11 @@
 
+#[cfg(not(feature = "raw"))]
 use std::thread;
+#[cfg(not(feature = "raw"))]
 use rodio::{OutputStream,Decoder,Source};
+#[cfg(not(feature = "raw"))]
 use std::sync::Arc;
+#[cfg(not(feature = "raw"))]
 use rand::seq::IteratorRandom;
 
 
@@ -9,11 +13,15 @@ use rand::seq::IteratorRandom;
 
 
 
-
+#[cfg(not(feature = "raw"))]
 static FINISH_HIM: &[u8] = include_bytes!("../br/tuturu_1.mp3");
+#[cfg(not(feature = "raw"))]
 static FINISH_AHHH: &[u8] = include_bytes!("../br/anime-ahh.mp3");
+#[cfg(not(feature = "raw"))]
 static FINISH_UWU: &[u8] = include_bytes!("../br/youtube-uwuuuuu.mp3");
+#[cfg(not(feature = "raw"))]
 static FINISH_WOW: &[u8] = include_bytes!("../br/anime-wow-sound-effect.mp3");
+#[cfg(not(feature = "raw"))]
 pub fn play_finish_sound(volume:f32) {
     thread::spawn(move || {
     // Get the output stream handle to the default sound device
@@ -34,7 +42,7 @@ pub fn play_finish_sound(volume:f32) {
     std::thread::sleep(std::time::Duration::from_secs(2));
     });
 }
-
+#[cfg(not(feature = "raw"))]
 pub fn play_ahh_sound(volume: f32) {
     // Create a Vec<Vec<u8>> instead of Vec<&[u8]>
     let sounds = vec![

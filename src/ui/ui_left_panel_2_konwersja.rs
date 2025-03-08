@@ -13,11 +13,14 @@ use std::sync::{
     Arc, 
     Mutex
 };
+#[cfg(not(feature = "raw"))]
+use crate::ui::ui_play_sound::play_finish_sound;
 use crate::{
     ui::{
     ui_defaults::Appencja,
-    ui_play_sound::play_finish_sound,
-    ui_change_font::wybrana_aktualna_czcionka
+
+    ui_change_font::wybrana_aktualna_czcionka,
+    
 },
 utils::loading::animacja};
 
@@ -579,6 +582,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                 proxy_self.ui_konwersja_specyfic_statystyki_przetworzone_pliki = danene[0];
                                 proxy_self.ui_konwersja_specyfic_statystyki_czas_sekundy = danene[2] as u64;
                                 proxy_self.ui_konwersja_specyfic_statystyki_czas_milisekundy = danene[3] as u32;
+                                #[cfg(not(feature = "raw"))]
                                 play_finish_sound(proxy_self.ui_ustawienia_glosnosc);
                             }
                             Ok(Err(e)) => {
@@ -681,74 +685,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             }
 
                                             
-    #[cfg(debug_assertions)]
-    match (proxy_self.general_ui_przelacz_tryb_debug ,proxy_self.general_ui_licznik_czasu_debug){
-        (true, 61..=u8::MAX) => {proxy_self.general_ui_licznik_czasu_debug = 0},
-        (true, 60) => {
-            println!("arc_z_rozdzielczosc: 16k {}, 8k {}, 4k {}, 2k {}, 1k {}, 512 {}, 256 {}, 128 {}, 64 {}, 32 {}",
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_8k,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_4k,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_2k,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_1k,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_512,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_256,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_128,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_64,
-            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_32
-        );
 
-
-        let fdghdkh=[
-            (proxy_self.ui_konwersja_specyfic_dane_bool_jpg,"jpg "),
-            (proxy_self.ui_konwersja_specyfic_dane_bool_png,"png "),
-            (proxy_self.ui_konwersja_specyfic_dane_bool_png_16,"png_16 "),
-            (proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossless,"webp "),
-            (proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossy,"webp_lossy "),
-            (proxy_self.ui_konwersja_specyfic_dane_bool_tga,"tga"),
-        ];
-        let mut wybrane_rozszerzenia_tekst = String::new();
-        for (xxx,xxy) in fdghdkh{
-
-            if xxx{
-                wybrane_rozszerzenia_tekst.push_str(xxy);
-                wybrane_rozszerzenia_tekst.push(',');
-            }
-
-        }
-        // let wyjscie_arc_z_danymi = match (            
-        //     proxy_self.ui_konwersja_specyfic_dane_bool_jpg,
-        //     proxy_self.ui_konwersja_specyfic_dane_bool_png,
-        //     proxy_self.ui_konwersja_specyfic_dane_bool_png_16,
-        //     proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossless,
-        //     proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossy,
-        //     proxy_self.ui_konwersja_specyfic_dane_bool_tga
-        // ){
-        //     _ => "lol"
-        // };
-        println!("arc_z_rozszerzenie: {}",
-            wybrane_rozszerzenia_tekst
-        );
-        println!("arc_z_jakość: jpg {}, png {}, png_16 {}, webp {}, webp_lossy {}, tga {}",
-            proxy_self.ui_konwersja_specyfic_dane_jakosc_jpg,
-            proxy_self.ui_konwersja_specyfic_dane_jakosc_png,
-            proxy_self.ui_konwersja_specyfic_dane_jakosc_png,
-            proxy_self.ui_konwersja_specyfic_dane_jakosc_webp_lossless,
-            proxy_self.ui_konwersja_specyfic_dane_jakosc_webp_lossy,
-            proxy_self.ui_konwersja_specyfic_dane_jakosc_tga
-        );
-        println!("arc_z_danymi: filter {}, alpha {}, alpha kolor {}, png_filter {}",
-            proxy_self.ui_konwersja_specyfic_dane_filter,
-            proxy_self.ui_konwersja_specyfic_dane_alpha,
-            proxy_self.ui_konwersja_specyfic_dane_alpha_kolor,
-            proxy_self.ui_konwersja_specyfic_dane_filter_png,
-        );
-        println!("-------------------------------------------------------------------");
-
-            proxy_self.general_ui_licznik_czasu_debug += 1 ;
-        },
-        (true, 0..60) => {proxy_self.general_ui_licznik_czasu_debug += 1; }
-        _ => {}
-    }
+    
                             
 }

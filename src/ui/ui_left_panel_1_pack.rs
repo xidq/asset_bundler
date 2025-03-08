@@ -14,16 +14,20 @@ use std::sync::{
     Arc, 
     Mutex
 };
+#[cfg(not(feature = "raw"))]
+use crate::ui::ui_play_sound::play_finish_sound;
 
 use crate::{
         ui::{
         ui_change_font::wybrana_aktualna_czcionka,
         ui_defaults::Appencja,
-        ui_play_sound::play_finish_sound
+
     },
     utils::loading::animacja,
+    utils::ui_specyfic::names_match_loop,
     encrypt_bez_async_i_bez_chacha20::encrypt_folder
 };
+
 
 
 pub fn ui_left_panel_encrypt(
@@ -35,6 +39,7 @@ pub fn ui_left_panel_encrypt(
     szarawy_ciemny:Color32){
         
     let margines_na_wybor_formatu_foty = proxy_self.formatowanie_spacja_srednia;
+
 
 
     // ██ ███    ██ ██████  ██    ██ ████████     ███████  ██████  ██      ██████  ███████ ██████  
@@ -496,16 +501,41 @@ pub fn ui_left_panel_encrypt(
     //    ██    █████   ██ ████ ██ ██████  ██      ███████    ██    █████   
     //    ██    ██      ██  ██  ██ ██      ██      ██   ██    ██    ██      
     //    ██    ███████ ██      ██ ██      ███████ ██   ██    ██    ███████
-    // organize ToDo()!
+
 
     ui.vertical_centered_justified(|ui|{
-        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_szablony_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+        ui.add(egui::Label::new(RichText::new(
+            proxy_self.current_language.general_ui_szablony_tytul)
+            .font(wybrana_aktualna_czcionka(
+                proxy_self.formatowanie_rozmiar_czcionki_duza,
+                proxy_self.formatowanie_wybor_czcionki)))
+                .selectable(false));
     });
+
     ui.add_space(proxy_self.formatowanie_spacja_mala);
+
+    let dane_do_template = vec![
+        ("none",proxy_self.current_language.szablony_wybor_0),
+        ("assets",proxy_self.current_language.szablony_wybor_1),
+        ("images",proxy_self.current_language.szablony_wybor_2),
+        ("audio",proxy_self.current_language.szablony_wybor_3),
+        ("3d_model",proxy_self.current_language.szablony_wybor_4),
+        ("documents",proxy_self.current_language.szablony_wybor_5),
+        ("raw_photos",proxy_self.current_language.szablony_wybor_6),
+    ];
+
+
+
 
     ComboBox::from_label(""/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
         .width(proxy_self.general_ui_szerokosc_okna / 4.)
-        .selected_text(RichText::new( match proxy_self.ui_pack_specyfic_template.as_str(){
+        .selected_text(RichText::new( 
+
+            // names_match_loop(&dane_do_template,&proxy_self.ui_pack_specyfic_template)
+
+
+
+            match proxy_self.ui_pack_specyfic_template.as_str(){
             "none" => proxy_self.current_language.szablony_wybor_0,
             "assets" => proxy_self.current_language.szablony_wybor_1,
             "images" => proxy_self.current_language.szablony_wybor_2,
@@ -514,25 +544,32 @@ pub fn ui_left_panel_encrypt(
             "documents" => proxy_self.current_language.szablony_wybor_5,
             "raw_photos" => proxy_self.current_language.szablony_wybor_6,
             _ => proxy_self.current_language.err_value_overflow
-        }/*proxy_self.ui_pack_specyfic_template.clone()*/)
+            }
+
+    )
     .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
         .show_ui(ui, |ui| {
 
-            ui.selectable_value(&mut proxy_self.ui_pack_specyfic_template, "none".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_0).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-            ui.selectable_value(&mut proxy_self.ui_pack_specyfic_template, "assets".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_1).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-            ui.selectable_value(&mut proxy_self.ui_pack_specyfic_template, "images".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_2).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-            ui.selectable_value(&mut proxy_self.ui_pack_specyfic_template, "audio".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-            ui.selectable_value(&mut proxy_self.ui_pack_specyfic_template, "3d_model".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_4).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-            ui.selectable_value(&mut proxy_self.ui_pack_specyfic_template, "documents".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_5).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-            ui.selectable_value(&mut proxy_self.ui_pack_specyfic_template, "raw_photos".to_string(), RichText::new(proxy_self.current_language.szablony_wybor_6).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+            // Generating dropdown fields
+            for (szablon,tekst) in dane_do_template{
+                ui.selectable_value(
+                    &mut proxy_self.ui_pack_specyfic_template, 
+                    szablon.to_string(), RichText::new(
+                        tekst)
+                    .font(wybrana_aktualna_czcionka(
+                        proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+
+            }
     
     });
     
 
-    //  _       _   _           
-    // | |_ _ _| |_| |_ ___ ___ 
-    // | . | | |  _|  _| . |   |
-    // |___|___|_| |_| |___|_|_|
+    // ██████  ██    ██ ████████ ████████  ██████  ███    ██ 
+    // ██   ██ ██    ██    ██       ██    ██    ██ ████   ██ 
+    // ██████  ██    ██    ██       ██    ██    ██ ██ ██  ██ 
+    // ██   ██ ██    ██    ██       ██    ██    ██ ██  ██ ██ 
+    // ██████   ██████     ██       ██     ██████  ██   ████ 
+
     
     let sprawdzacz_plikow_kompresji= !proxy_self.ui_pack_specyfic_folder_wejsciowy.is_empty() && !proxy_self.ui_pack_specyfic_folder_wyjsciowy.is_empty() && !proxy_self.ui_pack_specyfic_nazwa_pliku.is_empty();
             
@@ -571,6 +608,7 @@ pub fn ui_left_panel_encrypt(
             proxy_self.ui_pack_specyfic_statystyki_przetworzone_pliki = danene[0];
             proxy_self.ui_pack_specyfic_statystyki_czas_sekundy = danene[1] as u64;
             proxy_self.ui_pack_specyfic_statystyki_czas_milisekundy = danene[2] as u32;
+            #[cfg(not(feature = "raw"))]
             play_finish_sound(proxy_self.ui_ustawienia_glosnosc);
         }
         Ok(Err(e)) => {
