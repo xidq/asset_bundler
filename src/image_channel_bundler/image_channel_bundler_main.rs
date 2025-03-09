@@ -1,5 +1,5 @@
 // use std::io::Read;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 // use std::fs::File;
 use std::vec::Vec;
@@ -8,7 +8,7 @@ use std::io::ErrorKind;
 use rayon::iter::ParallelIterator;
 // use walkdir::FilterEntry;
 use std::thread;
-use image::DynamicImage;
+use image::{DynamicImage, Rgb, RgbImage};
 use std::time::Instant;
 use crate::utils::comunicat::komunikat;
 use crate::utils::arc_mutex_strip::{
@@ -53,9 +53,22 @@ pub fn image_channel_bundler(
 
         let procesowane_rgb = input_foto_vec.into_par_iter().map(|gsfhsgf| {
             komunikat(nazwa_funkcji,"jestem w iter!");
-            let foto_do_skladania = match image::open(gsfhsgf.as_path()){
-                Ok(f) => f,
-                Err(_) => return Err(std::io::Error::new(ErrorKind::InvalidInput, "Ścieżka nie jest prefiksem"))
+            let foto_do_skladania:DynamicImage = if gsfhsgf.starts_with("xyz") {
+                let sdgdfh: Vec<&str>=gsfhsgf.to_str().unwrap().split('/').collect();
+                let (szerokość, wysokość) = (sdgdfh[1].parse::<u32>().unwrap(),sdgdfh[2].parse::<u32>().unwrap());
+                let mut img: RgbImage = RgbImage::new(szerokość, wysokość);
+                for (x, y, pixel) in img.enumerate_pixels_mut() {
+                    *pixel = Rgb([255, 0, 0]);  // Wypełniamy obraz czerwonym kolorem
+                };
+                let dynamic_img: DynamicImage = DynamicImage::ImageRgb8(img);
+                dynamic_img
+
+            }else {
+                let foto_do_skladania = match image::open(gsfhsgf.as_path()) {
+                    Ok(f) => f,
+                    Err(_) => { return Err(std::io::Error::new(ErrorKind::InvalidInput, "Ścieżka nie jest prefiksem")) }
+                };
+                foto_do_skladania
             };
 
             let tutaj_obrabiamy_foto = match rgb_to_bw(foto_do_skladania, rozdzielczosc, ilosc_bitow,rescale_filter){

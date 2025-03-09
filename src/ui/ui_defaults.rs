@@ -108,6 +108,12 @@ pub struct Appencja {
   pub ui_laczenie_specyfic_dane_filter_png:u8,
   pub ui_laczenie_specyfic_dane_jakosc:u8,
   pub ui_laczenie_specyfic_error_3:String,
+  pub ui_laczenie_specyfic_wysokość_czerwony:u32,
+  pub ui_laczenie_specyfic_wysokość_zielony:u32,
+  pub ui_laczenie_specyfic_wysokość_niebieski:u32,
+  pub ui_laczenie_specyfic_szerokość_czerwony:u32,
+  pub ui_laczenie_specyfic_szerokość_zielony:u32,
+  pub ui_laczenie_specyfic_szerokość_niebieski:u32,
   pub ui_laczenie_specyfic_status_przetwarzania:u8,
 
   //wartosci specyficzne dla ui konwersji zdjęć
@@ -263,6 +269,12 @@ impl Default for Appencja {
         ui_laczenie_specyfic_stosunek_czerwony:1.,
         ui_laczenie_specyfic_stosunek_zielony:1.,
         ui_laczenie_specyfic_stosunek_niebieski:1.,
+        ui_laczenie_specyfic_wysokość_czerwony:0,
+        ui_laczenie_specyfic_wysokość_zielony:0,
+        ui_laczenie_specyfic_wysokość_niebieski:0,
+        ui_laczenie_specyfic_szerokość_czerwony:0,
+        ui_laczenie_specyfic_szerokość_zielony:0,
+        ui_laczenie_specyfic_szerokość_niebieski:0,
         ui_laczenie_specyfic_status_przetwarzania:0,
 
 

@@ -1,14 +1,6 @@
+use std::path::{Path, PathBuf};
 // use eframe::App;
-use egui::{
-    Color32, 
-    Pos2, 
-    Response, 
-    RichText,
-    Rect,
-    Vec2,
-    Context,
-    ComboBox
-};
+use egui::{Color32, Pos2, Response, RichText, Rect, Vec2, Context, ComboBox, Sense};
 use egui::TextEdit;
 use image::open;
 // use std::sync::mpsc;
@@ -37,9 +29,36 @@ pub fn ui_left_panel_foty_laczenie(
     szarawy_ciemny:Color32
 ){
     let margines_na_wybor_formatu_foty = proxy_self.formatowanie_spacja_srednia;
-    let aspect_ratio_check = 
-    (proxy_self.ui_laczenie_specyfic_stosunek_czerwony == proxy_self.ui_laczenie_specyfic_stosunek_zielony) &&
-    (proxy_self.ui_laczenie_specyfic_stosunek_czerwony == proxy_self.ui_laczenie_specyfic_stosunek_niebieski);
+    let aspect_ratio_check =
+    (proxy_self.ui_laczenie_specyfic_stosunek_czerwony == proxy_self.ui_laczenie_specyfic_stosunek_zielony) ||
+    (proxy_self.ui_laczenie_specyfic_stosunek_czerwony == proxy_self.ui_laczenie_specyfic_stosunek_niebieski) ||
+    (proxy_self.ui_laczenie_specyfic_stosunek_zielony == proxy_self.ui_laczenie_specyfic_stosunek_niebieski);
+
+
+
+
+    let (linki_czek,link_czerwony, link_zielony, link_niebieski) = match (
+        !proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.as_os_str().is_empty(),
+        !proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.as_os_str().is_empty(),
+        !proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.as_os_str().is_empty()
+    ) {
+        (true,true,true) => (true,&proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.clone(),&proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.clone(),&proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.clone()),
+        (true,true,false) => (true,&proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.clone(),&proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.clone(), { &PathBuf::from(&format!("xyz/{}/{}",proxy_self.ui_laczenie_specyfic_szerokość_czerwony,proxy_self.ui_laczenie_specyfic_wysokość_czerwony)) }),
+        (true,false,true) => (true,&proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.clone(), { &PathBuf::from(&format!("xyz/{}/{}",&proxy_self.ui_laczenie_specyfic_szerokość_czerwony,proxy_self.ui_laczenie_specyfic_wysokość_czerwony)) },&proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.clone()),
+        (true,false,false) => (true,&proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.clone(),{ &PathBuf::from(&format!("xyz/{}/{}",&proxy_self.ui_laczenie_specyfic_szerokość_czerwony,proxy_self.ui_laczenie_specyfic_wysokość_czerwony)) }, { &PathBuf::from(&format!("xyz/{}/{}",proxy_self.ui_laczenie_specyfic_szerokość_czerwony,proxy_self.ui_laczenie_specyfic_wysokość_czerwony)) }),
+        (false,true,true) => (true,{ &PathBuf::from(&format!("xyz/{}/{}",proxy_self.ui_laczenie_specyfic_szerokość_zielony,&proxy_self.ui_laczenie_specyfic_wysokość_zielony)) },&proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.clone(), &proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.clone()),
+        (false,true,false) => (true,{ &PathBuf::from(&format!("xyz/{}/{}",proxy_self.ui_laczenie_specyfic_szerokość_zielony,&proxy_self.ui_laczenie_specyfic_wysokość_zielony)) },&proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.clone(), { &PathBuf::from(&format!("xyz/{}/{}",proxy_self.ui_laczenie_specyfic_szerokość_zielony,proxy_self.ui_laczenie_specyfic_wysokość_zielony)) }),
+        (false,false,true) => (true,{ &PathBuf::from(&format!("xyz/{}/{}",proxy_self.ui_laczenie_specyfic_szerokość_niebieski,&proxy_self.ui_laczenie_specyfic_wysokość_niebieski)) }, { &PathBuf::from(&format!("xyz/{}/{}",proxy_self.ui_laczenie_specyfic_szerokość_niebieski,proxy_self.ui_laczenie_specyfic_wysokość_niebieski)) },&proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.clone()),
+        _ => (false,&proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.clone(),&proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.clone(),&proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.clone())
+    };
+
+
+
+
+
+
+
+
 
 
 
@@ -84,11 +103,11 @@ pub fn ui_left_panel_foty_laczenie(
 
                             // Załaduj zdjęcie i oblicz aspect ratio
             if let Ok(image) = open(&proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony) {
-                let width = image.width();
-                let height = image.height();
+                proxy_self.ui_laczenie_specyfic_szerokość_czerwony = image.width();
+                proxy_self.ui_laczenie_specyfic_wysokość_czerwony = image.height();
 
                 // Oblicz aspect ratio
-                proxy_self.ui_laczenie_specyfic_stosunek_czerwony = width as f32 / height as f32;
+                proxy_self.ui_laczenie_specyfic_stosunek_czerwony = proxy_self.ui_laczenie_specyfic_szerokość_czerwony as f32 / proxy_self.ui_laczenie_specyfic_wysokość_czerwony as f32;
 
             }
         }
@@ -126,6 +145,10 @@ pub fn ui_left_panel_foty_laczenie(
                 .selectable(false)
             );
         }
+
+        ui.add_space(proxy_self.formatowanie_spacja_srednia);
+
+        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony = Default::default(); }
 
 
         
@@ -192,11 +215,11 @@ pub fn ui_left_panel_foty_laczenie(
 
             }
             if let Ok(image) = open(&proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony) {
-                let width = image.width();
-                let height = image.height();
+                proxy_self.ui_laczenie_specyfic_szerokość_zielony = image.width();
+                proxy_self.ui_laczenie_specyfic_wysokość_zielony = image.height();
 
                 // Oblicz aspect ratio
-                proxy_self.ui_laczenie_specyfic_stosunek_zielony = width as f32 / height as f32;
+                proxy_self.ui_laczenie_specyfic_stosunek_zielony = proxy_self.ui_laczenie_specyfic_szerokość_zielony as f32 / proxy_self.ui_laczenie_specyfic_wysokość_zielony as f32;
 
             }
         }
@@ -234,6 +257,10 @@ pub fn ui_left_panel_foty_laczenie(
                 .selectable(false)
             );
         }
+
+        ui.add_space(proxy_self.formatowanie_spacja_srednia);
+
+        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony = Default::default(); }
     });
     if !proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.to_string_lossy().is_empty(){
         //napis sciezki
@@ -299,11 +326,11 @@ pub fn ui_left_panel_foty_laczenie(
 
             }
             if let Ok(image) = open(&proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski) {
-                let width = image.width();
-                let height = image.height();
+                proxy_self.ui_laczenie_specyfic_szerokość_niebieski = image.width();
+                proxy_self.ui_laczenie_specyfic_wysokość_niebieski = image.height();
 
                 // Oblicz aspect ratio
-                proxy_self.ui_laczenie_specyfic_stosunek_niebieski = width as f32 / height as f32;
+                proxy_self.ui_laczenie_specyfic_stosunek_niebieski = proxy_self.ui_laczenie_specyfic_szerokość_niebieski as f32 / proxy_self.ui_laczenie_specyfic_wysokość_niebieski as f32;
 
             }
         }
@@ -341,6 +368,10 @@ pub fn ui_left_panel_foty_laczenie(
                 .selectable(false)
             );
         }
+
+        ui.add_space(proxy_self.formatowanie_spacja_srednia);
+
+        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski = Default::default(); println!("test"); }
     });
     if !proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.to_string_lossy().is_empty(){
         //napis sciezki
@@ -812,12 +843,12 @@ pub fn ui_left_panel_foty_laczenie(
     // ██      ██   ██ ███████    ██     ██████ ██ ███████ ██   ██ 
 
 
-    let sprawdzacz_przycisku_fotx= 
-        !proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.to_string_lossy().is_empty() && 
-        !proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.to_string_lossy().is_empty() && 
-        !proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.to_string_lossy().is_empty() && 
+    let sprawdzacz_przycisku_fotx=
+        (!proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.to_string_lossy().is_empty() ||
+        !proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.to_string_lossy().is_empty() ||
+        !proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.to_string_lossy().is_empty()) &&
         !proxy_self.ui_laczenie_specyfic_sciezka_folder_wyjsciowy.to_string_lossy().is_empty() &&
-        aspect_ratio_check;
+            linki_czek && aspect_ratio_check;
 
     let tekst_przycisku_kompresji = if sprawdzacz_przycisku_fotx{
 
@@ -883,9 +914,9 @@ pub fn ui_left_panel_foty_laczenie(
                 proxy_self.ui_laczenie_specyfic_status_przetwarzania = 0;
                 proxy_self.general_ui_loading = 0;
                 let arc_z_path = Arc::new(Mutex::new(vec![
-                    proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony.clone(),
-                    proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.clone(),
-                    proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.clone(),
+                    link_czerwony.clone(),
+                    link_zielony.clone(),
+                    link_niebieski.clone(),
                     proxy_self.ui_laczenie_specyfic_sciezka_folder_wyjsciowy.clone()
                     ]));
                 println!("{:?}",arc_z_path);
@@ -930,7 +961,7 @@ pub fn ui_left_panel_foty_laczenie(
                         
 
 #[cfg(debug_assertions)]
-match (proxy_self.general_ui_przelacz_tryb_debug ,proxy_self.general_ui_licznik_czasu_debug){
+match (proxy_self.general_ui_przelacz_tryb_debug, proxy_self.general_ui_licznik_czasu_debug){
     (true, 61..=u8::MAX) => {proxy_self.general_ui_licznik_czasu_debug = 0},
     (true, 60) => {
         println!("arc_z_path: R {:?},G {:?},B {:?},Out {:?}",

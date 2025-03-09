@@ -28,7 +28,18 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
         _ => "jpg",
     };
 
-    let (wysokosc, szerokosc)=(foto_r.height(), foto_r.width());
+    let (mut wysokosc, mut szerokosc)=(foto_r.height(), foto_r.width());
+    for obraz in &foto {
+        let (xx_wysokosc, xx_szerokosc) = (obraz.height(), obraz.width());
+        if xx_wysokosc > wysokosc {
+            wysokosc = xx_wysokosc;
+        }
+        if xx_szerokosc > szerokosc {
+            szerokosc = xx_szerokosc;
+        }
+    }
+
+
 
     let mut poskladane_foto = RgbImage::new(szerokosc, wysokosc);
 
