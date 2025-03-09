@@ -526,41 +526,48 @@ pub fn ui_left_panel_encrypt(
 
 
 
+    ui.columns(2, |column|{
+        column[0].vertical_centered_justified(|ui|{
+            ComboBox::from_label(""/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
+                .width(proxy_self.general_ui_szerokosc_okna / 5.)
+                .selected_text(RichText::new(
 
-    ComboBox::from_label(""/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
-        .width(proxy_self.general_ui_szerokosc_okna / 4.)
-        .selected_text(RichText::new( 
-
-            // names_match_loop(&dane_do_template,&proxy_self.ui_pack_specyfic_template)
+                    // names_match_loop(&dane_do_template,&proxy_self.ui_pack_specyfic_template)
 
 
 
-            match proxy_self.ui_pack_specyfic_template.as_str(){
-            "none" => proxy_self.current_language.szablony_wybor_0,
-            "assets" => proxy_self.current_language.szablony_wybor_1,
-            "images" => proxy_self.current_language.szablony_wybor_2,
-            "audio" => proxy_self.current_language.szablony_wybor_3,
-            "3d_model" => proxy_self.current_language.szablony_wybor_4,
-            "documents" => proxy_self.current_language.szablony_wybor_5,
-            "raw_photos" => proxy_self.current_language.szablony_wybor_6,
-            _ => proxy_self.current_language.err_value_overflow
-            }
+                    match proxy_self.ui_pack_specyfic_template.as_str(){
+                    "none" => proxy_self.current_language.szablony_wybor_0,
+                    "assets" => { proxy_self.ui_pack_specyfic_statyczne_id = true;
+                        proxy_self.current_language.szablony_wybor_1 },
+                    "images" => proxy_self.current_language.szablony_wybor_2,
+                    "audio" => proxy_self.current_language.szablony_wybor_3,
+                    "3d_model" => proxy_self.current_language.szablony_wybor_4,
+                    "documents" => proxy_self.current_language.szablony_wybor_5,
+                    "raw_photos" => proxy_self.current_language.szablony_wybor_6,
+                    _ => proxy_self.current_language.err_value_overflow
+                    }
 
-    )
-    .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
-        .show_ui(ui, |ui| {
+            )
+            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
+                .show_ui(ui, |ui| {
 
-            // Generating dropdown fields
-            for (szablon,tekst) in dane_do_template{
-                ui.selectable_value(
-                    &mut proxy_self.ui_pack_specyfic_template, 
-                    szablon.to_string(), RichText::new(
-                        tekst)
-                    .font(wybrana_aktualna_czcionka(
-                        proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+                    // Generating dropdown fields
+                    for (szablon,tekst) in dane_do_template{
+                        ui.selectable_value(
+                            &mut proxy_self.ui_pack_specyfic_template,
+                            szablon.to_string(), RichText::new(
+                                tekst)
+                            .font(wybrana_aktualna_czcionka(
+                                proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
 
-            }
-    
+                    }
+
+            });
+        });
+        column[1].vertical_centered_justified(|ui|{
+            ui.checkbox(&mut proxy_self.ui_pack_specyfic_statyczne_id,"Enable Static Id" );
+        });
     });
     
 
@@ -656,9 +663,28 @@ pub fn ui_left_panel_encrypt(
                 let output_file = format!("{}/{}.{}" , proxy_self.ui_pack_specyfic_folder_wyjsciowy, proxy_self.ui_pack_specyfic_nazwa_pliku,rozszerzenie_plikku);
                 let index_file = format!("{}/{}{}.idx", proxy_self.ui_pack_specyfic_folder_wyjsciowy, proxy_self.ui_pack_specyfic_nazwa_pliku,rozszerzenie_plikku);
 
-                let arc_z_u8 = Arc::new(Mutex::new(vec![proxy_self.ui_pack_specyfic_wybor_szyfrowania,proxy_self.ui_pack_specyfic_wybor_kompresji,proxy_self.ui_pack_specyfic_poziom_kompresji]));
-                let arc_z_bool = Arc::new(Mutex::new(vec![proxy_self.ui_ustawienia_tworzenie_pliku_lua]));
-                let arc_z_str = Arc::new(Mutex::new(vec![proxy_self.ui_pack_specyfic_folder_wejsciowy.clone().to_string(),output_file.clone().to_string(),index_file.clone().to_string(),proxy_self.ui_pack_specyfic_template.clone().to_string(),proxy_self.ui_pack_specyfic_password.clone().to_string()]));
+                let arc_z_u8 = Arc::new(
+                    Mutex::new(
+                        vec![
+                            proxy_self.ui_pack_specyfic_wybor_szyfrowania,
+                            proxy_self.ui_pack_specyfic_wybor_kompresji,
+                            proxy_self.ui_pack_specyfic_poziom_kompresji
+                        ]));
+                let arc_z_bool = Arc::new(
+                    Mutex::new(
+                        vec![
+                            proxy_self.ui_ustawienia_tworzenie_pliku_lua,
+                            proxy_self.ui_pack_specyfic_statyczne_id
+                        ]));
+                let arc_z_str = Arc::new(
+                    Mutex::new(
+                        vec![
+                            proxy_self.ui_pack_specyfic_folder_wejsciowy.clone().to_string(),
+                            output_file.clone().to_string(),
+                            index_file.clone().to_string(),
+                            proxy_self.ui_pack_specyfic_template.clone().to_string(),
+                            proxy_self.ui_pack_specyfic_password.clone().to_string()
+                        ]));
                     
                     
 

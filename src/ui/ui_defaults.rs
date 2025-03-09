@@ -74,6 +74,7 @@ pub struct Appencja {
   pub ui_pack_specyfic_statystyki_czas_milisekundy:u32,
   pub ui_pack_specyfic_error_3:String,
   pub ui_pack_specyfic_status_przetwarzania:u8,
+  pub ui_pack_specyfic_statyczne_id:bool,
 
 
   //wartości specyficzne dla ui rozpakowywania:
@@ -228,6 +229,7 @@ impl Default for Appencja {
         ui_pack_specyfic_statystyki_czas_sekundy:0,
         ui_pack_specyfic_statystyki_czas_milisekundy:0,
         ui_pack_specyfic_status_przetwarzania:0,
+        ui_pack_specyfic_statyczne_id:false,
 
 
         //wartości specyficzne dla ui rozpakowywania:

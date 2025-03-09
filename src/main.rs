@@ -10,6 +10,8 @@ mod encrypt_filetype;
 mod encrypt_asset_setting;
 mod image_actions;
 mod image_channel_bundler;
+mod create_static_id_per_file;
+
 use eframe::egui;
 
 

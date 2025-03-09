@@ -1,6 +1,6 @@
-use std::fs::{self, File};
-use std::io::{self, Read, Write};
-use std::path::Path;
+use std::fs::{self, File, OpenOptions};
+use std::io::{self, BufRead, Read, Write};
+use std::path::{Path, PathBuf};
 // use std::thread::spawn;
 use std::time::{/*Duration,*/Instant};
 use std::thread;
@@ -19,7 +19,8 @@ use chrono::offset::Local;
 // use rand::*;
 use rand::Rng;
 use rand::distr::Alphanumeric;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
+use crate::create_static_id_per_file::create_random_id;
 // use tokio::io::AsyncWriteExt;
 // use std::time::Instant;
 // use std::thread;
@@ -56,7 +57,7 @@ use crate::encrypt_asset_setting;
 
 // as u can see, function generating unique id for each file,
 // can be helpful when u have multiple similar named files or something, idk.
-fn generate_unique_id() -> String {
+pub fn generate_unique_id() -> String {
     let mut rng = rand::rng();
     // Generowanie losowego identyfikatora 12-znakowego
     (0..12)
@@ -184,6 +185,7 @@ pub fn encrypt_folder(
         // Odblokowujemy Mutex w `arc_z_bool_clone`
         let strip_arc_z_bool_clone = get_locked_data_bool(&arc_z_bool_clone)?;
         let debug_create_lua_file = strip_arc_z_bool_clone[0];
+        let bool_magiczne_numerki = strip_arc_z_bool_clone[0];
 
         // Odblokowujemy Mutex w `arc_z_str_clone`
         let strip_arc_z_str_clone = get_locked_data_string(&arc_z_str_clone)?;
@@ -193,6 +195,11 @@ pub fn encrypt_folder(
         let template = &strip_arc_z_str_clone[3];
         let password = &strip_arc_z_str_clone[4];
 
+        let ścieżka_do_magic_numbers= Path::new(input_folder).join("magic.numbers");
+        let cośtam = if ścieżka_do_magic_numbers.exists() || template == "Assets" || bool_magiczne_numerki {
+                create_random_id(Arc::new(Mutex::new(vec![PathBuf::from(Path::new(input_folder))])));
+            true
+        } else {false};
 
 
 
@@ -271,7 +278,44 @@ pub fn encrypt_folder(
             };
             
 
-            let unique_id = generate_unique_id(); 
+            let unique_id:String = if cośtam {
+                let plik_magic = match OpenOptions::new()
+                    .read(true)
+                    .write(true)
+                    .create(true)
+                    .open(&ścieżka_do_magic_numbers) {
+                    Ok(file) => {
+                        file
+                    },
+                    Err(_) => {
+                        File::create(&ścieżka_do_magic_numbers)?
+                    },
+                };
+
+                let reader = io::BufReader::new(&plik_magic);
+                let mut wynik = String::new(); // Zmienna, w której przechowywane będzie ID
+
+                for line in reader.lines() {
+                    let line = line?; // Pobieramy linię
+
+                    let parts: Vec<&str> = line.split_whitespace().collect(); 
+                    if parts.len() == 2 {
+                        let (id, ścieżka) = (parts[0].to_string(), Path::new(parts[1]));
+                        let lokalna_ścieżka = Path::new(&file_path);
+                        if (ścieżka == path.as_path()) || (ścieżka == lokalna_ścieżka) {
+                            wynik = id; 
+                            break; 
+                        }
+                    }
+                }
+                if !wynik.is_empty() {
+                    wynik
+                } else {
+                    String::from("ERROR-40--nie-poprawny-odczyt-danych-z-magic-numbers") // Jeżeli nie znaleziono, zwracamy pusty String
+                }
+
+            }else{generate_unique_id()};
+
             let type_name = encrypt_filetype::get_type(path);
             let type_name_id = get_type_id(path);
             let type_name_variant = get_type_variant(path);
