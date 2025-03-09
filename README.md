@@ -12,3 +12,8 @@ You can:\
 asset_bundler is compiled for linux\
 asset_bundler.exe is compiled for windows (unsigned)\
 feel free to test or compile yourself
+
+
+features: 
+--raw (no graphics nor audio attached)\
+--statystyki (added some stats visible when debug mode is enabled in stats page)
