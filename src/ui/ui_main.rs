@@ -27,14 +27,15 @@ use crate::ui::{
     ui_left_panel_2_konwersja::ui_left_panel_foty_przetwarzanie,
     ui_right_panel_info_0::right_panel_info_main,
     ui_right_panel_info_1::right_panel_info_stats,
-    ui_right_panel_info_2::ui_right_panel_info_0_2,
-    ui_right_panel_info_3::ui_right_panel_info_0_3,
-    ui_right_panel_info_4::ui_right_panel_info_0_4,
     ui_right_panel_settings::ui_right_panel_settings_0,
     ui_right_panel_debug_0::ui_right_panel_debug_0,
     ui_change_font::wybrana_aktualna_czcionka,
     ui_left_panel_2_foto_laczenie::ui_left_panel_foty_laczenie,
 };
+#[cfg(feature = "statystyki")]
+use crate::ui::{    ui_right_panel_info_2::ui_right_panel_info_0_2,
+                    ui_right_panel_info_3::ui_right_panel_info_0_3,
+                    ui_right_panel_info_4::ui_right_panel_info_0_4,};
 // use rand::seq::IteratorRandom;
 // use toml::Value;
 // use tokio::*;
@@ -109,11 +110,11 @@ impl eframe::App for Appencja {
         // // Wczytanie czcionki bezpośrednio do pliku wykonywalnego
         let font_data = FontData::from_static(include_bytes!("../../assets/Forum-Regular.ttf"));
 
-        font_definitions.font_data.insert("XanhMono".to_owned(), Arc::new(font_data));
+        font_definitions.font_data.insert("Forum-Regular".to_owned(), Arc::new(font_data));
         font_definitions.families.insert(
 
             egui::FontFamily::Proportional, // Use default proportional to override, u can add new like in next example
-            vec!["XanhMono".to_owned()],
+            vec!["Forum-Regular".to_owned()],
 
         );
         // let font_data = FontData::from_static(include_bytes!("../../assets/NotoSerifJP-VariableFont_wght.ttf"));
@@ -442,8 +443,11 @@ impl eframe::App for Appencja {
 
                         (0,0) => {right_panel_info_main(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
                         (0,1) => {right_panel_info_stats(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
+                        #[cfg(feature = "statystyki")]
                         (0,2) => {ui_right_panel_info_0_2(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
+                        #[cfg(feature = "statystyki")]
                         (0,3) => {ui_right_panel_info_0_3(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
+                        #[cfg(feature = "statystyki")]
                         (0,4) => {ui_right_panel_info_0_4(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
                         (1,_) => {ui_right_panel_settings_0(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
                         (2,_) => {ui_right_panel_debug_0(self,ctx,ui,fiolet_ciemny);},

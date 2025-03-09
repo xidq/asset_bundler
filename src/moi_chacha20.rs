@@ -71,9 +71,13 @@ pub fn decrypt(data: &[u8], password: &str) -> Vec<u8> {
     let (nonce, ciphertext) = rest.split_at(NONCE_LEN);
 
     // Logowanie diagnostyczne
+    #[cfg(feature = "statystyki")]
     println!("Długość danych: {}", data.len());
+    #[cfg(feature = "statystyki")]
     println!("Salt (hex): {}", hex::encode(salt));
+    #[cfg(feature = "statystyki")]
     println!("Nonce (hex): {}", hex::encode(nonce));
+    #[cfg(feature = "statystyki")]
     println!("Długość ciphertext: {}", ciphertext.len());
 
     // Deriwacja klucza

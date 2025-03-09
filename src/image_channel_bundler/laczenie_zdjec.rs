@@ -9,8 +9,10 @@ use crate::utils::comunicat::komunikat;
 
 
 pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_extensioun:u8,nazwa_pliku:&str,quality:u8,png_filter:u8){
+    #[cfg(feature = "statystyki")]
     let nazwa_funkcji="polaczenie_rgb";
     if foto.len() != 3 {
+        #[cfg(feature = "statystyki")]
         komunikat(nazwa_funkcji,"Oczekiwano dokładnie trzech obrazów RGB!");
         return;
     }
@@ -45,7 +47,7 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
 
 
     // Łączymy obrazy
-
+    #[cfg(feature = "statystyki")]
     komunikat(nazwa_funkcji,"Oczekiwano dokładnie trzech obrazów RGB!");
 
         for y in 0..wysokosc {

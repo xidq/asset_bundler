@@ -4,6 +4,7 @@ use crate::utils::comunicat::komunikat;
 
 
 pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)->Result<DynamicImage, std::io::Error>{
+    #[cfg(feature = "statystyki")]
     let nazwa_funkcji="rgb_to_bw";
     let color_type =foto.color();
     // let mut result_img: DynamicImage = foto.clone();  // Default to the original image
@@ -12,6 +13,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
     let result_img = match (color_type,ilosc_bitow){
         (image::ColorType::Rgb8,8) =>{
             let img = foto.to_rgb8();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"Rgba16, ALPHA MA BYĆ, input 8 bit, tylko rgb true|false");
             let processed_dynamic = DynamicImage::ImageRgb8(img);
             let fdhsfg_img = processed_dynamic.to_luma8();
@@ -19,6 +21,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::Rgb8,16) =>{
             let img = foto.to_rgb8();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"Rgba16, ALPHA MA BYĆ, input 8 bit, tylko rgb true|false");
             let processed_dynamic = DynamicImage::ImageRgb8(img);
             let fdhsfg_img = processed_dynamic.to_luma16();
@@ -26,6 +29,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::Rgb16,8) =>{
             let img = foto.to_rgb16();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"Rgba16, ALPHA MA BYĆ, input 8 bit, tylko rgb true|false");
             let processed_dynamic = DynamicImage::ImageRgb16(img);
             let fdhsfg_img = processed_dynamic.to_luma8();
@@ -33,6 +37,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::Rgb16,16) =>{
             let img = foto.to_rgb16();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"Rgba16, ALPHA MA BYĆ, input 8 bit, tylko rgb true|false");
             let processed_dynamic = DynamicImage::ImageRgb16(img);
             let fdhsfg_img = processed_dynamic.to_luma16();
@@ -41,6 +46,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         //alpha
         (image::ColorType::Rgba8,8) =>{
             let img = foto.to_rgba8();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageRgba8(img);
             let fdhsfg_img = processed_dynamic.to_luma8();
@@ -48,6 +54,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::Rgba8,16) =>{
             let img = foto.to_rgba8();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageRgba8(img);
             let fdhsfg_img = processed_dynamic.to_luma16();
@@ -55,6 +62,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::Rgba16,8) =>{
             let img = foto.to_rgba16();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageRgba16(img);
             let fdhsfg_img = processed_dynamic.to_luma8();
@@ -62,6 +70,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::Rgba16,16) =>{
             let img = foto.to_rgba16();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageRgba16(img);
             let fdhsfg_img = processed_dynamic.to_luma16();
@@ -70,6 +79,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         //luma
         (image::ColorType::L8,16) =>{
             let img = foto.to_luma8();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageLuma8(img);
             let fdhsfg_img = processed_dynamic.to_luma16();
@@ -77,6 +87,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::L16,8) =>{
             let img = foto.to_luma16();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageLuma16(img);
             let fdhsfg_img = processed_dynamic.to_luma8();
@@ -85,6 +96,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         //alpha
         (image::ColorType::La8,8) =>{
             let img = foto.to_luma_alpha8();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageLumaA8(img);
             let fdhsfg_img = processed_dynamic.to_luma8();
@@ -92,6 +104,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::La8,16) =>{
             let img = foto.to_luma_alpha8();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageLumaA8(img);
             let fdhsfg_img = processed_dynamic.to_luma16();
@@ -99,6 +112,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::La16,8) =>{
             let img = foto.to_luma_alpha16();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageLumaA16(img);
             let fdhsfg_img = processed_dynamic.to_luma8();
@@ -106,6 +120,7 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
         },
         (image::ColorType::La16,16) =>{
             let img = foto.to_luma_alpha16();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"rgbaa16, ALPHA MA BYĆ, input 8 bit, tylko rgba true|false");
             let processed_dynamic = DynamicImage::ImageLumaA16(img);
             let fdhsfg_img = processed_dynamic.to_luma16();
@@ -154,12 +169,12 @@ pub fn rgb_to_bw(foto:DynamicImage,rozdzielczosc:u8, ilosc_bitow:u8, filter:u8)-
                 3 => result_img.resize_exact(scaled_width, scaled_height, image::imageops::FilterType::Gaussian),
                 _ => result_img.resize_exact(scaled_width, scaled_height, image::imageops::FilterType::Nearest),
             };
-        
-    
 
 
 
 
+
+    #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"wychodze");
 
     Ok(resized_img)

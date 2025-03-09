@@ -371,7 +371,7 @@ pub fn ui_left_panel_foty_laczenie(
 
         ui.add_space(proxy_self.formatowanie_spacja_srednia);
 
-        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski = Default::default(); println!("test"); }
+        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski = Default::default(); }
     });
     if !proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.to_string_lossy().is_empty(){
         //napis sciezki
@@ -906,6 +906,7 @@ pub fn ui_left_panel_foty_laczenie(
         .corner_radius(10.)
         .fill(fotox_butt_col))
         .clicked() && hjgfkjlh{
+        #[cfg(feature = "statystyki")]
             println!("kliklem przycisk!");
 
 
@@ -919,10 +920,12 @@ pub fn ui_left_panel_foty_laczenie(
                     link_niebieski.clone(),
                     proxy_self.ui_laczenie_specyfic_sciezka_folder_wyjsciowy.clone()
                     ]));
+        #[cfg(feature = "statystyki")]
                 println!("{:?}",arc_z_path);
                 let arc_z_string = Arc::new(Mutex::new(vec![
                     proxy_self.ui_laczenie_specyfic_nazwa_pliku.clone()
                     ]));
+        #[cfg(feature = "statystyki")]
                     println!("{:?}",arc_z_string);
                 let arc_z_u8 = Arc::new(Mutex::new(vec![
                     proxy_self.ui_laczenie_specyfic_dane_rozdzielczosc,
@@ -932,6 +935,7 @@ pub fn ui_left_panel_foty_laczenie(
                     proxy_self.ui_laczenie_specyfic_dane_jakosc,
                     proxy_self.ui_laczenie_specyfic_dane_filter_png
                     ]));
+        #[cfg(feature = "statystyki")]
                     println!("{:?}",arc_z_u8);
 
 
@@ -943,14 +947,21 @@ pub fn ui_left_panel_foty_laczenie(
                         arc_z_string,
                         arc_z_u8,
                     );
+                    #[cfg(feature = "statystyki")]
                     println!("ui w thread!");
                     
                     match tx_clonea.send(result) {
-                        Ok(_) => println!("Wysłano wynik"),
-                        Err(e) => eprintln!("Błąd wysyłania: {}", e),
+                        Ok(_) =>{
+                            #[cfg(feature = "statystyki")]
+                             println!("Wysłano wynik")
+                        },
+                        Err(e) => {
+                            #[cfg(feature = "statystyki")]
+                            eprintln!("Błąd wysyłania: {}", e) },
                         
                     }
                 });
+        #[cfg(feature = "statystyki")]
                 println!("ui po thread!");
                 
                 proxy_self.ui_laczenie_specyfic_status_przetwarzania = 1;
@@ -958,9 +969,9 @@ pub fn ui_left_panel_foty_laczenie(
             }
         // }
 
-                        
 
-#[cfg(debug_assertions)]
+
+    #[cfg(feature = "statystyki")]
 match (proxy_self.general_ui_przelacz_tryb_debug, proxy_self.general_ui_licznik_czasu_debug){
     (true, 61..=u8::MAX) => {proxy_self.general_ui_licznik_czasu_debug = 0},
     (true, 60) => {

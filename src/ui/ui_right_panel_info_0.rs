@@ -12,7 +12,9 @@ use crate::ui::{
 
 pub fn right_panel_info_main(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32,_zolty_ciemny:Color32,_szarawy_ciemny:Color32){
     ui.separator();
+    #[cfg(feature = "statystyki")]
     ui.add(egui::Label::new(RichText::new("CTRL + E for aditional menu").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+    #[cfg(feature = "statystyki")]
     ui.add(egui::Label::new(RichText::new("wiadomość TODO!".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));
     ui.add(egui::Label::new(RichText::new("do konwersji zdjęć obsługiwane na ten moment:\n jpg | jpeg | png | webp | tga ".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));
     ui.add(egui::Label::new(RichText::new("może działać ale nie musi:\n inne rozszerzenia zdjęć".to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))));

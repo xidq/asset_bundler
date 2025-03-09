@@ -368,7 +368,7 @@ pub fn encrypt_folder(
             let mut buffer = vec![0; original_file_size as usize];
             file.read_exact(&mut buffer)?;
 
-
+            #[cfg(feature = "statystyki")]
             println!("[Szyfrowanie/encrypt_folder :: LocalTime:{}]\n---> dat po, Odczytane dane (pierwsze 50 bajtów): \n---> {:?}\n", 
                 Local::now().format("%H:%M:%S"), &buffer[0..buffer.len().min(50)]);
 
@@ -442,6 +442,7 @@ pub fn encrypt_folder(
         ) in &file_infos {
 
             // let sanitized_file_path = sanitize_filename(new_file_path);
+            #[cfg(feature = "statystyki")]
             println!("[Szyfrowanie/encrypt_folder/idx_data :: LocalTime:{}]\n---> Plik: {},\n---> Rozmiar: {},\n---> Offset: {}\n", 
                 Local::now().format("%H:%M:%S"), new_file_path,file_size, offset);
 
@@ -457,7 +458,7 @@ pub fn encrypt_folder(
         
 
         let idx_bytes = idx_data.join("\n").into_bytes();
-
+        #[cfg(feature = "statystyki")]
         println!("[Szyfrowanie/encrypt_folder/idx_bytes :: LocalTime:{}]\n---> Index przed, Odczytane dane (pierwsze 5 bajtów):\n---> {:?}\n", 
             Local::now().format("%H:%M:%S"), &idx_bytes[0..idx_bytes.len().min(50)]);
 
@@ -470,7 +471,7 @@ pub fn encrypt_folder(
 
         // saving idx
         index.write_all(&idx_bytes)?;
-
+        #[cfg(feature = "statystyki")]
         println!("[Szyfrowanie/encrypt_folder/idx_bytes :: LocalTime:{}]\n---> Index po, Odczytane dane: {:?}\n", 
             Local::now().format("%H:%M:%S"), &idx_bytes[0..idx_bytes.len().min(50)]);
 
@@ -548,6 +549,7 @@ pub fn encrypt_folder(
 
 
         }
+        #[cfg(feature = "statystyki")]
         println!("[Szyfrowanie/encrypt_folder :: LocalTime:{}]\n---> Pliki spakowane do: {}\n---> i zapisane indeksy w {}\n", Local::now().format("%H:%M:%S"),
         &output_file, &index_file);
         // tx.send(processed_files_count).unwrap();
@@ -557,7 +559,7 @@ pub fn encrypt_folder(
     let przeprocesowane_pliki = nowy_watek.join().map_err(|_| io::Error::new(io::ErrorKind::Other,"Wątek zakończył się błędem"))??;
 
 
-
+    #[cfg(feature = "statystyki")]
     println!("[Szyfrowanie/encrypt_folder :: LocalTime:{}]\n---> Dodatkowe info w pliku LUA\n",
         Local::now().format("%H:%M:%S"));
 

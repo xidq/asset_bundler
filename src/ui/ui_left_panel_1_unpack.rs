@@ -371,8 +371,14 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                             );
                         
                             match de_tx_clone.send(de_result) {
-                                Ok(_) => println!("Wysłano wynik"),
-                                Err(e) => eprintln!("Błąd wysyłania: {}", e),
+                                Ok(_) => {
+                                    #[cfg(feature = "statystyki")]
+                                    println!("Wysłano wynik") 
+                                },
+                                Err(e) => {
+                                    #[cfg(feature = "statystyki")]
+                                    eprintln!("Błąd wysyłania: {}", e) 
+                                },
                             }
                         });
                         

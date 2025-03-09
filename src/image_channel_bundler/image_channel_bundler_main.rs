@@ -21,13 +21,16 @@ pub fn image_channel_bundler(
     string_arc: Arc<Mutex<Vec<String>>>,
     u8_arc:Arc<Mutex<Vec<u8>>>
 )->Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error >{
+    #[cfg(feature = "statystyki")]
     let nazwa_funkcji = "image_channel_bundler";
 
     let paths_arc_clone = Arc::clone(&paths_arc);
     let u8_arc_clone = Arc::clone(&u8_arc);
     let string_arc_clone = Arc::clone(&string_arc);
+    #[cfg(feature = "statystyki")]
     komunikat(nazwa_funkcji,"zmierzam do nowego wątku\n");
     let nowy_watek = thread::spawn(move||-> Result<(usize,usize), std::io::Error>{
+        #[cfg(feature = "statystyki")]
         komunikat(nazwa_funkcji,"jestem w nowym wątku!\n");
 
         let tajm_starto = Instant::now();
@@ -52,6 +55,7 @@ pub fn image_channel_bundler(
 
 
         let procesowane_rgb = input_foto_vec.into_par_iter().map(|gsfhsgf| {
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"jestem w iter!");
             let foto_do_skladania:DynamicImage = if gsfhsgf.starts_with("xyz") {
                 let sdgdfh: Vec<&str>=gsfhsgf.to_str().unwrap().split('/').collect();
@@ -86,12 +90,15 @@ pub fn image_channel_bundler(
             let valid_images: Vec<DynamicImage> = procesowane_rgb.into_iter()
                 .filter_map(Result::ok) // Usuwamy błędy i zostawiamy tylko obrazy
                 .collect();
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"każdy osobny plik przetworzony ok, wsio w vec co ma byc, teraz do zapisu");
             // Uruchamiamy funkcję z przetworzonymi obrazami
             polaczenie_rgb(valid_images, output_path,rozszerzenie,nazwa_pliku,jakosc,png_filter);
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"Obrazy połączone i zapisane.\n");
 
         } else {
+            #[cfg(feature = "statystyki")]
             komunikat(nazwa_funkcji,"Nie wszystkie operacje zakończyły się sukcesem.\n");
         }
 

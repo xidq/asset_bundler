@@ -3,7 +3,7 @@ use egui::{
     Context
 };
 use crate::ui::ui_defaults::Appencja;
-
+#[cfg(feature = "statystyki")]
 pub fn ui_right_panel_info_0_4(
     proxy_self: &mut Appencja,
     _ctx: &Context,ui: &mut egui::Ui,

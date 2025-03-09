@@ -27,8 +27,11 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
         let mut created_files = counter;
 
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
+    #[cfg(feature = "statystyki")]
     let func_id = "Ogarniacz Fot w image_actions::konwersja.rs" ;
+    #[cfg(feature = "statystyki")]
     let current_time = Local::now();
+    #[cfg(feature = "statystyki")]
     let formatted_time = current_time.format("%H:%M:%S").to_string();
     //***************************************************************
 
@@ -44,13 +47,14 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 
-
+    #[cfg(feature = "statystyki")]
     println!("[{func_id}]\n{formatted_time}   zaczynam konwersje {}\n",rozszerzenie_string);
 
     // Załaduj obraz
     let img = match image::open(sciezka) {
         Ok(img) => img,
         Err(_) => {
+            #[cfg(feature = "statystyki")]
             eprintln!("[{func_id}]\n{formatted_time}   Nie udało się załadować obrazu: {:?}", sciezka);
             return 0; // Zwracamy 0, jeśli obraz nie mógł zostać załadowany
         }
@@ -108,16 +112,18 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
                 create_dir_all(parent).unwrap(); // Zignorujemy ewentualne błędy przy tworzeniu katalogu
             }
             // Zapisz plik w formacie PNG
+            #[cfg(feature = "statystyki")]
             println!("[{func_id}]\n{formatted_time}   zakończony resize, wchodzę w encoder\n");
             crate::utils::image_encoder::foto_enkodery(resized_img,output_path,roz_png_fil[0],qua_fil_alp_alpc[0],&roz_png_fil[1]);
 
 
 
             created_files += 1;
+            #[cfg(feature = "statystyki")]
             println!("[{func_id}]\n{formatted_time}   test iteracji w {rozszerzenie_string} = {created_files}");
         }
     }
-
+    #[cfg(feature = "statystyki")]
     println!("[{func_id}]\n{formatted_time}   plik {rozszerzenie_string} zapisany, przechodzę dalej\n");
     created_files
 }

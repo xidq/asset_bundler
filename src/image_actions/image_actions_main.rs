@@ -41,12 +41,17 @@ pub fn convert_images(
     arc_z_dodatkowymi_ustawieniami: Arc<Mutex<Vec<u8>>>
 )-> Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error >{
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
+    #[cfg(feature = "statystyki")]
     let func_id = "convert_images w image_actions::image_actions_main.rs" ;
+    #[cfg(feature = "statystyki")]
     let current_time = Local::now();
+    #[cfg(feature = "statystyki")]
     let formatted_time = current_time.format("%H:%M:%S").to_string();
+    #[cfg(feature = "statystyki")]
     let formatted_time2 = formatted_time.clone();
     //    println!("[{func_id}]\n{formatted_time}   zaczynam konwersje {}",rozszerzenie_string);
     //***************************************************************
+    #[cfg(feature = "statystyki")]
     println!("[{func_id}]\n{formatted_time}   rozpoczęcie funkcji konwersji");
     let time_start = Instant::now();
     // let processed_files_count = 0;
@@ -59,6 +64,7 @@ pub fn convert_images(
     let arc_z_dodatkowymi_ustawieniami_clone = Arc::clone(&arc_z_dodatkowymi_ustawieniami);
 
     let nowy_watek = thread::spawn(move||-> Result<(usize,usize), std::io::Error>{
+        #[cfg(feature = "statystyki")]
         println!("[{func_id}]\n{formatted_time}   rozpoczęcie nowego wątku");
         //potem zajmę się tym bo to z ui będzie szło.
         // let strip_arc_z_typ_clone = arc_z_typ_clone.lock().unwrap();
@@ -129,6 +135,7 @@ pub fn convert_images(
 
 
         let processed_results = file_entries.into_par_iter().map(|gsfhsgf| {
+            #[cfg(feature = "statystyki")]
             println!("[{func_id}]\n{formatted_time}   rozpoczęcie iteracji wielowątkowej\n");
             let mut local_created_files_count = 0;
             
@@ -187,6 +194,7 @@ pub fn convert_images(
 
         let total_processed_files = processed_results.len();
         let total_created_files:i32 = processed_results.iter().sum();
+        #[cfg(feature = "statystyki")]
         println!("[{func_id}]\n{formatted_time}   zakończenie iteracji wielowątkowej\n");
 
         Ok((total_processed_files, total_created_files as usize))
@@ -198,6 +206,7 @@ pub fn convert_images(
     let czas_trwania = time_start.elapsed();
     let czas_trwania_sekundy: usize = czas_trwania.as_secs() as usize;
     let czas_trwania_milisekundy:usize = czas_trwania.subsec_millis() as usize;
+    #[cfg(feature = "statystyki")]
     println!("[{func_id}]\n{formatted_time2}   Ogarnąłem {} plików zrobionych z {} plików w czasie {}.{}s",przeprocesowane_pliki.1,przeprocesowane_pliki.0,czas_trwania_sekundy,czas_trwania_milisekundy);
     Ok(Arc::new(Mutex::new(vec![
         przeprocesowane_pliki.1,

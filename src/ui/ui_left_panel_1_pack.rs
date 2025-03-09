@@ -697,11 +697,19 @@ pub fn ui_left_panel_encrypt(
                     );
                     
                     match tx_clone.send(result) {
-                        Ok(_) => println!("Wysłano wynik"),
-                        Err(e) => eprintln!("Błąd wysyłania: {}", e),
+
+                        Ok(_) => {
+                            #[cfg(feature = "statystyki")]
+                            println!("Wysłano wynik")
+                        },
+
+                        Err(e) => {
+                            #[cfg(feature = "statystyki")]
+                            eprintln!("Błąd wysyłania: {}", e)
+                        },
                     }
                 });
-                
+
                 proxy_self.ui_pack_specyfic_status_przetwarzania = 1;
 
             }

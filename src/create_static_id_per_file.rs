@@ -55,6 +55,7 @@ fn sprawdz_czy_istnieje_juz_taki_plik(sciezka: &Path, plik: &str) -> Result<Path
 }
 
 pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &PathBuf) -> io::Result<()> {
+    #[cfg(feature = "statystyki")]
     println!("jestem w iteracja_po_każdym_pliku");
     // Otwórz plik magic.numbers do odczytu i zapisu
     let mut plik_magic = match OpenOptions::new()
@@ -63,9 +64,11 @@ pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &Pa
         .create(true) // Jeśli plik nie istnieje, utwórz go
         .open(ścieżka_pliku_magic){
         Ok(file) => {
+            #[cfg(feature = "statystyki")]
             println!(" iteracja_po_kazdym_pliku plik_magic OK!");
             file },
         Err(_) => {
+            #[cfg(feature = "statystyki")]
             println!(" iteracja_po_kazdym_pliku plik_magic ERROR!");
             File::create(ścieżka_pliku_magic)? },
     };
@@ -84,6 +87,7 @@ pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &Pa
     }
 
     let mut nowe_id = HashSet::new();
+    #[cfg(feature = "statystyki")]
     println!("originalna zawartość pliku: {:?}", istniejące_id);
 
     // Iteruj po plikach w podanej ścieżce
@@ -98,17 +102,21 @@ pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &Pa
 
             // Jeśli ścieżka już istnieje w pliku magic.numbers, pomijamy ten plik
             if istniejące_ścieżki.contains(&path_str) {
+                #[cfg(feature = "statystyki")]
                 println!("Plik {} już istnieje w magic.numbers, pomijam go.", path_str);
                 continue;  // Przechodzimy do następnego pliku
             }
 
             let mut unikalne_id = generate_unique_id();
+            #[cfg(feature = "statystyki")]
             println!("Wygenerowano ID: {}", unikalne_id);
 
             // Sprawdzaj, czy ID już istnieje, a jeśli tak, generuj nowe
             while istniejące_id.contains(&unikalne_id) || nowe_id.contains(&unikalne_id) {
+                #[cfg(feature = "statystyki")]
                 println!("ID {} już istnieje, generuję nowe...", unikalne_id);
                 unikalne_id = generate_unique_id();
+                #[cfg(feature = "statystyki")]
                 println!("Wygenerowano nowe ID: {}", unikalne_id);
             }
 
@@ -117,6 +125,7 @@ pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &Pa
 
             // Zapisz faktyczną ścieżkę pliku i ID
             let zapis = format!("{} {}\n", unikalne_id, path.strip_prefix(ścieżka).unwrap().display());
+            #[cfg(feature = "statystyki")]
             println!("Zapisuję do pliku: {}", zapis);
             plik_magic.write_all(zapis.as_bytes())?;
         }

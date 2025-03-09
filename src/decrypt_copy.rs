@@ -91,17 +91,18 @@ pub fn read_index_file(idx_path: &Path, _de_password: &str, _toggle_encryption: 
             let file_path = parts[5].to_string();
             let file_size = parts[6].parse::<u64>().unwrap_or(0);
             let offset = parts[7].parse::<u64>().unwrap_or(0);
-
+            #[cfg(feature = "statystyki")]
             println!("[Deszyfrowanie/read_index_file :: LocalTime:{}]\n---> Załadowany plik z indeksu: {}, rozmiar: {}, offset: {}\n", 
                 Local::now().format("%H:%M:%S"), file_path, file_size, offset); // Logowanie
 
             file_infos.push((file_path, file_size, offset)); // adding necesarry data to vector
 
         } else {
+            #[cfg(feature = "statystyki")]
             println!("[Deszyfrowanie/read_index_file :: LocalTime:{}]\n\n##### ---> Błąd w danych indeksu: {} <---#####\n\n", Local::now().format("%H:%M:%S"), line); // Logowanie błędnych wierszy
         }
     }
-
+    #[cfg(feature = "statystyki")]
     println!("[Deszyfrowanie/read_index_file :: LocalTime:{}]\n---> Załadowano informacje o {} pliku/plikach z indeksu\n", Local::now().format("%H:%M:%S"), file_infos.len());
     Ok(file_infos)
 }
@@ -181,7 +182,7 @@ pub fn decrypt_files(
     let arc_z_u8_clone = Arc::clone(&arc_z_u8);
     let arc_z_path_clone = Arc::clone(&arc_z_path);
     let arc_z_str_clone = Arc::clone(&arc_z_str);
-
+    #[cfg(feature = "statystyki")]
     println!("[Deszyfrowanie/decrypt_files] Rozpoczęcie procesu...");
     let nowy_watek = thread::spawn(move||-> Result<usize, std::io::Error>{
         let strip_arc_z_u8_clone = get_locked_data_u8(&arc_z_u8_clone)?;
@@ -224,9 +225,11 @@ pub fn decrypt_files(
                         chunk = decompressed;
                     },
                     Ok(None) => {
+                        #[cfg(feature = "statystyki")]
                         println!("[WARNING] Plik {} nie jest skompresowany", file_path);
                     },
                     Err(e) => {
+                        #[cfg(feature = "statystyki")]
                         eprintln!("[ERROR] Błąd dekompresji {}: {}", file_path, e);
                         continue;
                     }
@@ -294,6 +297,7 @@ fn try_decompress_zstd(data: &[u8]) -> std::io::Result<Option<Vec<u8>>> {
 
         Ok(d) => d,
         Err(e) => {
+            #[cfg(feature = "statystyki")]
             println!("[ERROR] Błąd dekodera Zstd: {}", e);
             return Ok(None);
         }
@@ -310,6 +314,7 @@ fn try_decompress_zstd(data: &[u8]) -> std::io::Result<Option<Vec<u8>>> {
             Ok(Some(decompressed))
         },
         Err(e) => {
+            #[cfg(feature = "statystyki")]
             println!("[ERROR] Błąd dekompresji: {}", e);
             Ok(None)
         }

@@ -674,8 +674,12 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                         );
                                         
                                         match tx_clone.send(result) {
-                                            Ok(_) => println!("Wysłano wynik"),
-                                            Err(e) => eprintln!("Błąd wysyłania: {}", e),
+                                            Ok(_) => {
+                                                #[cfg(feature = "statystyki")]
+                                                println!("Wysłano wynik") },
+                                            Err(e) => {
+                                                #[cfg(feature = "statystyki")]
+                                                eprintln!("Błąd wysyłania: {}", e) },
                                         }
                                     });
                                     
