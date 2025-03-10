@@ -22,6 +22,7 @@ pub struct Appencja {
   // pub general_ui_status_przetwarzania:u8,
   pub general_ui_szerokosc_okna:f32,
   pub general_ui_przelacz_tryb_debug: bool,
+  #[cfg(feature = "statystyki")]
   pub general_ui_licznik_czasu_debug: u8,
   pub general_ui_przelacz_binarny_zdjecia: bool,
   pub general_ui_przelacz_binarny_opcje:u8,
@@ -182,7 +183,8 @@ impl Default for Appencja {
         general_ui_loading_tekst: "",
         // general_ui_status_przetwarzania:0,
         general_ui_szerokosc_okna:740.,
-        general_ui_przelacz_tryb_debug: false, 
+        general_ui_przelacz_tryb_debug: false,
+        #[cfg(feature = "statystyki")]
         general_ui_licznik_czasu_debug:0,
         general_ui_przelacz_binarny_zdjecia:false,
         general_ui_przelacz_binarny_opcje:0,

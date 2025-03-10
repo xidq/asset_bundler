@@ -5,6 +5,7 @@ use std::{
     thread, 
     time::Instant
 };
+#[cfg(feature = "statystyki")]
 use chrono::Local;
 use walkdir::WalkDir;
 use rayon::*;
@@ -39,7 +40,7 @@ pub fn convert_images(
     arc_z_rozdzielczosc:Arc<Mutex<Vec<bool>>>,
     arc_z_path:Arc<Mutex<Vec<String>>>,
     arc_z_dodatkowymi_ustawieniami: Arc<Mutex<Vec<u8>>>
-)-> Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, std::io::Error >{
+)-> Result<Arc<Mutex<Vec<usize>>>, std::io::Error >{
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
     #[cfg(feature = "statystyki")]
     let func_id = "convert_images w image_actions::image_actions_main.rs" ;
@@ -66,7 +67,7 @@ pub fn convert_images(
     let nowy_watek = thread::spawn(move||-> Result<(usize,usize), std::io::Error>{
         #[cfg(feature = "statystyki")]
         println!("[{func_id}]\n{formatted_time}   rozpoczęcie nowego wątku");
-        //potem zajmę się tym bo to z ui będzie szło.
+        //Potem zajmę się tym bo to z ui będzie szło.
         // let strip_arc_z_typ_clone = arc_z_typ_clone.lock().unwrap();
 
         
@@ -120,7 +121,7 @@ pub fn convert_images(
 
 
 
-    // w tym template są rozszerzenia plików które mają być brane pod uwagę jak coś.
+    // w tym template są rozszerzenia plików, które mają być brane pod uwagę jak coś.
         for entry in WalkDir::new(folder_wejsciowy).into_iter().filter_map(Result::ok) {
             let path = entry.path();
             if path.is_file() && matches_template(path) {
@@ -141,7 +142,7 @@ pub fn convert_images(
             
 
             let relative_path = gsfhsgf.strip_prefix(folder_wejsciowy).unwrap_or(&gsfhsgf);
-            let output_path = std::path::Path::new(folder_wyjsciowy).join(relative_path);
+            let output_path = Path::new(folder_wyjsciowy).join(relative_path);
 
             // Tworzenie odpowiednich podfolderów
             if let Some(parent) = output_path.parent() {

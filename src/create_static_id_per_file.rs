@@ -7,12 +7,15 @@ use std::sync::{Arc, Mutex};
 use walkdir::WalkDir;
 use crate::encrypt_bez_async_i_bez_chacha20::generate_unique_id;
 use crate::utils::arc_mutex_strip::{
-    get_locked_data_bool,
-    get_locked_data_u8,
-    get_locked_data_string,
+    // get_locked_data_bool,
+    // get_locked_data_u8,
+    // get_locked_data_string,
     get_locked_data_pathbuf,
 };
 
+
+//that one doesn't work, i forgot to remove placeholder values,
+// and then I implemented random values elsewhere, let that be just as check or smth
 pub fn create_random_id(
     ścieżki:Arc<Mutex<Vec<PathBuf>>>,
 ) -> Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, io::Error > {
@@ -34,10 +37,11 @@ pub fn create_random_id(
         },
     };
 
-    Ok(Arc::new(Mutex::new(vec![0 as usize,1,3,2])))
+    Ok(Arc::new(Mutex::new(vec![0_usize,1,3,2])))
 }
 
 fn sprawdz_czy_istnieje_juz_taki_plik(sciezka: &Path, plik: &str) -> Result<PathBuf, io::Error> {
+    #[cfg(feature = "statystyki")]
     println!("jestem w sprawdz_czy_istnieje_juz_taki_plik");
     // Przechodzimy przez wszystkie pliki w katalogu
     for entry in fs::read_dir(sciezka)? {
@@ -62,6 +66,7 @@ pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &Pa
         .read(true)  // Otwórz do odczytu
         .write(true) // Otwórz do zapisu
         .create(true) // Jeśli plik nie istnieje, utwórz go
+        .truncate(true)
         .open(ścieżka_pliku_magic){
         Ok(file) => {
             #[cfg(feature = "statystyki")]
@@ -91,7 +96,7 @@ pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &Pa
     println!("originalna zawartość pliku: {:?}", istniejące_id);
 
     // Iteruj po plikach w podanej ścieżce
-    let entries = fs::read_dir(ścieżka)?;
+    // let entries = fs::read_dir(ścieżka)?;
     for entry in WalkDir::new(ścieżka).into_iter().filter_map(Result::ok){
 
         let path = entry.path();
@@ -135,9 +140,9 @@ pub fn iteracja_po_każdym_pliku(ścieżka: &PathBuf, ścieżka_pliku_magic: &Pa
     Ok(())
 }
 
-pub fn generate_magic_number_file(){
-
-}
+// pub fn generate_magic_number_file(){
+//
+// }
 
 
 

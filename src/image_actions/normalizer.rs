@@ -1,4 +1,5 @@
 // use cipher::consts::False;
+#[cfg(feature = "statystyki")]
 use chrono::Local;
 use image::DynamicImage;
 

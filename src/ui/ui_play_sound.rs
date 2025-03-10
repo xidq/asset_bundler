@@ -39,7 +39,7 @@ pub fn play_finish_sound(volume:f32) {
     let _ = stream_handle.play_raw(amplified_source.convert_samples());
 
     // Sleep to keep the main thread alive while the sound plays
-    std::thread::sleep(std::time::Duration::from_secs(2));
+    thread::sleep(std::time::Duration::from_secs(2));
     });
 }
 #[cfg(not(feature = "raw"))]
@@ -71,6 +71,6 @@ pub fn play_ahh_sound(volume: f32) {
 
         // Play the sound
         let _ = stream_handle.play_raw(amplified_source.convert_samples());
-        std::thread::sleep(std::time::Duration::from_secs(2));
+        thread::sleep(std::time::Duration::from_secs(2));
     });
 }

@@ -2,6 +2,7 @@ use egui::{
     Color32,  
     Context, RichText, 
 };
+#[cfg(feature = "statystyki")]
 use std::time::{Instant,Duration};
 use crate::ui::ui_defaults::Appencja;
 use crate::ui::ui_change_font::wybrana_aktualna_czcionka;

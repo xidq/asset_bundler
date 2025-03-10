@@ -375,9 +375,9 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                                     #[cfg(feature = "statystyki")]
                                     println!("Wysłano wynik") 
                                 },
-                                Err(e) => {
+                                Err(_e) => {
                                     #[cfg(feature = "statystyki")]
-                                    eprintln!("Błąd wysyłania: {}", e) 
+                                    eprintln!("Błąd wysyłania: {}", _e)
                                 },
                             }
                         });

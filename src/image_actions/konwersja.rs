@@ -3,6 +3,7 @@ use std::{fs::create_dir_all, path::{PathBuf,Path}};
 use crate::image_actions::*;
 // use webp::*;
 // use chrono::NaiveTime;
+#[cfg(feature = "statystyki")]
 use chrono::Local;
 const RESOLUTION_MAPPING: [u32;10] =[
     16384,
@@ -35,14 +36,14 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
     let formatted_time = current_time.format("%H:%M:%S").to_string();
     //***************************************************************
 
-    let (rozszerzenie_string,rozszerzenie_do_pliku,definitywnie_alpha,rgb_only,bity):(&str,&str,&u8,bool,u8) = match roz_png_fil[0]{
-        0=>("jpg","jpg",&0,true,8),
-        1=>("png 8 bit","png",qua_fil_alp_alpc[2],false,8),
-        2=>("png 16 bit","png",qua_fil_alp_alpc[2],false,16),
-        3=>("webp lossless","webp",qua_fil_alp_alpc[2],true,8),
-        4=>("webp lossy","webp",qua_fil_alp_alpc[2],true,8),
-        5=>("tga","tga",qua_fil_alp_alpc[2],true,8),
-        _=>("nieznane","nieznane",&0,true,8)
+    let (rozszerzenie_do_pliku,definitywnie_alpha,rgb_only,bity):(&str,&u8,bool,u8) = match roz_png_fil[0]{
+        0=>("jpg",&0,true,8),
+        1=>("png",qua_fil_alp_alpc[2],false,8),
+        2=>("png",qua_fil_alp_alpc[2],false,16),
+        3=>("webp",qua_fil_alp_alpc[2],true,8),
+        4=>("webp",qua_fil_alp_alpc[2],true,8),
+        5=>("tga",qua_fil_alp_alpc[2],true,8),
+        _=>("nieznane",&0,true,8)
     };
 
 

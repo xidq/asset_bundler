@@ -228,9 +228,9 @@ pub fn decrypt_files(
                         #[cfg(feature = "statystyki")]
                         println!("[WARNING] Plik {} nie jest skompresowany", file_path);
                     },
-                    Err(e) => {
+                    Err(_e) => {
                         #[cfg(feature = "statystyki")]
-                        eprintln!("[ERROR] Błąd dekompresji {}: {}", file_path, e);
+                        eprintln!("[ERROR] Błąd dekompresji {}: {}", file_path, _e);
                         continue;
                     }
                 }
@@ -296,9 +296,9 @@ fn try_decompress_zstd(data: &[u8]) -> std::io::Result<Option<Vec<u8>>> {
     let mut decoder = match zstd::Decoder::new(data) {
 
         Ok(d) => d,
-        Err(e) => {
+        Err(_e) => {
             #[cfg(feature = "statystyki")]
-            println!("[ERROR] Błąd dekodera Zstd: {}", e);
+            println!("[ERROR] Błąd dekodera Zstd: {}", _e);
             return Ok(None);
         }
     };
@@ -313,9 +313,9 @@ fn try_decompress_zstd(data: &[u8]) -> std::io::Result<Option<Vec<u8>>> {
             }
             Ok(Some(decompressed))
         },
-        Err(e) => {
+        Err(_e) => {
             #[cfg(feature = "statystyki")]
-            println!("[ERROR] Błąd dekompresji: {}", e);
+            println!("[ERROR] Błąd dekompresji: {}", _e);
             Ok(None)
         }
     }

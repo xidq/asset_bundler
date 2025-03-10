@@ -677,9 +677,9 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                             Ok(_) => {
                                                 #[cfg(feature = "statystyki")]
                                                 println!("Wysłano wynik") },
-                                            Err(e) => {
+                                            Err(_e) => {
                                                 #[cfg(feature = "statystyki")]
-                                                eprintln!("Błąd wysyłania: {}", e) },
+                                                eprintln!("Błąd wysyłania: {}", _e) },
                                         }
                                     });
                                     

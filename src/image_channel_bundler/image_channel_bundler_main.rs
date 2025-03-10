@@ -1,5 +1,5 @@
 // use std::io::Read;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 // use std::fs::File;
 use std::vec::Vec;
@@ -10,6 +10,7 @@ use rayon::iter::ParallelIterator;
 use std::thread;
 use image::{DynamicImage, Rgb, RgbImage};
 use std::time::Instant;
+#[cfg(feature = "statystyki")]
 use crate::utils::comunicat::komunikat;
 use crate::utils::arc_mutex_strip::{
     get_locked_data_pathbuf, get_locked_data_string, get_locked_data_u8
@@ -61,7 +62,7 @@ pub fn image_channel_bundler(
                 let sdgdfh: Vec<&str>=gsfhsgf.to_str().unwrap().split('/').collect();
                 let (szerokość, wysokość) = (sdgdfh[1].parse::<u32>().unwrap(),sdgdfh[2].parse::<u32>().unwrap());
                 let mut img: RgbImage = RgbImage::new(szerokość, wysokość);
-                for (x, y, pixel) in img.enumerate_pixels_mut() {
+                for (_x, _y, pixel) in img.enumerate_pixels_mut() {
                     *pixel = Rgb([255, 0, 0]);  // Wypełniamy obraz czerwonym kolorem
                 };
                 let dynamic_img: DynamicImage = DynamicImage::ImageRgb8(img);

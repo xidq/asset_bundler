@@ -24,7 +24,7 @@ use crate::{
 
     },
     utils::loading::animacja,
-    utils::ui_specyfic::names_match_loop,
+    // utils::ui_specyfic::names_match_loop,
     encrypt_bez_async_i_bez_chacha20::encrypt_folder
 };
 
@@ -703,9 +703,9 @@ pub fn ui_left_panel_encrypt(
                             println!("Wysłano wynik")
                         },
 
-                        Err(e) => {
+                        Err(_e) => {
                             #[cfg(feature = "statystyki")]
-                            eprintln!("Błąd wysyłania: {}", e)
+                            eprintln!("Błąd wysyłania: {}", _e)
                         },
                     }
                 });

@@ -1,5 +1,6 @@
 use image::DynamicImage;
 use image::GenericImageView;
+#[cfg(feature = "statystyki")]
 use crate::utils::comunicat::komunikat;
 
 

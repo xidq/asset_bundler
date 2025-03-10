@@ -1,4 +1,4 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 // use eframe::App;
 use egui::{Color32, Pos2, Response, RichText, Rect, Vec2, Context, ComboBox, Sense};
 use egui::TextEdit;
@@ -955,10 +955,11 @@ pub fn ui_left_panel_foty_laczenie(
                             #[cfg(feature = "statystyki")]
                              println!("Wysłano wynik")
                         },
-                        Err(e) => {
+
+                        Err(_e) => {
                             #[cfg(feature = "statystyki")]
-                            eprintln!("Błąd wysyłania: {}", e) },
-                        
+                            eprintln!("Błąd wysyłania: {}", _e) },
+
                     }
                 });
         #[cfg(feature = "statystyki")]

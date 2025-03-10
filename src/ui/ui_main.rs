@@ -4,7 +4,7 @@ use egui::{CentralPanel, /*FontFamily,*/FontDefinitions,FontData};
 use ecolor::Hsva;
 // use rfd::*;
 // use crate::utils::*;
-use std::time::Instant;
+// use std::time::Instant;
 use std::sync::Arc;
 // use crate::{image_actions, ui_play_sound::*};
 // use crate::encrypt;
@@ -224,7 +224,7 @@ impl eframe::App for Appencja {
         //             |ext| ext == "idx") &&
         //     !self.output_de_folder_path.is_empty();
 
-        //override some things bcoz i want to
+        //override some things bcoz I want to
         let visuals = ctx.style().visuals.clone();
         let mut visuals = visuals;
         visuals.selection.bg_fill = fiolet_ciemny; // Zmiana tła na zielony przy selekcji
@@ -232,12 +232,12 @@ impl eframe::App for Appencja {
         ctx.set_visuals(visuals);
 
         
-        // pub fn wybrana_aktualna_czcionka(rozmiar: f32,formatowanie_wybor_czcionki: u8) -> FontId{
-        //     let aktualna_czcionka_aaaa = match formatowanie_wybor_czcionki {
+        // pub fn wybrana_aktualna_czcionka (rozmiar: f32,formatowanie_wybor_czcionki: u8) -> FontId{
+        //     let aktualna_czcionka_aaaa = match formatowanie_wybor_czcionki {        
         //         1 =>egui::FontFamily::Name("japanese_font".to_owned().into()),
         //         _ =>egui::FontFamily::Proportional
         //     };
-        //     FontId{size:rozmiar,family:aktualna_czcionka_aaaa}
+        //     FontId{size: rozmiar, family: aktualna_czcionka_aaaa}
 
         // }
 
@@ -353,7 +353,7 @@ impl eframe::App for Appencja {
 
                 egui::ScrollArea::vertical()
                 .show(ui, |ui| {
-                    // if !self.general_ui_przelacz_binarny_zdjecia{
+                    // if !self.general_ui_przelacz_binarny_zdjecia {
 
 
                         match (

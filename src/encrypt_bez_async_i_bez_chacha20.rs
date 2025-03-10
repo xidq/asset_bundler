@@ -19,7 +19,7 @@ use chrono::offset::Local;
 // use rand::*;
 use rand::Rng;
 use rand::distr::Alphanumeric;
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap/*, HashSet*/};
 use crate::create_static_id_per_file::create_random_id;
 // use tokio::io::AsyncWriteExt;
 // use std::time::Instant;
@@ -164,7 +164,7 @@ pub fn encrypt_folder(
     arc_z_str: Arc<Mutex<Vec<String>>>,
     arc_z_u8: Arc<Mutex<Vec<u8>>>,
     arc_z_bool:Arc<Mutex<Vec<bool>>>
-) -> Result<Arc<std::sync::Mutex<std::vec::Vec<usize>>>, io::Error > {
+) -> Result<Arc<Mutex<Vec<usize>>>, io::Error > {
     // let (tx, rx) = mpsc::channel();
     // for statistics
     let time_start = Instant::now();
@@ -197,7 +197,7 @@ pub fn encrypt_folder(
 
         let ścieżka_do_magic_numbers= Path::new(input_folder).join("magic.numbers");
         let cośtam = if ścieżka_do_magic_numbers.exists() || template == "Assets" || bool_magiczne_numerki {
-                create_random_id(Arc::new(Mutex::new(vec![PathBuf::from(Path::new(input_folder))])));
+                let _ = create_random_id(Arc::new(Mutex::new(vec![PathBuf::from(Path::new(input_folder))])))?;
             true
         } else {false};
 
@@ -283,6 +283,7 @@ pub fn encrypt_folder(
                     .read(true)
                     .write(true)
                     .create(true)
+                    .truncate(true)
                     .open(&ścieżka_do_magic_numbers) {
                     Ok(file) => {
                         file
@@ -556,7 +557,7 @@ pub fn encrypt_folder(
         Ok(processed_files_count)
     });
     
-    let przeprocesowane_pliki = nowy_watek.join().map_err(|_| io::Error::new(io::ErrorKind::Other,"Wątek zakończył się błędem"))??;
+    let przeprocesowane_pliki = nowy_watek.join().map_err(|_| io::Error::new(ErrorKind::Other,"Wątek zakończył się błędem"))??;
 
 
     #[cfg(feature = "statystyki")]

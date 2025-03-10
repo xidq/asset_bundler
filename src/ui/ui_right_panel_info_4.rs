@@ -1,7 +1,9 @@
+#[cfg(feature = "statystyki")]
 use egui::{
     Color32,
     Context
 };
+#[cfg(feature = "statystyki")]
 use crate::ui::ui_defaults::Appencja;
 #[cfg(feature = "statystyki")]
 pub fn ui_right_panel_info_0_4(

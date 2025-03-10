@@ -169,7 +169,7 @@ pub fn ui_right_panel_debug_0(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
 
         //     } else {
 
-        //         ui.painter().circle_stroke(btn_pozycjonowanie_debug_folder_wyjsciowy, proxy_self.pusty_cirkul_sajz, (proxy_self.pusty_cirkul_ma_stroke,proxy_self.pusty_cirkul_kolor));
+        //         ui.painter().circle_stroke(btn_pozycjonowanie_debug_folder_wyjsciowy, proxy_self.pusty_cirkul_sajz, (proxy_self.pusty_cirkul_ma_stroke, proxy_self.pusty_cirkul_kolor));
 
         //     }
             

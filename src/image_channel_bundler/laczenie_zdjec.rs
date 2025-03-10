@@ -5,6 +5,7 @@ use image::Rgb;
 // use image::ImageFormat;
 use image::GenericImageView;
 use std::fs::create_dir_all;
+#[cfg(feature = "statystyki")]
 use crate::utils::comunicat::komunikat;
 
 
