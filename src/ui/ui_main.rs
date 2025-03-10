@@ -271,7 +271,7 @@ impl eframe::App for Appencja {
         //  ██████  ██ 
 
         CentralPanel::default()
-        .show(ctx, |_ui| { //.frame(centralny_panel)
+        .show(ctx, |ui| { //.frame(centralny_panel)
             #[cfg(feature = "statystyki")]
             let tick: u8 =1;
             #[cfg(feature = "statystyki")]
@@ -280,6 +280,25 @@ impl eframe::App for Appencja {
             } else {
                 self.general_ui_licznik_czasu_debug +=1
             }
+
+
+
+
+            ui.vertical_centered_justified(|ui|{
+                ui.add(egui::Label::new("You shouldn't be here").selectable(false));
+                ui.add(egui::Label::new("That's just windows 'feature' to maximise windows with disabled maximisation").selectable(false));
+                #[cfg(not(feature = "raw"))]
+                ui.add(egui::Image::new(egui::include_image!("../br/1725657984_by_maxx92.jpg"))
+                           .sense(egui::Sense::click())
+                           .max_height(330.0)
+                           .max_width(300.0)
+                           .maintain_aspect_ratio(true)
+                           .fit_to_original_size(1.)
+                       // .rounding(10.0));
+
+                );
+                ui.add(egui::Label::new("Chunky cat is judging you".to_uppercase()).selectable(false));
+            });
 
 
 
