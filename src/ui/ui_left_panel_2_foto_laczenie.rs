@@ -22,12 +22,25 @@ use crate::{
 },
 utils::loading::animacja};
 
+
 pub fn ui_left_panel_foty_laczenie(
     proxy_self: &mut Appencja,
     ctx: &Context,ui: &mut egui::Ui,
     zolty_ciemny:Color32,
     szarawy_ciemny:Color32
 ){
+
+    let reset_image =         egui::Image::new(egui::include_image!("../br/1245738_reset-icon-png.png"))
+                                         .sense(egui::Sense::click())
+                                         .max_height(14.0)
+                                         .max_width(14.0)
+                                         .maintain_aspect_ratio(true)
+                                         .fit_to_original_size(1.)
+                                         .tint(Color32::RED)
+                                     // .rounding(10.0));
+
+    ;
+    // let restert_foto = egui::include_image!("../br/1245738_reset-icon-png.png");
     let margines_na_wybor_formatu_foty = proxy_self.formatowanie_spacja_srednia;
     let aspect_ratio_check =
     (proxy_self.ui_laczenie_specyfic_stosunek_czerwony == proxy_self.ui_laczenie_specyfic_stosunek_zielony) ||
@@ -148,8 +161,8 @@ pub fn ui_left_panel_foty_laczenie(
 
         ui.add_space(proxy_self.formatowanie_spacja_srednia);
 
-        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony = Default::default(); }
-
+        // if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony = Default::default(); }
+        if ui.add(reset_image.clone()).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony = Default::default(); }
 
         
     });
@@ -260,7 +273,10 @@ pub fn ui_left_panel_foty_laczenie(
 
         ui.add_space(proxy_self.formatowanie_spacja_srednia);
 
-        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony = Default::default(); }
+
+        // if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony = Default::default(); }
+        if ui.add(reset_image.clone()).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony = Default::default(); }
+
     });
     if !proxy_self.ui_laczenie_specyfic_sciezka_plik_zielony.to_string_lossy().is_empty(){
         //napis sciezki
@@ -371,7 +387,10 @@ pub fn ui_left_panel_foty_laczenie(
 
         ui.add_space(proxy_self.formatowanie_spacja_srednia);
 
-        if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski = Default::default(); }
+        // if ui.add(egui::Label::new(RichText::new("RESET").color(Color32::RED).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false).sense(Sense::click())).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski = Default::default(); }
+
+        if ui.add(reset_image.clone()).clicked() {proxy_self.ui_laczenie_specyfic_sciezka_plik_czerwony = Default::default(); }
+
     });
     if !proxy_self.ui_laczenie_specyfic_sciezka_plik_niebieski.to_string_lossy().is_empty(){
         //napis sciezki

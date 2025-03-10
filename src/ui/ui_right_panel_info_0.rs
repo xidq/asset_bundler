@@ -7,6 +7,7 @@ use crate::ui::{
     ui_defaults::Appencja,
     ui_change_font::wybrana_aktualna_czcionka
 };
+use webbrowser::open;
 
 
 
@@ -56,4 +57,13 @@ pub fn right_panel_info_main(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut e
     // .rounding(10.0));
     
     );
+
+    ui.add_space(100.);
+    ui.vertical_centered_justified(|ui|{
+        if ui.link(RichText::new("GitHub").size(30.)).clicked() {
+            if let Err(e) = open("https://github.com/xidq/asset_bundler") {
+                eprintln!("Błąd przy otwieraniu linku: {}", e);
+            }
+        }
+    });
 }

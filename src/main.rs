@@ -11,7 +11,8 @@ mod encrypt_asset_setting;
 mod image_actions;
 mod image_channel_bundler;
 mod create_static_id_per_file;
-
+pub mod macros;
+// use crate::macros::dodaj_duży_label;
 use eframe::egui;
 
 

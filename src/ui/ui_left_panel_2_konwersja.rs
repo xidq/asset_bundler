@@ -15,14 +15,12 @@ use std::sync::{
 };
 #[cfg(not(feature = "raw"))]
 use crate::ui::ui_play_sound::play_finish_sound;
-use crate::{
-    ui::{
+use crate::{dodaj_duży_label, dodaj_selectable_val_tekst, dodaj_średni_label, dodaj_średni_richtext, ui::{
     ui_defaults::Appencja,
-
     ui_change_font::wybrana_aktualna_czcionka,
-    
-},
-utils::loading::animacja};
+}, utils::loading::animacja};
+use crate::macros::*;
+use crate::ui::items_formatting::{dodaj_duży_label, dodaj_średni_label};
 
 pub fn ui_left_panel_foty_przetwarzanie(
     proxy_self: &mut Appencja,
@@ -41,7 +39,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
 
     ui.horizontal(|ui|{
         ui.add_space(margines_na_wybor_formatu_foty);
-        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_wybierz_folder_wejsciowy).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+        ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_wybierz_folder_wejsciowy));
     });
     ui.add_space(proxy_self.formatowanie_spacja_mala);
                         ui.horizontal(|ui|{
@@ -77,14 +75,15 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             let xxxx = &proxy_self.ui_konwersja_specyfic_sciezka_folder_wejsciowy;
                             let startu = &xxxx[..=15];
                             let endu = &xxxx[xxxx.len()-30 ..];
-                            ui.add(egui::Label::new(RichText::new(
-                                format!("{}/.../{}",startu,endu))
-                                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                            let tekst_ścieżka_wyjściowa = format!("{}/.../{}",startu,endu);
+                            ui.add(dodaj_średni_label(&tekst_ścieżka_wyjściowa));
+
                             ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
                 
                 
                         }else if !proxy_self.ui_konwersja_specyfic_sciezka_folder_wejsciowy.is_empty(){
-                            ui.add(egui::Label::new(RichText::new(proxy_self.ui_konwersja_specyfic_sciezka_folder_wejsciowy.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+
+                            ui.add(dodaj_średni_label!(&proxy_self.ui_konwersja_specyfic_sciezka_folder_wejsciowy));
 
                             ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
 
@@ -100,9 +99,12 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             // ██       ██████  ███████ ██████  ███████ ██   ██      ███ ███     ██     █████  ███████  ██████ ██  ██████   ███ ███     ██  
 
                         ui.horizontal(|ui|{
+                            
                             ui.add_space(margines_na_wybor_formatu_foty);
-                            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_wybierz_folder_wyjsciowy).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                            ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_wybierz_folder_wyjsciowy));
+
                         });
+    
                         ui.add_space(proxy_self.formatowanie_spacja_mala);
 
 
@@ -139,14 +141,12 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             let xxxx = &proxy_self.ui_konwersja_specyfic_sciezka_folder_wyjsciowy;
                             let startu = &xxxx[..=15];
                             let endu = &xxxx[xxxx.len()-30 ..];
-                            ui.add(egui::Label::new(RichText::new(
-                                format!("{}/.../{}",startu,endu))
-                                .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                            ui.add(dodaj_średni_label!(format!("{}/.../{}",startu,endu)));
                             ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
                 
                 
                         }else if !proxy_self.ui_konwersja_specyfic_sciezka_folder_wyjsciowy.is_empty(){
-                            ui.add(egui::Label::new(RichText::new(proxy_self.ui_konwersja_specyfic_sciezka_folder_wyjsciowy.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                            ui.add(dodaj_średni_label!(proxy_self.ui_konwersja_specyfic_sciezka_folder_wyjsciowy.to_string()));
 
                             ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
 
@@ -172,27 +172,28 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         ui.add_space(proxy_self.formatowanie_spacja_mala);
                         ui.columns(2,|columns|{
                             columns[0].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 0, RichText::new(proxy_self.current_language.general_colors_white).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::WHITE)).clicked(){
+                                // if ui.selectable_value(dodaj_selectable_val_tekst!()).clicked(){};
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 0, dodaj_średni_richtext!(proxy_self.current_language.general_colors_white).color(Color32::WHITE)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 1, RichText::new(proxy_self.current_language.general_colors_black).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::BLACK)).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 1, dodaj_średni_richtext!(proxy_self.current_language.general_colors_black).color(Color32::BLACK)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 2, RichText::new(proxy_self.current_language.general_colors_red).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::RED)).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 2, dodaj_średni_richtext!(proxy_self.current_language.general_colors_red).color(Color32::RED)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 3, RichText::new(proxy_self.current_language.general_colors_green).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::GREEN)).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 3, dodaj_średni_richtext!(proxy_self.current_language.general_colors_green).color(Color32::GREEN)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 4, RichText::new(proxy_self.current_language.general_colors_blue).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)).color(Color32::BLUE)).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha_kolor, 4, dodaj_średni_richtext!(proxy_self.current_language.general_colors_blue).color(Color32::BLUE)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
                             columns[1].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha, 0, RichText::new(proxy_self.current_language.przetwarzanie_bez_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha, 0, dodaj_średni_richtext!(proxy_self.current_language.przetwarzanie_bez_alpha)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha, 1, RichText::new(proxy_self.current_language.przetwarzanie_z_alpha).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_alpha, 1, dodaj_średni_richtext!(proxy_self.current_language.przetwarzanie_z_alpha)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 
@@ -209,37 +210,37 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         ui.separator();
                         ui.add_space(proxy_self.formatowanie_spacja_srednia);
                         ui.vertical_centered_justified(|ui|{
-                            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_filter_png_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                            ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_filter_png_tytul));
                         });
                         ui.add_space(proxy_self.formatowanie_spacja_mala);
                         
                         ui.columns(5, |column|{
                             column[0].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 0, RichText::new(proxy_self.current_language.image_specyfic_filter_nearest).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 0, dodaj_średni_richtext!(proxy_self.current_language.image_specyfic_filter_nearest)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[1].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 1, RichText::new(proxy_self.current_language.image_specyfic_filter_triangle).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 1, dodaj_średni_richtext!(proxy_self.current_language.image_specyfic_filter_triangle)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[2].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 2, RichText::new("Catmull\nRom").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 2, dodaj_średni_richtext!("Catmull\nRom")).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[3].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 3, RichText::new(proxy_self.current_language.image_specyfic_filter_gaussian).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 3, dodaj_średni_richtext!(proxy_self.current_language.image_specyfic_filter_gaussian)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
 
                             column[4].vertical_centered_justified(|ui|{
-                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 4, RichText::new(proxy_self.current_language.image_specyfic_filter_lanczos3).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                if ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter, 4, dodaj_średni_richtext!(proxy_self.current_language.image_specyfic_filter_lanczos3)).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                             });
@@ -257,7 +258,7 @@ pub fn ui_left_panel_foty_przetwarzanie(
                         ui.separator();
                         ui.add_space(proxy_self.formatowanie_spacja_srednia);
                         ui.vertical_centered_justified(|ui|{
-                            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_warianty_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                            ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_warianty_tytul));
                         });
                         ui.add_space(proxy_self.formatowanie_spacja_mala);
 
@@ -265,37 +266,37 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             column[0].vertical(|ui|{
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_jpg, RichText::new("jpg").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_jpg, dodaj_średni_richtext!("jpg")).clicked(){
                                         proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_png, RichText::new("png").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_png, dodaj_średni_richtext!("png")).clicked(){
                                     proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                 };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_png_16, RichText::new("png 16bit").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_png_16, dodaj_średni_richtext!("png 16bit")).clicked(){
                                         proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossless, RichText::new("webp").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossless, dodaj_średni_richtext!("webp")).clicked(){
                                         proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossy, RichText::new("webp lossy").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_webp_lossy, dodaj_średni_richtext!("webp lossy")).clicked(){
                                         proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
                                 ui.horizontal(|ui|{
                                     ui.add_space(margines_na_wybor_formatu_foty);
-                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_tga, RichText::new("tga").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).clicked(){
+                                    if ui.checkbox(&mut proxy_self.ui_konwersja_specyfic_dane_bool_tga, dodaj_średni_richtext!("tga")).clicked(){
                                         proxy_self.ui_konwersja_specyfic_status_przetwarzania = 0
                                     };
                                 });
@@ -308,10 +309,10 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                 });
                                 if ui.add_enabled(proxy_self.ui_konwersja_specyfic_dane_bool_png||proxy_self.ui_konwersja_specyfic_dane_bool_png_16,|ui: &mut egui::Ui|{
                                     ui.horizontal(|ui|{
-                                        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_filter_png_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                                        ui.add(dodaj_średni_label!(proxy_self.current_language.general_ui_filter_png_tytul));
                                         ComboBox::from_label(""/*&proxy_self.current_language.szyfrowanie_wybierz_ustawienia_prekonfigurowane.to_string()*/)
                                         .width(200. / 2.)
-                                        .selected_text(RichText::new(
+                                        .selected_text(dodaj_średni_richtext!(
                                             match proxy_self.ui_konwersja_specyfic_dane_filter_png{
                                                 0 => proxy_self.current_language.png_specyfic_filter_png_none,
                                                 1=> proxy_self.current_language.png_specyfic_filter_png_sub,
@@ -321,15 +322,15 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                                 5=>proxy_self.current_language.png_specyfic_filter_png_adaptive,
                                                 _ => proxy_self.current_language.err_value_overflow
                                             }
-                                        ).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
+                                        ))
                                         .show_ui(ui, |ui| {
             
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 0, RichText::new(proxy_self.current_language.png_specyfic_filter_png_none).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 1, RichText::new(proxy_self.current_language.png_specyfic_filter_png_sub).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 2, RichText::new(proxy_self.current_language.png_specyfic_filter_png_up).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 3, RichText::new(proxy_self.current_language.png_specyfic_filter_png_avg).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 4, RichText::new(proxy_self.current_language.png_specyfic_filter_png_paeth).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 5, RichText::new(proxy_self.current_language.png_specyfic_filter_png_adaptive).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 0, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_filter_png_none));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 1, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_filter_png_sub));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 2, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_filter_png_up));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 3, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_filter_png_avg));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 4, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_filter_png_paeth));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_filter_png, 5, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_filter_png_adaptive));
                                             }).response
 
                                         }).response
@@ -341,22 +342,22 @@ pub fn ui_left_panel_foty_przetwarzanie(
                                 };
                                 if ui.add_enabled(proxy_self.ui_konwersja_specyfic_dane_bool_png||proxy_self.ui_konwersja_specyfic_dane_bool_png_16,|ui: &mut egui::Ui|{
                                     ui.horizontal(|ui|{
-                                        ui.add(egui::Label::new(RichText::new("Kompresja").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                                        ui.add(dodaj_średni_label!("Kompresja"));
                                         ComboBox::from_id_salt("dropbox_png_quality")
                                         .width(140. / 2.)
-                                        .selected_text(RichText::new(
+                                        .selected_text(dodaj_średni_richtext!(
                                             match proxy_self.ui_konwersja_specyfic_dane_jakosc_png{
                                                 0 => proxy_self.current_language.png_specyfic_compression_none,
                                                 1=> proxy_self.current_language.png_specyfic_compression_default,
                                                 2=>proxy_self.current_language.png_specyfic_compression_best,
                                                 _ => proxy_self.current_language.err_value_overflow
                                             }
-                                        ).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
+                                        ))
                                         .show_ui(ui, |ui| {
             
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_png, 0, RichText::new(proxy_self.current_language.png_specyfic_compression_none).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_png, 1, RichText::new(proxy_self.current_language.png_specyfic_compression_default).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_png, 2, RichText::new(proxy_self.current_language.png_specyfic_compression_best).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_png, 0, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_compression_none));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_png, 1, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_compression_default));
+                                            ui.selectable_value(&mut proxy_self.ui_konwersja_specyfic_dane_jakosc_png, 2, dodaj_średni_richtext!(proxy_self.current_language.png_specyfic_compression_best));
                                            }).response
                                             
                                         }).response
@@ -396,12 +397,12 @@ pub fn ui_left_panel_foty_przetwarzanie(
                             ui.separator();
                             ui.add_space(proxy_self.formatowanie_spacja_srednia);
                             ui.vertical_centered_justified(|ui|{
-                                ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_rozdzielczosc_tytul).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+                                ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_rozdzielczosc_tytul));
                             });
                             ui.add_space(proxy_self.formatowanie_spacja_mala);
                         ui.columns(10, |column|{
                             column[0].vertical_centered_justified(|ui|{
-                                let ui_konwersja_specyfic_dane_rozdzielczosc_16k_wybor = ui.selectable_label(proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k, RichText::new("16k").font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+                                let ui_konwersja_specyfic_dane_rozdzielczosc_16k_wybor = ui.selectable_label(proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k, dodaj_średni_richtext!("16k"));
                                 if ui_konwersja_specyfic_dane_rozdzielczosc_16k_wybor.clicked(){
                                     if !proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k{
                                         proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k=true
