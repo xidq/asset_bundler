@@ -16,13 +16,13 @@ pub struct Language {
     pub general_ui_label_brak: &'static str,
 
     //szablony
-    pub szablony_wybor_0: &'static str,
-    pub szablony_wybor_1: &'static str,
-    pub szablony_wybor_2: &'static str,
-    pub szablony_wybor_3: &'static str,
-    pub szablony_wybor_4: &'static str,
-    pub szablony_wybor_5: &'static str,
-    pub szablony_wybor_6: &'static str,
+    pub szablony_wybór_0: &'static str,
+    pub szablony_wybór_1: &'static str,
+    pub szablony_wybór_2: &'static str,
+    pub szablony_wybór_3: &'static str,
+    pub szablony_wybór_4: &'static str,
+    pub szablony_wybór_5: &'static str,
+    pub szablony_wybór_6: &'static str,
 
 
 
@@ -32,6 +32,7 @@ pub struct Language {
     pub szyfrowanie_naglowek: &'static str,
     pub general_ui_nazwa_tytul: &'static str,
     pub general_ui_nazwa: &'static str,
+    pub general_ui_kompresja_tekst: &'static str,
     pub general_ui_kompresja_tytul: &'static str,
     pub szyfrowanie_kompresja: &'static str,
     pub general_ui_haslo_tytul: &'static str,
@@ -58,8 +59,8 @@ pub struct Language {
     pub deszyfrowanie_przycisk_ok: &'static str,
 
 
-    pub general_ui_wybierz_folder_wejsciowy: &'static str,
-    pub general_ui_wybierz_folder_wyjsciowy: &'static str,
+    pub general_ui_wybierz_folder_wejściowy: &'static str,
+    pub general_ui_wybierz_folder_wyjściowy: &'static str,
     pub general_ui_wybierz_folder: &'static str,
     pub general_ui_wybierz_plik_general: &'static str,
 
@@ -75,7 +76,7 @@ pub struct Language {
     pub general_ui_alpha_tytul: &'static str,
     pub general_ui_filter_png_tytul: &'static str,
     pub general_ui_warianty_tytul: &'static str,
-    pub general_ui_rozdzielczosc_tytul: &'static str,
+    pub general_ui_rozdzielczość_tytul: &'static str,
     pub general_ui_rozszerzenie_tytul: &'static str,
     pub general_ui_rozpakowano_tytul: &'static str,
     pub general_ui_spakowano_tytul: &'static str,
@@ -85,7 +86,7 @@ pub struct Language {
     pub general_ui_z_oryginalnych_tytul:&'static str,
     pub general_ui_kompilacja_rgb_tytul:&'static str,
 
-
+    pub łączenie_statyczny_id: &'static str,
 
 
     pub err_value_overflow: &'static str,
@@ -141,19 +142,20 @@ impl Language {
             general_ui_label_brak:"Brak",
 
                 //szablony
-            szablony_wybor_0: "Wszystkie pliki",
-            szablony_wybor_1: "Assets",
-            szablony_wybor_2: "Zdjęcia",
-            szablony_wybor_3: "Dźwięki",
-            szablony_wybor_4: "Modele 3d",
-            szablony_wybor_5: "Dokumenty",
-            szablony_wybor_6: "Raw",
+            szablony_wybór_0: "Wszystkie pliki",
+            szablony_wybór_1: "Assets",
+            szablony_wybór_2: "Zdjęcia",
+            szablony_wybór_3: "Dźwięki",
+            szablony_wybór_4: "Modele 3d",
+            szablony_wybór_5: "Dokumenty",
+            szablony_wybór_6: "Raw",
 
             szyfrowanie_naglowek: "Pakowanie",
             general_ui_nazwa_tytul: "Nazwa pliku",
             general_ui_nazwa: "Podaj nazwę",
             general_ui_kompresja_tytul: "Wybór kompresji",
             szyfrowanie_kompresja: "Zacność kompresji",
+            general_ui_kompresja_tekst:"Kompresja",
             general_ui_haslo_tytul: "Hasło",
             general_ui_haslo: "Hasło Zgasło, wpisz inne!",
             general_ui_haslo_wylaczone: "Hasło wyłączone...",
@@ -178,14 +180,16 @@ impl Language {
             general_ui_wybierz_plik_idx: "Plik .idx",
             deszyfrowanie_przycisk_ok: "Deszyfrufruj!",
 
-            general_ui_wybierz_folder_wejsciowy: "Folder Wejściowy",
-            general_ui_wybierz_folder_wyjsciowy: "Folder Docelowy",
+            general_ui_wybierz_folder_wejściowy: "Folder Wejściowy",
+            general_ui_wybierz_folder_wyjściowy: "Folder Docelowy",
             general_ui_wybierz_folder: "Wybierz Folder",
             general_ui_wybierz_plik_general: "Wybierz Plik",
 
             // debug_deszyfracja_idx: "Deszyfracja zaszyfrowanego idx",
 
             // h_general_ui_wybierz_folder: "Wybierz folder",
+
+            łączenie_statyczny_id:"Włącz statyczne ID",
 
             ukryte_sktory: "CTRL+R : przełącz szyfrowanie\nCTRL+B : brainroot (nie zaimplementowano)",
 
@@ -196,7 +200,7 @@ impl Language {
             general_ui_alpha_tytul: "Alpha",
             general_ui_filter_png_tytul: "Filtr",
             general_ui_warianty_tytul: "Warianty",
-            general_ui_rozdzielczosc_tytul: "Rozdzielczość",
+            general_ui_rozdzielczość_tytul: "Rozdzielczość",
             general_ui_rozszerzenie_tytul: "Rozszerzenie",
 
             general_ui_rozpakowano_tytul: "Rozpakowano",
@@ -261,19 +265,20 @@ impl Language {
             general_ui_label_brak:"None",
 
                 //szablony
-            szablony_wybor_0: "All files",
-            szablony_wybor_1: "Assets",
-            szablony_wybor_2: "Images",
-            szablony_wybor_3: "Sounds",
-            szablony_wybor_4: "3d models",
-            szablony_wybor_5: "Documents",
-            szablony_wybor_6: "Raw photos",
+            szablony_wybór_0: "All files",
+            szablony_wybór_1: "Assets",
+            szablony_wybór_2: "Images",
+            szablony_wybór_3: "Sounds",
+            szablony_wybór_4: "3d models",
+            szablony_wybór_5: "Documents",
+            szablony_wybór_6: "Raw photos",
 
             szyfrowanie_naglowek: "Packing",
             general_ui_nazwa_tytul: "File name",
             general_ui_nazwa: "Name your file",
             general_ui_kompresja_tytul: "Compression method",
             szyfrowanie_kompresja: "Compression strength",
+            general_ui_kompresja_tekst:"Compression",
             general_ui_haslo_tytul: "Password",
             general_ui_haslo: "Write smth...",
             general_ui_haslo_wylaczone: "Password is disabled.. Ya know?",
@@ -295,14 +300,14 @@ impl Language {
             deszyfrowanie_przycisk_ok: "Decode!!!!!",
 
 
-            general_ui_wybierz_folder_wejsciowy: "Input Folder",
-            general_ui_wybierz_folder_wyjsciowy: "Output Folder",
+            general_ui_wybierz_folder_wejściowy: "Input Folder",
+            general_ui_wybierz_folder_wyjściowy: "Output Folder",
             general_ui_wybierz_folder: "Choose directory",
 
             general_ui_wybierz_plik_general: "Choose file",
 
 
-
+            łączenie_statyczny_id:"Enable static ID",
             // debug_deszyfracja_idx: "Decrypt .idx file only",
 
             // h_general_ui_wybierz_folder: "Choose your desired folder",
@@ -315,7 +320,7 @@ impl Language {
             general_ui_alpha_tytul: "Alpha",
             general_ui_filter_png_tytul: "Filter",
             general_ui_warianty_tytul: "Variants",
-            general_ui_rozdzielczosc_tytul: "Resolution",
+            general_ui_rozdzielczość_tytul: "Resolution",
             general_ui_rozszerzenie_tytul: "Extension",
             general_ui_info: "Info",
             general_ui_ustawienia: "Settings",
@@ -377,19 +382,20 @@ impl Language {
             general_ui_label_brak:"general_ui_label_brak",
 
             //szablony
-            szablony_wybor_0: "szablony_wybor_0",
-            szablony_wybor_1: "szablony_wybor_1",
-            szablony_wybor_2: "szablony_wybor_2",
-            szablony_wybor_3: "szablony_wybor_3",
-            szablony_wybor_4: "szablony_wybor_4",
-            szablony_wybor_5: "szablony_wybor_5",
-            szablony_wybor_6: "szablony_wybor_6",
+            szablony_wybór_0: "szablony_wybór_0",
+            szablony_wybór_1: "szablony_wybór_1",
+            szablony_wybór_2: "szablony_wybór_2",
+            szablony_wybór_3: "szablony_wybór_3",
+            szablony_wybór_4: "szablony_wybór_4",
+            szablony_wybór_5: "szablony_wybór_5",
+            szablony_wybór_6: "szablony_wybór_6",
 
             szyfrowanie_naglowek: "szyfrowanie_naglowek",
             general_ui_nazwa_tytul: "general_ui_nazwa_tytul",
             general_ui_nazwa: "general_ui_nazwa",
             general_ui_kompresja_tytul: "general_ui_kompresja_tytul",
             szyfrowanie_kompresja: "szyfrowanie_kompresja",
+            general_ui_kompresja_tekst:"general_ui_kompresja_tekst",
             general_ui_haslo_tytul: "general_ui_haslo_tytul",
             general_ui_haslo: "general_ui_haslo",
             general_ui_haslo_wylaczone: "general_ui_haslo_wylaczone",
@@ -410,8 +416,8 @@ impl Language {
             deszyfrowanie_przycisk_ok: "deszyfrowanie_przycisk_ok",
 
 
-            general_ui_wybierz_folder_wejsciowy: "general_ui_wybierz_folder_wejsciowy",
-            general_ui_wybierz_folder_wyjsciowy: "general_ui_wybierz_folder_wyjsciowy",
+            general_ui_wybierz_folder_wejściowy: "general_ui_wybierz_folder_wejściowy",
+            general_ui_wybierz_folder_wyjściowy: "general_ui_wybierz_folder_wyjściowy",
             general_ui_wybierz_folder: "general_ui_wybierz_folder",
 
             general_ui_wybierz_plik_general: "general_ui_wybierz_plik_general",
@@ -422,7 +428,7 @@ impl Language {
             // general_ui_z_ekspresja: "general_ui_z_ekspresja",
             general_ui_w_czasie_tytul: "general_ui_w_czasie_tytul",
             general_ui_z_oryginalnych_tytul: "general_ui_z_oryginalnych_tytul",
-
+            łączenie_statyczny_id: "łączenie_statyczny_id",
 
             // debug_deszyfracja_idx: "debug_deszyfracja_idx",
 
@@ -438,7 +444,7 @@ impl Language {
             general_ui_alpha_tytul: "general_ui_alpha_tytul",
             general_ui_filter_png_tytul: "general_ui_filter_png_tytul",
             general_ui_warianty_tytul: "general_ui_warianty_tytul",
-            general_ui_rozdzielczosc_tytul: "general_ui_rozdzielczosc_tytul",
+            general_ui_rozdzielczość_tytul: "general_ui_rozdzielczość_tytul",
             general_ui_rozszerzenie_tytul: "general_ui_rozszerzenie_tytul",
             general_ui_info: "general_ui_info",
             general_ui_ustawienia: "general_ui_ustawienia",
@@ -495,13 +501,13 @@ impl Language {
     //         general_ui_label_brak: "なし",
     
     //         // szablony
-    //         szablony_wybor_0: "すべてのファイル",
-    //         szablony_wybor_1: "アセット",
-    //         szablony_wybor_2: "画像",
-    //         szablony_wybor_3: "音声",
-    //         szablony_wybor_4: "3D モデル",
-    //         szablony_wybor_5: "文書",
-    //         szablony_wybor_6: "生写真",
+    //         szablony_wybór_0: "すべてのファイル",
+    //         szablony_wybór_1: "アセット",
+    //         szablony_wybór_2: "画像",
+    //         szablony_wybór_3: "音声",
+    //         szablony_wybór_4: "3D モデル",
+    //         szablony_wybór_5: "文書",
+    //         szablony_wybór_6: "生写真",
     
     //         szyfrowanie_naglowek: "圧縮",
     //         general_ui_nazwa_tytul: "ファイル名",
@@ -528,8 +534,8 @@ impl Language {
     //         general_ui_wybierz_plik_idx: "ファイル .idx",
     //         deszyfrowanie_przycisk_ok: "デコード開始！！！",
     
-    //         general_ui_wybierz_folder_wejsciowy: "入力フォルダ",
-    //         general_ui_wybierz_folder_wyjsciowy: "出力フォルダ",
+    //         general_ui_wybierz_folder_wejściowy: "入力フォルダ",
+    //         general_ui_wybierz_folder_wyjściowy: "出力フォルダ",
     //         general_ui_wybierz_folder: "ディレクトリを選択",
     
     //         debug_deszyfracja_idx: ".idxファイルのみを復号化",
@@ -544,7 +550,7 @@ impl Language {
     //         general_ui_alpha_tytul: "アルファ",
     //         general_ui_filter_png_tytul: "フィルター",
     //         general_ui_warianty_tytul: "バリエーション",
-    //         general_ui_rozdzielczosc_tytul: "解像度",
+    //         general_ui_rozdzielczość_tytul: "解像度",
     
     //         // monit
     //         // problem_egzystencjonalny: "今、存在的危機を感じています",

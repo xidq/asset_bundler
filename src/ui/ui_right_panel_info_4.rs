@@ -1,11 +1,11 @@
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 use egui::{
     Color32,
     Context
 };
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 use crate::ui::ui_defaults::Appencja;
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 pub fn ui_right_panel_info_0_4(
     proxy_self: &mut Appencja,
     _ctx: &Context,ui: &mut egui::Ui,
@@ -13,7 +13,7 @@ pub fn ui_right_panel_info_0_4(
     _szarawy_ciemny:Color32
 ){ ui.add(egui::Label::new("Brak:").selectable(false));
 ui.add(egui::Label::new("wszystkie pliki są pakowane").selectable(false));
-ui.add_space( proxy_self.formatowanie_spacja_srednia);
+ui.add_space( proxy_self.formatowanie_spacja_średnia);
 ui.add(egui::Label::new("Assets:").selectable(false));
 ui.add_space( proxy_self.formatowanie_spacja_mala);
 ui.add(egui::Label::new("rodzaj pliku, nazwa, wariant, podwariant, ID, ścieżka, file_size, offset").selectable(false));

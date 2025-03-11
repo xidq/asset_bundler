@@ -6,6 +6,7 @@ use ecolor::Hsva;
 // use crate::utils::*;
 // use std::time::Instant;
 use std::sync::Arc;
+use crate::{dodaj_duży_label, dodaj_średni_label, dodaj_średni_richtext};
 // use crate::{image_actions, ui_play_sound::*};
 // use crate::encrypt;
 // use crate::encrypt_bez_async_i_bez_chacha20;
@@ -32,7 +33,7 @@ use crate::ui::{
     ui_change_font::wybrana_aktualna_czcionka,
     ui_left_panel_2_foto_laczenie::ui_left_panel_foty_laczenie,
 };
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 use crate::ui::{    ui_right_panel_info_2::ui_right_panel_info_0_2,
                     ui_right_panel_info_3::ui_right_panel_info_0_3,
                     ui_right_panel_info_4::ui_right_panel_info_0_4,};
@@ -108,7 +109,8 @@ impl eframe::App for Appencja {
         let mut font_definitions = FontDefinitions::default();
 
         // // Wczytanie czcionki bezpośrednio do pliku wykonywalnego
-        let font_data = FontData::from_static(include_bytes!("../../assets/Forum-Regular.ttf"));
+        let font_data =
+            FontData::from_static(include_bytes!("../../assets/Forum-Regular.ttf"));
 
         font_definitions.font_data.insert("Forum-Regular".to_owned(), Arc::new(font_data));
         font_definitions.families.insert(
@@ -232,8 +234,8 @@ impl eframe::App for Appencja {
         ctx.set_visuals(visuals);
 
         
-        // pub fn wybrana_aktualna_czcionka (rozmiar: f32,formatowanie_wybor_czcionki: u8) -> FontId{
-        //     let aktualna_czcionka_aaaa = match formatowanie_wybor_czcionki {        
+        // pub fn wybrana_aktualna_czcionka (rozmiar: f32,formatowanie_wybór_czcionki: u8) -> FontId{
+        //     let aktualna_czcionka_aaaa = match formatowanie_wybór_czcionki {
         //         1 =>egui::FontFamily::Name("japanese_font".to_owned().into()),
         //         _ =>egui::FontFamily::Proportional
         //     };
@@ -243,8 +245,8 @@ impl eframe::App for Appencja {
 
 
         match self.general_ui_przelacz_jezyk{
-            3 => self.formatowanie_wybor_czcionki=1,
-            _ => self.formatowanie_wybor_czcionki=0
+            3 => self.formatowanie_wybór_czcionki=1,
+            _ => self.formatowanie_wybór_czcionki=0
 
         }
 
@@ -272,9 +274,9 @@ impl eframe::App for Appencja {
 
         CentralPanel::default()
         .show(ctx, |ui| { //.frame(centralny_panel)
-            #[cfg(feature = "statystyki")]
+            #[cfg(debug_assertions)]
             let tick: u8 =1;
-            #[cfg(feature = "statystyki")]
+            #[cfg(debug_assertions)]
             if self.general_ui_licznik_czasu_debug >= 60 / tick{
                 self.general_ui_licznik_czasu_debug = 0
             } else {
@@ -285,8 +287,8 @@ impl eframe::App for Appencja {
 
 
             ui.vertical_centered_justified(|ui|{
-                ui.add(egui::Label::new("You shouldn't be here").selectable(false));
-                ui.add(egui::Label::new("That's just windows 'feature' to maximise windows with disabled maximisation").selectable(false));
+                ui.add(dodaj_duży_label!("You shouldn't be here"));
+                ui.add(dodaj_duży_label!("That's just windows 'feature' to maximise windows with disabled maximisation"));
                 #[cfg(not(feature = "raw"))]
                 ui.add(egui::Image::new(egui::include_image!("../br/1725657984_by_maxx92.jpg"))
                            .sense(egui::Sense::click())
@@ -297,7 +299,9 @@ impl eframe::App for Appencja {
                        // .rounding(10.0));
 
                 );
-                ui.add(egui::Label::new("Chunky cat is judging you".to_uppercase()).selectable(false));
+                ui.add(egui::Label::new(
+                    "Chunky cat is judging you".to_uppercase()).selectable(false)
+                );
             });
 
 
@@ -325,25 +329,43 @@ impl eframe::App for Appencja {
                 ui.horizontal(|ui|{
                     // ui.add(egui::Label::new(encrypt::encrypt_folder::Result);
 
-                    ui.add_space(if self.general_ui_przelacz_tryb_debug{(self.general_ui_szerokosc_okna / 2.) - 160.} else {(self.general_ui_szerokosc_okna / 2.) - 90.});
-                    ui.selectable_value(&mut self.general_ui_przelacz_jezyk, 0, RichText::new("PL").size(self.formatowanie_rozmiar_czcionki_srednia));
-                    ui.add(egui::Label::new("||").selectable(false));
-                    ui.selectable_value(&mut self.general_ui_przelacz_jezyk, 1, RichText::new("EN").size(self.formatowanie_rozmiar_czcionki_srednia));
-                    // ui.add(egui::Label::new("||").selectable(false));
-                    // ui.selectable_value(&mut self.general_ui_przelacz_jezyk, 3, RichText::new("JP").size(self.formatowanie_rozmiar_czcionki_srednia));
+                    ui.add_space(if self.general_ui_przelacz_tryb_debug{
+                        (self.general_ui_szerokosc_okna / 2.) - 160.
+                    } else {
+                        (self.general_ui_szerokosc_okna / 2.) - 90.
+                    });
+
+                    ui.selectable_value(&mut self.general_ui_przelacz_jezyk,
+                                        0,
+                                        dodaj_średni_richtext!("PL"));
+                    ui.add(dodaj_średni_label!("||"));
+                    ui.selectable_value(&mut self.general_ui_przelacz_jezyk,
+                                        1,
+                                        dodaj_średni_richtext!("EN"));
+                    // ui.add(dodaj_średni_label!(("||")));
+                    // ui.selectable_value(&mut self.general_ui_przelacz_jezyk,
+                    // 3, dodaj_średni_richtext!("JP"));
                     if self.general_ui_przelacz_tryb_debug{
-                        ui.add(egui::Label::new("||").selectable(false));
-                        ui.selectable_value(&mut self.general_ui_przelacz_jezyk, 2, RichText::new("Debug").size(self.formatowanie_rozmiar_czcionki_srednia));
+                        ui.add(dodaj_średni_label!("||"));
+                        ui.selectable_value(&mut self.general_ui_przelacz_jezyk,
+                                            2,
+                                            dodaj_średni_richtext!("Debug"));
                     }
 
                 });
-                ui.add_space(self.formatowanie_spacja_srednia);
+                ui.add_space(self.formatowanie_spacja_średnia);
                 ui.columns(2, |columns|{
                     columns[0].vertical_centered_justified(|ui|{
-                    ui.selectable_value(&mut self.general_ui_przelacz_binarny_zdjecia, false, RichText::new(self.current_language.general_ui_label_binary).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.formatowanie_wybor_czcionki)));
+                    ui.selectable_value(
+                        &mut self.general_ui_przelacz_binarny_zdjecia,
+                        false,
+                        dodaj_średni_richtext!(self.current_language.general_ui_label_binary));
                     });
                     columns[1].vertical_centered_justified(|ui|{
-                        ui.selectable_value(&mut self.general_ui_przelacz_binarny_zdjecia, true, RichText::new(self.current_language.general_ui_label_images).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.formatowanie_wybor_czcionki)));
+                        ui.selectable_value(
+                            &mut self.general_ui_przelacz_binarny_zdjecia,
+                            true,
+                            dodaj_średni_richtext!(self.current_language.general_ui_label_images));
                     });
                 });
                 ui.add_space(self.formatowanie_spacja_mala);
@@ -352,23 +374,39 @@ impl eframe::App for Appencja {
                 if self.general_ui_przelacz_binarny_zdjecia{
                     ui.columns(2, |columns|{
                     columns[0].vertical_centered_justified(|ui|{
-                        ui.selectable_value(&mut self.general_ui_przelacz_zdjecia_opcje, 0, RichText::new(self.current_language.przetwarzanie_naglowek).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.formatowanie_wybor_czcionki)));
+                        ui.selectable_value(
+                            &mut self.general_ui_przelacz_zdjecia_opcje,
+                            0,
+                            dodaj_średni_richtext!(
+                                self.current_language.przetwarzanie_naglowek));
                         });
                         columns[1].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.general_ui_przelacz_zdjecia_opcje, 1, RichText::new(self.current_language.general_ui_kompilacja_rgb_tytul).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.formatowanie_wybor_czcionki)));
+                            ui.selectable_value(
+                                &mut self.general_ui_przelacz_zdjecia_opcje,
+                                1,
+                                dodaj_średni_richtext!(
+                                    self.current_language.general_ui_kompilacja_rgb_tytul));
                         });
                     });
                 } else {
                     ui.columns(2, |columns|{
                         columns[0].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.general_ui_przelacz_binarny_opcje, 0, RichText::new(self.current_language.szyfrowanie_naglowek).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.formatowanie_wybor_czcionki)));
+                            ui.selectable_value(
+                                &mut self.general_ui_przelacz_binarny_opcje,
+                                0,
+                                dodaj_średni_richtext!(
+                                    self.current_language.szyfrowanie_naglowek));
                             });
                             columns[1].vertical_centered_justified(|ui|{
-                                ui.selectable_value(&mut self.general_ui_przelacz_binarny_opcje, 1, RichText::new(self.current_language.deszyfrowanie_naglowek).font(wybrana_aktualna_czcionka(self.formatowanie_rozmiar_czcionki_srednia,self.formatowanie_wybor_czcionki)));
+                                ui.selectable_value(
+                                    &mut self.general_ui_przelacz_binarny_opcje,
+                                    1,
+                                    dodaj_średni_richtext!(
+                                        self.current_language.deszyfrowanie_naglowek));
                             });
                         });
                 }
-                ui.add_space(self.formatowanie_spacja_srednia);
+                ui.add_space(self.formatowanie_spacja_średnia);
 
                 egui::ScrollArea::vertical()
                 .show(ui, |ui| {
@@ -380,10 +418,18 @@ impl eframe::App for Appencja {
                             self.general_ui_przelacz_binarny_opcje,
                             self.general_ui_przelacz_zdjecia_opcje
                         ){
-                            (false,0,_) =>{ui_left_panel_encrypt(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
-                            (false,1,_) =>{ui_left_panel_decrypt(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
-                            (true,_,0) =>{ui_left_panel_foty_przetwarzanie(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
-                            (true,_,1) =>{ui_left_panel_foty_laczenie(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
+                            (false,0,_) =>{
+                                ui_left_panel_encrypt(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);
+                            },
+                            (false,1,_) =>{
+                                ui_left_panel_decrypt(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);
+                            },
+                            (true,_,0) =>{
+                                ui_left_panel_foty_przetwarzanie(self,ctx,ui,zolty_ciemny,szarawy_ciemny);
+                            },
+                            (true,_,1) =>{
+                                ui_left_panel_foty_laczenie(self,ctx,ui,zolty_ciemny,szarawy_ciemny);
+                            },
                             _ => {ui.label("coś sie skiepściło");}
                         }
                         
@@ -414,19 +460,29 @@ impl eframe::App for Appencja {
             .exact_width(self.general_ui_szerokosc_okna / 2.)
             .resizable(false)
             .show(ctx,|ui|{
-                ui.add_space( self.formatowanie_spacja_srednia);
-                ui.columns(if self.general_ui_przelacz_tryb_debug{3}else{2},|columns|{
+                ui.add_space( self.formatowanie_spacja_średnia);
+                ui.columns(
+                    if self.general_ui_przelacz_tryb_debug{3}else{2},
+                    |columns|{
 
 
                     columns[0].vertical_centered_justified(|ui|{
-                        ui.selectable_value(&mut self.general_ui_przelacz_info_ustawienia, 0, self.current_language.general_ui_info);
+                        ui.selectable_value(
+                            &mut self.general_ui_przelacz_info_ustawienia,
+                            0,
+                            self.current_language.general_ui_info);
                     });
                     columns[1].vertical_centered_justified(|ui|{
-                        ui.selectable_value(&mut self.general_ui_przelacz_info_ustawienia, 1, self.current_language.general_ui_ustawienia);
+                        ui.selectable_value(
+                            &mut self.general_ui_przelacz_info_ustawienia,
+                            1,
+                            self.current_language.general_ui_ustawienia);
                     });
                     if self.general_ui_przelacz_tryb_debug{
                         columns[2].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.general_ui_przelacz_info_ustawienia, 2, "Debug");
+                            ui.selectable_value(
+                                &mut self.general_ui_przelacz_info_ustawienia,
+                                2, "Debug");
                         });
                     }
 
@@ -438,10 +494,14 @@ impl eframe::App for Appencja {
                 if self.general_ui_przelacz_info_ustawienia == 0{
                     ui.columns(2,|columns|{
                         columns[0].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.general_ui_przelacz_info_opcje, 0, self.current_language.general_ui_info);
+                            ui.selectable_value(
+                                &mut self.general_ui_przelacz_info_opcje,
+                                0, self.current_language.general_ui_info);
                         });
                         columns[1].vertical_centered_justified(|ui|{
-                            ui.selectable_value(&mut self.general_ui_przelacz_info_opcje, 1, self.current_language.general_ui_statystyki);
+                            ui.selectable_value(
+                                &mut self.general_ui_przelacz_info_opcje,
+                                1, self.current_language.general_ui_statystyki);
                         });
                         // columns[2].vertical_centered_justified(|ui|{
                         //     ui.selectable_value(&mut self.general_ui_przelacz_info_opcje, 2, "pakowanie");
@@ -460,16 +520,30 @@ impl eframe::App for Appencja {
 
                     match (self.general_ui_przelacz_info_ustawienia,self.general_ui_przelacz_info_opcje){
 
-                        (0,0) => {right_panel_info_main(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
-                        (0,1) => {right_panel_info_stats(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
-                        #[cfg(feature = "statystyki")]
-                        (0,2) => {ui_right_panel_info_0_2(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
-                        #[cfg(feature = "statystyki")]
-                        (0,3) => {ui_right_panel_info_0_3(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
-                        #[cfg(feature = "statystyki")]
-                        (0,4) => {ui_right_panel_info_0_4(self,ctx,ui,zolty_ciemny,szarawy_ciemny);},
-                        (1,_) => {ui_right_panel_settings_0(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);},
-                        (2,_) => {ui_right_panel_debug_0(self,ctx,ui,fiolet_ciemny);},
+                        (0,0) => {
+                            right_panel_info_main(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);
+                        },
+                        (0,1) => {
+                            right_panel_info_stats(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);
+                        },
+                        #[cfg(debug_assertions)]
+                        (0,2) => {
+                            ui_right_panel_info_0_2(self,ctx,ui,zolty_ciemny,szarawy_ciemny);
+                        },
+                        #[cfg(debug_assertions)]
+                        (0,3) => {
+                            ui_right_panel_info_0_3(self,ctx,ui,zolty_ciemny,szarawy_ciemny);
+                        },
+                        #[cfg(debug_assertions)]
+                        (0,4) => {
+                            ui_right_panel_info_0_4(self,ctx,ui,zolty_ciemny,szarawy_ciemny);
+                        },
+                        (1,_) => {
+                            ui_right_panel_settings_0(self,ctx,ui,fiolet_ciemny,zolty_ciemny,szarawy_ciemny);
+                        },
+                        (2,_) => {
+                            ui_right_panel_debug_0(self,ctx,ui,fiolet_ciemny);
+                        },
                         _ => {ui.label("coś poszło nie tak");}
                         
                     }
@@ -482,9 +556,13 @@ impl eframe::App for Appencja {
         if self.general_ui_przelacz_ustawienia{
             egui::TopBottomPanel::top("settings").show(ctx, |ui| {
                 ui.vertical_centered(|ui|{
-                    ui.add(egui::Label::new(RichText::new(self.current_language.ustawienia_tytul.to_string()).size( self.formatowanie_rozmiar_czcionki_duza)).selectable(false));
+                    ui.add(
+                        dodaj_duży_label!(self.current_language.ustawienia_tytul.to_string())
+                    );
             });
-                ui.add(egui::Label::new(self.current_language.ustawienia_skrot.to_string()).selectable(false));
+                ui.add(dodaj_średni_label!(
+                    self.current_language.ustawienia_skrot.to_string())
+                );
             });
         }    
 

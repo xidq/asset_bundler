@@ -2,8 +2,11 @@ use egui::{
     Color32,  
     Context, RichText, 
 };
-#[cfg(feature = "statystyki")]
-use std::time::{Instant,Duration};
+#[cfg(debug_assertions)]
+use std::time::{Instant,
+                // Duration
+};
+use crate::{dodaj_średni_label/*, dodaj_średni_richtext*/};
 use crate::ui::ui_defaults::Appencja;
 use crate::ui::ui_change_font::wybrana_aktualna_czcionka;
 
@@ -93,9 +96,8 @@ pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
     //     _ => "overflow"
     // };
                             ui.separator();
-                            ui.add_space( proxy_self.formatowanie_spacja_srednia);
-                            ui.add(egui::Label::new(
-                                RichText::new(format!(
+                            ui.add_space( proxy_self.formatowanie_spacja_średnia);
+                            ui.add(dodaj_średni_label!(format!(
                                     "{} {} {} {}: {}.{}s",
                                     proxy_self.current_language.general_ui_spakowano_tytul,
                                     proxy_self.ui_pack_specyfic_statystyki_przetworzone_pliki,
@@ -104,26 +106,20 @@ pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                                     proxy_self.current_language.general_ui_w_czasie_tytul,
                                     proxy_self.ui_pack_specyfic_statystyki_czas_sekundy, 
                                     &proxy_self.ui_pack_specyfic_statystyki_czas_milisekundy))
-                                    .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
-                                    .selectable(false)
                                 );
 
-                            ui.add_space( proxy_self.formatowanie_spacja_srednia);
-                            ui.add(egui::Label::new(
-                                    RichText::new (format!("{} {} {} {}: {}.{}s",
+                            ui.add_space( proxy_self.formatowanie_spacja_średnia);
+                            ui.add(dodaj_średni_label!(format!("{} {} {} {}: {}.{}s",
                                     proxy_self.current_language.general_ui_rozpakowano_tytul,
                                     proxy_self.ui_unpack_specyfic_statystyki_przetworzone_pliki,
                                     de_tekst_plików, 
                                     proxy_self.current_language.general_ui_w_czasie_tytul,
                                     proxy_self.ui_unpack_specyfic_statystyki_czas_sekundy, 
                                     &proxy_self.ui_unpack_specyfic_statystyki_czas_milisekundy))
-                                    .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
-                                    .selectable(false)
                                 );
 
-                            ui.add_space( proxy_self.formatowanie_spacja_srednia);
-                            ui.add(egui::Label::new(
-                                RichText::new(
+                            ui.add_space( proxy_self.formatowanie_spacja_średnia);
+                            ui.add(dodaj_średni_label!(
                                     format!("{} {} {} {} {} {} {}: {}.{}s",
                                     proxy_self.current_language.general_ui_przetworzono_tytul,
                                     proxy_self.ui_konwersja_specyfic_statystyki_utworzone_pliki,
@@ -134,11 +130,9 @@ pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                                     proxy_self.current_language.general_ui_w_czasie_tytul,
                                     proxy_self.ui_konwersja_specyfic_statystyki_czas_sekundy, 
                                     &proxy_self.ui_konwersja_specyfic_statystyki_czas_sekundy))
-                                    .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)))
-                                    .selectable(false)
                                 );
 
-                                #[cfg(feature = "statystyki")]
+                                #[cfg(debug_assertions)]
                                 if proxy_self.general_ui_przelacz_tryb_debug{
 
 
@@ -158,23 +152,23 @@ pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                                             if proxy_self.general_ui_statystyki_klatki.len() > 600 {
                                                 proxy_self.general_ui_statystyki_klatki.remove(0);
                                             }
-                                            fn dostan_srednia(xoxo:&Vec<(u128,u128)>)->(u128,u128){
+                                            fn dostan_średnia(xoxo:&Vec<(u128,u128)>)->(u128,u128){
                                                 let suma_milisekund: u128 = xoxo.iter().map(|(milli, _)| milli).sum();
                                                 let suma_nanosekund: u128 = xoxo.iter().map(|(_, nano)| nano).sum();
                                     
                                                 // Zwracamy średnią w milisekundach i nanosekundach
-                                                let srednia_milisekund = if suma_milisekund>0{suma_milisekund / xoxo.len() as u128}else{000 as u128};
-                                                let srednia_nanosekund = if suma_nanosekund>0{suma_nanosekund / xoxo.len() as u128}else{000 as u128};
-                                                let ddddddd = srednia_nanosekund / 10000;
+                                                let średnia_milisekund = if suma_milisekund>0{suma_milisekund / xoxo.len() as u128}else{000 as u128};
+                                                let średnia_nanosekund = if suma_nanosekund>0{suma_nanosekund / xoxo.len() as u128}else{000 as u128};
+                                                let ddddddd = średnia_nanosekund / 10000;
                                     
-                                                (srednia_milisekund, ddddddd)
+                                                (średnia_milisekund, ddddddd)
                                             }
                                             let fdgdgf:u128= 1;
                                             let sfddfgff:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(milli, _)| milli).min().unwrap()}else{&fdgdgf};
                                             let sfddfgfdf:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(_, nano)| nano).min().unwrap()}else{&fdgdgf};
                                             let aaaa:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(milli, _)| milli).max().unwrap()}else{&fdgdgf};
                                             let aaaab:&u128 = if proxy_self.general_ui_statystyki_klatki.len()>1{proxy_self.general_ui_statystyki_klatki.iter().map(|(_, nano)| nano).max().unwrap()}else{&fdgdgf};
-                                            let (czas_mili,czas_nano)=dostan_srednia(&proxy_self.general_ui_statystyki_klatki);
+                                            let (czas_mili,czas_nano)=dostan_średnia(&proxy_self.general_ui_statystyki_klatki);
                                             ui.label(format!("minimalny czas {}.{}ms",sfddfgff,sfddfgfdf));
                                             ui.label(format!("średni czas {}.{}ms",czas_mili,czas_nano));
                                             ui.label(format!("maksymalny czas {}.{}ms",aaaa,aaaab));
@@ -187,17 +181,17 @@ pub fn right_panel_info_stats(proxy_self: &mut Appencja,_ctx: &Context,ui: &mut 
                                 
 
                                     if proxy_self.general_ui_przelacz_binarny_zdjecia && proxy_self.general_ui_przelacz_zdjecia_opcje==0{
-                                            ui.label(format!("arc_z_rozdzielczosc: 16k {}, 8k {}, 4k {}, 2k {}, 1k {}, 512 {}, 256 {}, 128 {}, 64 {}, 32 {}",
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_16k,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_8k,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_4k,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_2k,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_1k,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_512,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_256,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_128,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_64,
-                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczosc_32
+                                            ui.label(format!("arc_z_rozdzielczość: 16k {}, 8k {}, 4k {}, 2k {}, 1k {}, 512 {}, 256 {}, 128 {}, 64 {}, 32 {}",
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_16k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_8k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_4k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_2k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_1k,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_512,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_256,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_128,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_64,
+                                            proxy_self.ui_konwersja_specyfic_dane_rozdzielczość_32
                                             ));
                                 
                                 

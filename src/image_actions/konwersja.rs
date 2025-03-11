@@ -3,7 +3,7 @@ use std::{fs::create_dir_all, path::{PathBuf,Path}};
 use crate::image_actions::*;
 // use webp::*;
 // use chrono::NaiveTime;
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 use chrono::Local;
 const RESOLUTION_MAPPING: [u32;10] =[
     16384,
@@ -24,15 +24,15 @@ const RESOLUTION_MAPPING: [u32;10] =[
 
 
 
-pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alpc:Vec<&u8>, sciezka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32)->i32{
+pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczość: &[bool], qua_fil_alp_alpc:Vec<&u8>, ścieżka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32)->i32{
         let mut created_files = counter;
 
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let func_id = "Ogarniacz Fot w image_actions::konwersja.rs" ;
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let current_time = Local::now();
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let formatted_time = current_time.format("%H:%M:%S").to_string();
     //***************************************************************
 
@@ -48,15 +48,15 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 
-    #[cfg(feature = "statystyki")]
-    println!("[{func_id}]\n{formatted_time}   zaczynam konwersje {}\n",rozszerzenie_string);
+    #[cfg(debug_assertions)]
+    println!("[{func_id}]\n{formatted_time}   zaczynam konwersje ogarniacz_fot\n");
 
     // Załaduj obraz
-    let img = match image::open(sciezka) {
+    let img = match image::open(ścieżka) {
         Ok(img) => img,
         Err(_) => {
-            #[cfg(feature = "statystyki")]
-            eprintln!("[{func_id}]\n{formatted_time}   Nie udało się załadować obrazu: {:?}", sciezka);
+            #[cfg(debug_assertions)]
+            eprintln!("[{func_id}]\n{formatted_time}   Nie udało się załadować obrazu: {:?}", ścieżka);
             return 0; // Zwracamy 0, jeśli obraz nie mógł zostać załadowany
         }
     };
@@ -71,7 +71,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
     // Przetwarzamy plik w zależności od wybranych rozdzielczości
-    for (i, &selected) in rozdzielczosc.iter().enumerate() {
+    for (i, &selected) in rozdzielczość.iter().enumerate() {
         if selected {
             let max_side = RESOLUTION_MAPPING[i];
             // created_files += 1;
@@ -101,7 +101,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
             // Ścieżka zapisu
             let mut output_path = std::path::Path::new(output).to_path_buf();
-            let file_name = sciezka.file_name().unwrap().to_str().unwrap();
+            let file_name = ścieżka.file_name().unwrap().to_str().unwrap();
             let output_file_name = format!("{}_{}_{}_{}.{}", file_name, i + 1,bity,max_side,rozszerzenie_do_pliku); // np. image_1.png
             output_path.push(lokalny_path);
             output_path.push("converted");
@@ -113,19 +113,19 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
                 create_dir_all(parent).unwrap(); // Zignorujemy ewentualne błędy przy tworzeniu katalogu
             }
             // Zapisz plik w formacie PNG
-            #[cfg(feature = "statystyki")]
+            #[cfg(debug_assertions)]
             println!("[{func_id}]\n{formatted_time}   zakończony resize, wchodzę w encoder\n");
             crate::utils::image_encoder::foto_enkodery(resized_img,output_path,roz_png_fil[0],qua_fil_alp_alpc[0],&roz_png_fil[1]);
 
 
 
             created_files += 1;
-            #[cfg(feature = "statystyki")]
-            println!("[{func_id}]\n{formatted_time}   test iteracji w {rozszerzenie_string} = {created_files}");
+            #[cfg(debug_assertions)]
+            println!("[{func_id}]\n{formatted_time}   test iteracji w ogarniacz_fot = {created_files}");
         }
     }
-    #[cfg(feature = "statystyki")]
-    println!("[{func_id}]\n{formatted_time}   plik {rozszerzenie_string} zapisany, przechodzę dalej\n");
+    #[cfg(debug_assertions)]
+    println!("[{func_id}]\n{formatted_time}   plik ogarniacz_fot zapisany, przechodzę dalej\n");
     created_files
 }
 
@@ -138,15 +138,15 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 
-// pub fn konwersja_do_png(rozdzielczosc: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8, czy_alpha:&u8, czy_alpha_kolor:&u8, sciezka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32, png_filter:u8) -> i32 {
+// pub fn konwersja_do_png(rozdzielczość: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8, czy_alpha:&u8, czy_alpha_kolor:&u8, ścieżka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32, png_filter:u8) -> i32 {
 //     let mut created_files = counter;
 //     println!("zaczynam konwersje png");
 
 //     // Załaduj obraz
-//     let img = match image::open(sciezka) {
+//     let img = match image::open(ścieżka) {
 //         Ok(img) => img,
 //         Err(_) => {
-//             eprintln!("Nie udało się załadować obrazu: {:?}", sciezka);
+//             eprintln!("Nie udało się załadować obrazu: {:?}", ścieżka);
 //             return 0; // Zwracamy 0, jeśli obraz nie mógł zostać załadowany
 //         }
 //     };
@@ -160,7 +160,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 //     // Przetwarzamy plik w zależności od wybranych rozdzielczości
-//     for (i, &selected) in rozdzielczosc.iter().enumerate() {
+//     for (i, &selected) in rozdzielczość.iter().enumerate() {
 //         if selected {
 //             let max_side = RESOLUTION_MAPPING[i];
 //             // created_files += 1;
@@ -190,7 +190,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 //             // Ścieżka zapisu
 //             let mut output_path = std::path::Path::new(output).to_path_buf();
-//             let file_name = sciezka.file_name().unwrap().to_str().unwrap();
+//             let file_name = ścieżka.file_name().unwrap().to_str().unwrap();
 //             let output_file_name = format!("{}_{}_{}_{}.png", file_name, i + 1,bity,max_side); // np. image_1.png
 //             output_path.push(lokalny_path);
 //             output_path.push("converted");
@@ -253,14 +253,14 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 //     created_files
 // }
 
-// pub fn konwersja_do_jpg(rozdzielczosc: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8,czy_alpha:&u8, czy_alpha_kolor:&u8, sciezka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32)->i32{
+// pub fn konwersja_do_jpg(rozdzielczość: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8,czy_alpha:&u8, czy_alpha_kolor:&u8, ścieżka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32)->i32{
 //     let mut created_files = counter;
 //     println!("zaczynam konwersje jpg");
 //     // Załaduj obraz
-//     let img = match image::open(sciezka) {
+//     let img = match image::open(ścieżka) {
 //         Ok(img) => img,
 //         Err(_) => {
-//             eprintln!("Nie udało się załadować obrazu: {:?}", sciezka);
+//             eprintln!("Nie udało się załadować obrazu: {:?}", ścieżka);
 //             return 0; // Zwracamy 0, jeśli obraz nie mógł zostać załadowany
 //         }
 //     };
@@ -274,7 +274,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 //     // Przetwarzamy plik w zależności od wybranych rozdzielczości
-//     for (i, &selected) in rozdzielczosc.iter().enumerate() {
+//     for (i, &selected) in rozdzielczość.iter().enumerate() {
 //         if selected {
 //             let max_side = RESOLUTION_MAPPING[i];
 //             // created_files += 1;
@@ -305,7 +305,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 //             // Ścieżka zapisu
 //             let mut output_path = std::path::Path::new(output).to_path_buf();
-//             let file_name = sciezka.file_name().unwrap().to_str().unwrap();
+//             let file_name = ścieżka.file_name().unwrap().to_str().unwrap();
 //             let output_file_name = format!("{}_{}_{}.jpg", file_name, i + 1,max_side); // np. image_1.png
 //             output_path.push(lokalny_path);
 //             output_path.push("converted");
@@ -341,15 +341,15 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 //     created_files
 // }
 
-// pub fn konwersja_do_webp(rozdzielczosc: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8, czy_alpha:&u8, czy_alpha_kolor:&u8, sciezka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32) -> i32 {
+// pub fn konwersja_do_webp(rozdzielczość: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8, czy_alpha:&u8, czy_alpha_kolor:&u8, ścieżka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32) -> i32 {
 //     let mut created_files = counter;
 //     println!("zaczynam konwersje webp");
 
 //     // Załaduj obraz
-//     let img = match image::open(sciezka) {
+//     let img = match image::open(ścieżka) {
 //         Ok(img) => img,
 //         Err(_) => {
-//             eprintln!("Nie udało się załadować obrazu: {:?}", sciezka);
+//             eprintln!("Nie udało się załadować obrazu: {:?}", ścieżka);
 //             return 0; // Zwracamy 0, jeśli obraz nie mógł zostać załadowany
 //         }
 //     };
@@ -363,7 +363,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 //     // Przetwarzamy plik w zależności od wybranych rozdzielczości
-//     for (i, &selected) in rozdzielczosc.iter().enumerate() {
+//     for (i, &selected) in rozdzielczość.iter().enumerate() {
 //         if selected {
 //             let max_side = RESOLUTION_MAPPING[i];
 //             // created_files += 1;
@@ -393,7 +393,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 //             // Ścieżka zapisu
 //             let mut output_path = std::path::Path::new(output).to_path_buf();
-//             let file_name = std::path::Path::new(sciezka).file_name().unwrap().to_str().unwrap();
+//             let file_name = std::path::Path::new(ścieżka).file_name().unwrap().to_str().unwrap();
 //             let output_file_name = format!("{}_{}_{}_{}.webp", file_name, i + 1,bity,max_side); // np. image_1.png
 //             output_path.push(lokalny_path);
 //             output_path.push("converted");
@@ -423,15 +423,15 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 //     created_files
 // }
 
-// pub fn konwersja_do_webp_lossy(rozdzielczosc: &Vec<bool>, jakosc: &u8, filter: &u8, bity: u8, czy_alpha: &u8, czy_alpha_kolor: &u8, sciezka: &PathBuf,lokalny_path:&Path, output: &str, counter: i32) -> i32 {
+// pub fn konwersja_do_webp_lossy(rozdzielczość: &Vec<bool>, jakosc: &u8, filter: &u8, bity: u8, czy_alpha: &u8, czy_alpha_kolor: &u8, ścieżka: &PathBuf,lokalny_path:&Path, output: &str, counter: i32) -> i32 {
 //     let mut created_files = counter;
 //     println!("zaczynam konwersje webp");
 
 //     // Załaduj obraz
-//     let img = match image::open(sciezka) {
+//     let img = match image::open(ścieżka) {
 //         Ok(img) => img,
 //         Err(_) => {
-//             eprintln!("Nie udało się załadować obrazu: {:?}", sciezka);
+//             eprintln!("Nie udało się załadować obrazu: {:?}", ścieżka);
 //             return 0; // Zwracamy 0, jeśli obraz nie mógł zostać załadowany
 //         }
 //     };
@@ -445,7 +445,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 //     // Przetwarzamy plik w zależności od wybranych rozdzielczości
-//     for (i, &selected) in rozdzielczosc.iter().enumerate() {
+//     for (i, &selected) in rozdzielczość.iter().enumerate() {
 //         if selected {
 //             let max_side = RESOLUTION_MAPPING[i];
 //             // created_files += 1;
@@ -474,7 +474,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 //             // Ścieżka zapisu
 //             let mut output_path = std::path::Path::new(output).to_path_buf();
-//             let file_name = sciezka.file_name().unwrap().to_str().unwrap();
+//             let file_name = ścieżka.file_name().unwrap().to_str().unwrap();
 //             let output_file_name = format!("{}_lossy_{}_{}_{}.webp", file_name, i + 1, bity, max_side); // np. image_1.png
 //             output_path.push(lokalny_path);
 //             output_path.push("converted");
@@ -508,15 +508,15 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 //     created_files
 // }
 
-// pub fn konwersja_do_tga(rozdzielczosc: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8, czy_alpha:&u8, czy_alpha_kolor:&u8, sciezka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32) -> i32 {
+// pub fn konwersja_do_tga(rozdzielczość: &Vec<bool>, jakosc:&u8,filter: &u8, bity:u8, czy_alpha:&u8, czy_alpha_kolor:&u8, ścieżka: &PathBuf,lokalny_path:&Path, output: &str,counter:i32) -> i32 {
 //     let mut created_files = counter;
 //     println!("zaczynam konwersje tga");
 
 //     // Załaduj obraz
-//     let img = match image::open(sciezka) {
+//     let img = match image::open(ścieżka) {
 //         Ok(img) => img,
 //         Err(_) => {
-//             eprintln!("Nie udało się załadować obrazu: {:?}", sciezka);
+//             eprintln!("Nie udało się załadować obrazu: {:?}", ścieżka);
 //             return 0; // Zwracamy 0, jeśli obraz nie mógł zostać załadowany
 //         }
 //     };
@@ -531,7 +531,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 
 //     // Przetwarzamy plik w zależności od wybranych rozdzielczości
-//     for (i, &selected) in rozdzielczosc.iter().enumerate() {
+//     for (i, &selected) in rozdzielczość.iter().enumerate() {
 //         if selected {
 //             let max_side = RESOLUTION_MAPPING[i];
 //             // created_files += 1;
@@ -561,7 +561,7 @@ pub fn ogarniacz_fot(roz_png_fil:Vec<u8>,rozdzielczosc: &[bool], qua_fil_alp_alp
 
 //             // Ścieżka zapisu
 //             let mut output_path = std::path::Path::new(output).to_path_buf();
-//             let file_name = sciezka.file_name().unwrap().to_str().unwrap();
+//             let file_name = ścieżka.file_name().unwrap().to_str().unwrap();
 //             let output_file_name = format!("{}_{}_{}_{}.tga", file_name, i + 1,bity,max_side); // np. image_1.png
 //             output_path.push(lokalny_path);
 //             output_path.push("converted");

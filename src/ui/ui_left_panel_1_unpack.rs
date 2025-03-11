@@ -12,7 +12,8 @@ use std::sync::{
     Arc, 
     Mutex
 };
-use crate::decrypt_copy;
+// use egui::WidgetText::RichText;
+use crate::{decrypt_copy, dodaj_duży_label, dodaj_duży_richtext, dodaj_średni_label, dodaj_średni_richtext};
 #[cfg(not(feature = "raw"))]
 use crate::ui::ui_play_sound::play_finish_sound;
 
@@ -24,8 +25,8 @@ use crate::{
 },
 utils::loading::animacja};
 
-pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut egui::Ui, fiolet_ciemny:Color32,zolty_ciemny:Color32,szarawy_ciemny:Color32){
-    let margines_na_wybor_formatu_foty = proxy_self.formatowanie_spacja_srednia;
+pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut egui::Ui, _fiolet_ciemny:Color32,zolty_ciemny:Color32,szarawy_ciemny:Color32){
+    let margines_na_wybór_formatu_foty = proxy_self.formatowanie_spacja_średnia;
 
                         // ██╗   ██╗███╗   ██╗██████╗  █████╗  ██████╗██╗  ██╗
                         // ██║   ██║████╗  ██║██╔══██╗██╔══██╗██╔════╝██║ ██╔╝
@@ -45,23 +46,19 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
     // |___|  _|___|_|_|  |___|__,|_|    |_| |_|_|___|
     //     |_|                                        
     ui.horizontal(|ui|{
-        ui.add_space(margines_na_wybor_formatu_foty);
-        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_wybierz_plik_dat)
-            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)))
-            .selectable(false)
-        );
+        ui.add_space(margines_na_wybór_formatu_foty);
+        ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_wybierz_plik_dat));
     });
     ui.add_space( proxy_self.formatowanie_spacja_mala);
     ui.horizontal(|ui|{
 
-        ui.add_space(proxy_self.formatowanie_spacja_duza+margines_na_wybor_formatu_foty);
+        ui.add_space(proxy_self.formatowanie_spacja_duża+margines_na_wybór_formatu_foty);
 
-        let btn_deszyfrowanie_folder_plik_dat = ui.button(RichText::new(proxy_self.current_language.general_ui_wybierz_plik_dat.to_string())
-            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+        let btn_deszyfrowanie_folder_plik_dat = ui.button(dodaj_średni_richtext!(proxy_self.current_language.general_ui_wybierz_plik_dat.to_string()));
         if btn_deszyfrowanie_folder_plik_dat.clicked() {
             if let Some(path) = FileDialog::new().add_filter(proxy_self.current_language.general_ui_wybierz_plik_dat.to_string(), &["jrz","jrzs"]).pick_file() {
 
-                proxy_self.ui_unpack_specyfic_sciezka_plik_binarny = path.to_string_lossy().to_string();
+                proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny = path.to_string_lossy().to_string();
     
                 // Sprawdzanie, czy wybrany plik ma rozszerzenie .jrzs
                 if path.extension().map(|ext| ext == "jrzs").unwrap_or(false) {
@@ -77,7 +74,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
             btn_deszyfrowanie_folder_plik_dat.rect.min.x - proxy_self.formatowanie_offset_kolko,
             btn_deszyfrowanie_folder_plik_dat.rect.min.y+(btn_deszyfrowanie_folder_plik_dat.rect.size().y / 2.));
         
-        if !proxy_self.ui_unpack_specyfic_sciezka_plik_binarny.is_empty(){
+        if !proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny.is_empty(){
 
             ui.painter().circle_filled(btn_pozycjonowanie_general_ui_wybierz_plik_dat, proxy_self.formatowanie_rozmiar_kolko, proxy_self.formatowanie_kolor_kolko_pelne);
 
@@ -90,23 +87,21 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
 
     });
-    if proxy_self.ui_unpack_specyfic_sciezka_plik_binarny.len() >= 50 {
-        let xxxx = &proxy_self.ui_unpack_specyfic_sciezka_plik_binarny;
+    if proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny.len() >= 50 {
+        let xxxx = &proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny;
         let startu = &xxxx[..=15];
         let endu = &xxxx[xxxx.len()-30 ..];
-        ui.add(egui::Label::new(RichText::new(
-            format!("{}/.../{}",startu,endu))
-            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
-        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        ui.add(dodaj_średni_label!(format!("{}/.../{}",startu,endu)));
+        ui.add_space(proxy_self.formatowanie_spacja_duża-proxy_self.formatowanie_rozmiar_czcionki_średnia-4.);
 
-    }else if !proxy_self.ui_unpack_specyfic_sciezka_plik_binarny.is_empty(){
+    }else if !proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny.is_empty(){
         
 
-        ui.add(egui::Label::new(RichText::new(&proxy_self.ui_unpack_specyfic_sciezka_plik_binarny).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
-        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        ui.add(dodaj_średni_label!(&proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny));
+        ui.add_space(proxy_self.formatowanie_spacja_duża-proxy_self.formatowanie_rozmiar_czcionki_średnia-4.);
 
     }else{
-        ui.add_space(proxy_self.formatowanie_spacja_duza);
+        ui.add_space(proxy_self.formatowanie_spacja_duża);
     }
 
     //                     _   _        ___ _ _     
@@ -116,22 +111,22 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
     //     |_|                                      
 
     ui.horizontal(|ui|{
-        ui.add_space(margines_na_wybor_formatu_foty);
-        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_wybierz_plik_idx).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+        ui.add_space(margines_na_wybór_formatu_foty);
+        ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_wybierz_plik_idx));
     });
     ui.add_space( proxy_self.formatowanie_spacja_mala);
 
     ui.horizontal(|ui|{
 
-        ui.add_space(proxy_self.formatowanie_spacja_duza+margines_na_wybor_formatu_foty);
+        ui.add_space(proxy_self.formatowanie_spacja_duża+margines_na_wybór_formatu_foty);
 
-        let btn_deszyfrowanie_folder_plik_idx = ui.button(RichText::new(proxy_self.current_language.general_ui_wybierz_plik_idx.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
+        let btn_deszyfrowanie_folder_plik_idx = ui.button(dodaj_średni_richtext!(proxy_self.current_language.general_ui_wybierz_plik_idx.to_string()));
 
         if btn_deszyfrowanie_folder_plik_idx.clicked() {
 
             if let Some(path) = FileDialog::new().add_filter(proxy_self.current_language.general_ui_wybierz_plik_idx.to_string(), &["idx"]).pick_file() {
 
-                proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu = path.to_string_lossy().to_string();
+                proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu = path.to_string_lossy().to_string();
 
             }
         }
@@ -140,7 +135,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
             btn_deszyfrowanie_folder_plik_idx.rect.min.x - proxy_self.formatowanie_offset_kolko,
             btn_deszyfrowanie_folder_plik_idx.rect.min.y+(btn_deszyfrowanie_folder_plik_idx.rect.size().y / 2.));
         
-        if !proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu.is_empty(){
+        if !proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu.is_empty(){
 
             ui.painter().circle_filled(btn_pozycjonowanie_general_ui_wybierz_plik_idx, proxy_self.formatowanie_rozmiar_kolko, proxy_self.formatowanie_kolor_kolko_pelne);
 
@@ -156,20 +151,18 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
     });
 
 
-    if proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu.len() >= 50 {
-        let xxxx = &proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu;
+    if proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu.len() >= 50 {
+        let xxxx = &proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu;
         let startu = &xxxx[..=15];
         let endu = &xxxx[xxxx.len()-30 ..];
-        ui.add(egui::Label::new(RichText::new(
-            format!("{}/.../{}",startu,endu))
-            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
-        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
-    }else if !proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu.is_empty(){
-        ui.add(egui::Label::new(RichText::new(&proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
-        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        ui.add(dodaj_średni_label!(format!("{}/.../{}",startu,endu)));
+        ui.add_space(proxy_self.formatowanie_spacja_duża-proxy_self.formatowanie_rozmiar_czcionki_średnia-4.);
+    }else if !proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu.is_empty(){
+        ui.add(dodaj_średni_label!(&proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu));
+        ui.add_space(proxy_self.formatowanie_spacja_duża-proxy_self.formatowanie_rozmiar_czcionki_średnia-4.);
 
     }else{
-        ui.add_space(proxy_self.formatowanie_spacja_duza);
+        ui.add_space(proxy_self.formatowanie_spacja_duża);
     }
 
 
@@ -181,37 +174,37 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
     //             |_|                                   
 
     ui.horizontal(|ui|{
-        ui.add_space(margines_na_wybor_formatu_foty);
-        ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_wybierz_folder_wyjsciowy).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+        ui.add_space(margines_na_wybór_formatu_foty);
+        ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_wybierz_folder_wyjściowy));
     });
 
     ui.add_space( proxy_self.formatowanie_spacja_mala);
 
     ui.horizontal(|ui|{
 
-        ui.add_space(proxy_self.formatowanie_spacja_duza+margines_na_wybor_formatu_foty);
+        ui.add_space(proxy_self.formatowanie_spacja_duża+margines_na_wybór_formatu_foty);
 
-        let btn_deszyfrowanie_folder_folder_wyjsciowy = ui.button(RichText::new(proxy_self.current_language.general_ui_wybierz_folder).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki)));
-        if btn_deszyfrowanie_folder_folder_wyjsciowy.clicked() {
+        let btn_deszyfrowanie_folder_folder_wyjściowy = ui.button(dodaj_średni_richtext!(proxy_self.current_language.general_ui_wybierz_folder));
+        if btn_deszyfrowanie_folder_folder_wyjściowy.clicked() {
             
             if let Some(path) = FileDialog::new().pick_folder() {
-                proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy = path.to_string_lossy().to_string()+"/";
+                proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy = path.to_string_lossy().to_string()+"/";
             }
 
         }
 
 
-        let btn_pozycjonowanie_deszyfrowanie_folder_wyjsciowy = Pos2::new(
-            btn_deszyfrowanie_folder_folder_wyjsciowy.rect.min.x - proxy_self.formatowanie_offset_kolko,
-            btn_deszyfrowanie_folder_folder_wyjsciowy.rect.min.y+(btn_deszyfrowanie_folder_folder_wyjsciowy.rect.size().y / 2.));
+        let btn_pozycjonowanie_deszyfrowanie_folder_wyjściowy = Pos2::new(
+            btn_deszyfrowanie_folder_folder_wyjściowy.rect.min.x - proxy_self.formatowanie_offset_kolko,
+            btn_deszyfrowanie_folder_folder_wyjściowy.rect.min.y+(btn_deszyfrowanie_folder_folder_wyjściowy.rect.size().y / 2.));
         
-        if !proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy.is_empty(){
+        if !proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy.is_empty(){
 
-            ui.painter().circle_filled(btn_pozycjonowanie_deszyfrowanie_folder_wyjsciowy, proxy_self.formatowanie_rozmiar_kolko, proxy_self.formatowanie_kolor_kolko_pelne);
+            ui.painter().circle_filled(btn_pozycjonowanie_deszyfrowanie_folder_wyjściowy, proxy_self.formatowanie_rozmiar_kolko, proxy_self.formatowanie_kolor_kolko_pelne);
 
         } else {
 
-            ui.painter().circle_stroke(btn_pozycjonowanie_deszyfrowanie_folder_wyjsciowy, proxy_self.formatowanie_rozmiar_kolko_puste, (proxy_self.formatowanie_rozmiar_kolko_puste_stroke,proxy_self.formatowanie_kolor_kolko_puste));
+            ui.painter().circle_stroke(btn_pozycjonowanie_deszyfrowanie_folder_wyjściowy, proxy_self.formatowanie_rozmiar_kolko_puste, (proxy_self.formatowanie_rozmiar_kolko_puste_stroke,proxy_self.formatowanie_kolor_kolko_puste));
 
         }
 
@@ -219,19 +212,17 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
     });
 
-    if proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy.len() >= 50 {
-        let xxxx = &proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy;
+    if proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy.len() >= 50 {
+        let xxxx = &proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy;
         let startu = &xxxx[..=15];
         let endu = &xxxx[xxxx.len()-30 ..];
-        ui.add(egui::Label::new(RichText::new(
-            format!("{}/.../{}",startu,endu))
-            .font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
-        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
-    }else if !proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy.is_empty() {
-        ui.add(egui::Label::new(RichText::new(&proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
-        ui.add_space(proxy_self.formatowanie_spacja_duza-proxy_self.formatowanie_rozmiar_czcionki_srednia-4.);
+        ui.add(dodaj_średni_label!(format!("{}/.../{}",startu,endu)));
+        ui.add_space(proxy_self.formatowanie_spacja_duża-proxy_self.formatowanie_rozmiar_czcionki_średnia-4.);
+    }else if !proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy.is_empty() {
+        ui.add(dodaj_średni_label!(&proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy));
+        ui.add_space(proxy_self.formatowanie_spacja_duża-proxy_self.formatowanie_rozmiar_czcionki_średnia-4.);
     }else{
-        ui.add_space(proxy_self.formatowanie_spacja_duza);
+        ui.add_space(proxy_self.formatowanie_spacja_duża);
     }
 
     //                          _   _         
@@ -243,21 +234,21 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
     ui.add_space(proxy_self.formatowanie_spacja_mala);
     ui.columns(1, |column|{
     column[0].vertical_centered_justified(|ui|{
-        let przerwa_tam_gdzie_haslo = (30. + proxy_self.formatowanie_rozmiar_czcionki_srednia + proxy_self.formatowanie_spacja_mala - proxy_self.formatowanie_rozmiar_czcionki_duza - 1.) / 2.;
+        let przerwa_tam_gdzie_haslo = (30. + proxy_self.formatowanie_rozmiar_czcionki_średnia + proxy_self.formatowanie_spacja_mala - proxy_self.formatowanie_rozmiar_czcionki_duża - 1.) / 2.;
 
         if proxy_self.ui_unpack_specyfic_zmiana_szyfrowania==0{
             ui.add_space( przerwa_tam_gdzie_haslo);
 
 
 
-                ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_haslo_wylaczone.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)).color(fiolet_ciemny)).selectable(false));
+                ui.add(dodaj_duży_label!(proxy_self.current_language.general_ui_haslo_wylaczone.to_string()));
 
             
 
 
         }else{
 
-            ui.add(egui::Label::new(RichText::new(proxy_self.current_language.general_ui_haslo_tytul.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_srednia,proxy_self.formatowanie_wybor_czcionki))).selectable(false));
+            ui.add(dodaj_średni_label!(proxy_self.current_language.general_ui_haslo_tytul.to_string()));
             ui.add_space( proxy_self.formatowanie_spacja_mala);
             let password_input = TextEdit::singleline(&mut proxy_self.ui_unpack_specyfic_password)
                 .password(true)
@@ -269,7 +260,7 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
         });
     });
 
-    ui.add_space( proxy_self.formatowanie_spacja_srednia);
+    ui.add_space( proxy_self.formatowanie_spacja_średnia);
 
     //  _       _   _           
     // | |_ _ _| |_| |_ ___ ___ 
@@ -277,11 +268,11 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
     // |___|___|_| |_| |___|_|_|
 
     let sprawdzacz_plikow_dekompresja: bool = 
-    std::path::Path::new(&proxy_self.ui_unpack_specyfic_sciezka_plik_binarny)
+    std::path::Path::new(&proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny)
         .extension().is_some_and(|ext| ext == "jrz" || ext == "jrzs") &&
-    std::path::Path::new(&proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu)
+    std::path::Path::new(&proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu)
         .extension().is_some_and(|ext| ext == "idx") &&
-    !proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy.is_empty();
+    !proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy.is_empty();
 
 
     let tekst_przycisku_kompresji = if sprawdzacz_plikow_dekompresja{
@@ -300,12 +291,12 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
 
     // };
     let de_t_p_d= match proxy_self.ui_unpack_specyfic_status_przetwarzania{
-        0 => RichText::new(tekst_przycisku_kompresji.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
-        1 => RichText::new(proxy_self.general_ui_loading_tekst).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,1)).color(Color32::BLACK),
-        2 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
-        3 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
-        4 => RichText::new(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duza,proxy_self.formatowanie_wybor_czcionki)),
-        _ => RichText::new("")
+        0 => dodaj_duży_richtext!(tekst_przycisku_kompresji.to_string()),
+        1 => RichText::new(proxy_self.general_ui_loading_tekst).font(wybrana_aktualna_czcionka(proxy_self.formatowanie_rozmiar_czcionki_duża,1)).color(Color32::BLACK),
+        2 => dodaj_duży_richtext!(proxy_self.current_language.szyfrowanie_przycisk_koniec.to_string()),
+        3 => dodaj_duży_richtext!(proxy_self.current_language.szyfrowanie_przycisk_3.to_string()),
+        4 => dodaj_duży_richtext!(proxy_self.current_language.szyfrowanie_przycisk_4.to_string()),
+        _ => dodaj_duży_richtext!(proxy_self.current_language.err_value_overflow)
     };
 
     match proxy_self.rx.try_recv() {
@@ -355,9 +346,9 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                 proxy_self.ui_unpack_specyfic_status_przetwarzania = 0;
                 proxy_self.general_ui_loading = 0;
 
-                let dat_file = std::path::Path::new(&proxy_self.ui_unpack_specyfic_sciezka_plik_binarny).to_path_buf(); 
-                let idx_file = std::path::Path::new(&proxy_self.ui_unpack_specyfic_sciezka_plik_indeksu).to_path_buf(); 
-                let output_folder = std::path::Path::new(&proxy_self.ui_unpack_specyfic_sciezka_folder_wyjsciowy).to_path_buf(); 
+                let dat_file = std::path::Path::new(&proxy_self.ui_unpack_specyfic_ścieżka_plik_binarny).to_path_buf();
+                let idx_file = std::path::Path::new(&proxy_self.ui_unpack_specyfic_ścieżka_plik_indeksu).to_path_buf();
+                let output_folder = std::path::Path::new(&proxy_self.ui_unpack_specyfic_ścieżka_folder_wyjściowy).to_path_buf();
                 let arc_z_str = Arc::new(Mutex::new(vec![proxy_self.ui_unpack_specyfic_password.clone().to_string()]));
                 let arc_z_path = Arc::new(Mutex::new(vec![dat_file.clone(),idx_file.clone(),output_folder.clone()]));
                 let arc_z_u8 = Arc::new(Mutex::new(vec![proxy_self.ui_unpack_specyfic_zmiana_szyfrowania]));
@@ -372,11 +363,11 @@ pub fn ui_left_panel_decrypt(proxy_self: &mut Appencja,ctx: &Context,ui: &mut eg
                         
                             match de_tx_clone.send(de_result) {
                                 Ok(_) => {
-                                    #[cfg(feature = "statystyki")]
+                                    #[cfg(debug_assertions)]
                                     println!("Wysłano wynik") 
                                 },
                                 Err(_e) => {
-                                    #[cfg(feature = "statystyki")]
+                                    #[cfg(debug_assertions)]
                                     eprintln!("Błąd wysyłania: {}", _e)
                                 },
                             }

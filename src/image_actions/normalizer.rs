@@ -1,19 +1,19 @@
 // use cipher::consts::False;
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 use chrono::Local;
 use image::DynamicImage;
 
 pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha: &u8, alpha_kolor: u8, tylko_rgb:bool) -> DynamicImage {
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let func_id = "foto_bity_normalizer w image_actions::normalizer.rs" ;
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let current_time = Local::now();
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let formatted_time = current_time.format("%H:%M:%S").to_string();
     //    println!("[{func_id}]\n{formatted_time}   zaczynam konwersje {}",rozszerzenie_string);
     //***************************************************************
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     println!("[{func_id}]\n{formatted_time}   rozpoczęcie");
     // Get the color type of the image
     let color_type = orig_foto.color();
@@ -55,7 +55,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                         *pixel = image::Rgba([color.0, color.1, color.2, 255]);  // Correctly use Rgba
                     }
                 }
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true|false",color_type);
                 let processed_dynamic = DynamicImage::ImageRgba8(img);
                 let rgb8_img = processed_dynamic.to_rgb8();
@@ -75,7 +75,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::Rgba([color_16.0, color_16.1, color_16.2, 65535]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true|false",color_type);
                 let processed_dynamic = DynamicImage::ImageRgba16(img);
                 let rgb16_to_rgb8_img = processed_dynamic.to_rgb8();
@@ -92,7 +92,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::Rgba([color_16.0, color_16.1, color_16.2, 65535]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb16, tylko rgb? true|false",color_type);
                 let processed_dynamic = DynamicImage::ImageRgba16(img);
                 let rgb16_img = processed_dynamic.to_rgb16();
@@ -112,7 +112,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::Rgba([color_16.0, color_16.1, color_16.2, 65535]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true|false",color_type);
                 let processed_dynamic = DynamicImage::ImageRgba16(img);
                 let rgb16_to_rgb8_img = processed_dynamic.to_rgb8();
@@ -130,7 +130,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color.0, 255]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: L8, tylko rgb? false",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA8(img);
                 let luma8_img = processed_dynamic.to_luma8();
@@ -145,7 +145,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color.0, 255]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA8(img);
                 let luma8_to_rgb_img = processed_dynamic.to_rgb8();
@@ -163,7 +163,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color.0, 255]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA8(img);
                 let luma8_to_rgb_img = processed_dynamic.to_rgb8();
@@ -181,7 +181,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA16(img);
                 let luma16_to_rgb8_img = processed_dynamic.to_rgb8();
@@ -196,7 +196,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb16, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA16(img);
                 let luma16_to_rgb16_img = processed_dynamic.to_rgb16();
@@ -211,7 +211,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: L8, tylko rgb? false",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA16(img);
                 let luma16_to_luma8_img = processed_dynamic.to_luma8();
@@ -226,7 +226,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
                     if a == 0 {  // If fully transparent, set it to the chosen color
                         *pixel = image::LumaA([color_16.0, 65535]);  // Correctly use Rgba
                     }
-                }#[cfg(feature = "statystyki")]
+                }#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: L16, tylko rgb? false",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA16(img);
                 let luma16_to_luma16_img = processed_dynamic.to_luma16();
@@ -237,7 +237,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
 
             (image::ColorType::L16,8,true,0|1) =>{
                 let img = orig_foto.to_luma16();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb8, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLuma16(img);
                 let luma16_to_rgb8_img = processed_dynamic.to_rgb8();
@@ -245,7 +245,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
             },
             (image::ColorType::L16,8,false,0|1) =>{
                 let img = orig_foto.to_luma16();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: L8, tylko rgb? false",color_type);
                 let processed_dynamic = DynamicImage::ImageLuma16(img);
                 let luma16_to_luma8_img = processed_dynamic.to_luma8();
@@ -253,7 +253,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
             },
             (image::ColorType::L16,16,true,0|1) =>{                            
                 let img = orig_foto.to_luma16();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgb16, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLuma16(img);
                 let luma16_to_rgb16_img = processed_dynamic.to_rgb16();
@@ -266,7 +266,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
             //rgba16
             (image::ColorType::Rgba16,8,true|false,1)=> {
                 let img = orig_foto.to_rgba16();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgba8, tylko rgb? true|false",color_type);
                 let processed_dynamic = DynamicImage::ImageRgba16(img);
                 let rgb8_img = processed_dynamic.to_rgba8();
@@ -276,7 +276,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
             //luma to rgb
             (image::ColorType::La16,8,true,1) =>{
                 let img = orig_foto.to_luma_alpha16();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgba8, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA16(img);
                 let luma16_to_luma8_img = processed_dynamic.to_rgba8();
@@ -284,7 +284,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
             },
             (image::ColorType::La16,8,false,1) =>{
                 let img = orig_foto.to_luma_alpha16();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: La8, tylko rgb? false",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA16(img);
                 let luma16_to_luma8_img = processed_dynamic.to_luma_alpha8();
@@ -292,7 +292,7 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
             },
             (image::ColorType::La16,16,true,1) =>{
                 let img = orig_foto.to_luma_alpha16();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgba8, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA16(img);
                 let luma16_to_luma8_img = processed_dynamic.to_rgba16();
@@ -300,19 +300,19 @@ pub fn foto_bity_normalizer(orig_foto: DynamicImage, glebia_bitow: u8, czy_alpha
             },
             (image::ColorType::La8,_,true,1) =>{
                 let img = orig_foto.to_luma_alpha8();
-                #[cfg(feature = "statystyki")]
+                #[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   wejście: {:?}, wyjście: Rgba8, tylko rgb? true",color_type);
                 let processed_dynamic = DynamicImage::ImageLumaA8(img);
                 let luma16_to_luma8_img = processed_dynamic.to_rgba8();
                 DynamicImage::ImageRgba8(luma16_to_luma8_img)
             },
 
-            _ => {#[cfg(feature = "statystyki")]
+            _ => {#[cfg(debug_assertions)]
                 println!("[{func_id}]\n{formatted_time}   pominięto normalizacje, dlaczego? colortype{:?}",color_type);
                 orig_foto.clone()}, // If the image is not RGBA, keep it as it is
         };
 
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
          println!("[{func_id}]\n{formatted_time}   wychodzę z normalizera\n");
     // } else {
         // Handle the bit depth conversion

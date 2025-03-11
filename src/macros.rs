@@ -1,4 +1,5 @@
-use crate::ui::ui_defaults::Appencja;
+// use egui::WidgetText::RichText;
+// use crate::ui::ui_defaults::Appencja;
 
 
 // just some macros to fill places in ui.
@@ -15,8 +16,8 @@ macro_rules! dodaj_duży_label { //aka add big label
         egui::Label::new(
             RichText::new($tekst)
                 .font(wybrana_aktualna_czcionka(
-                    proxy_self.formatowanie_rozmiar_czcionki_duza,
-                    proxy_self.formatowanie_wybor_czcionki,
+                    proxy_self.formatowanie_rozmiar_czcionki_duża,
+                    proxy_self.formatowanie_wybór_czcionki,
                 )),
         )
         .selectable(false)
@@ -33,8 +34,8 @@ macro_rules! dodaj_średni_label { // aka add_medium_label
         egui::Label::new(
             RichText::new($tekst)
                 .font(wybrana_aktualna_czcionka(
-                    proxy_self.formatowanie_rozmiar_czcionki_srednia,
-                    proxy_self.formatowanie_wybor_czcionki,
+                    proxy_self.formatowanie_rozmiar_czcionki_średnia,
+                    proxy_self.formatowanie_wybór_czcionki,
                 )),
         )
         .selectable(false)
@@ -52,8 +53,8 @@ macro_rules! dodaj_selectable_val_tekst {
         egui::Label::new(
             RichText::new($tekst)
                 .font(wybrana_aktualna_czcionka(
-                    proxy_self.formatowanie_rozmiar_czcionki_srednia,
-                    proxy_self.formatowanie_wybor_czcionki,
+                    proxy_self.formatowanie_rozmiar_czcionki_średnia,
+                    proxy_self.formatowanie_wybór_czcionki,
                 )),
         )
         .selectable(false)
@@ -70,8 +71,8 @@ macro_rules! dodaj_średni_richtext { //aka add_medium_RichText
 
             RichText::new($tekst)
                 .font(wybrana_aktualna_czcionka(
-                    proxy_self.formatowanie_rozmiar_czcionki_srednia,
-                    proxy_self.formatowanie_wybor_czcionki,
+                    proxy_self.formatowanie_rozmiar_czcionki_średnia,
+                    proxy_self.formatowanie_wybór_czcionki,
                 ))
 
     }}
@@ -87,8 +88,8 @@ macro_rules! dodaj_duży_richtext {  //aka add_big_RichText
 
             RichText::new($tekst)
                 .font(wybrana_aktualna_czcionka(
-                    proxy_self.formatowanie_rozmiar_czcionki_srednia,
-                    proxy_self.formatowanie_wybor_czcionki,
+                    proxy_self.formatowanie_rozmiar_czcionki_duża,
+                    proxy_self.formatowanie_wybór_czcionki,
                 ))
 
     }}

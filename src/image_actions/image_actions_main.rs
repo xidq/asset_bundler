@@ -5,7 +5,7 @@ use std::{
     thread, 
     time::Instant
 };
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 use chrono::Local;
 use walkdir::WalkDir;
 use rayon::*;
@@ -37,22 +37,22 @@ fn matches_template(path: &Path) -> bool {
 pub fn convert_images(
     arc_z_typ: Arc<Mutex<Vec<bool>>>,
     arc_z_typ_jakosc: Arc<Mutex<Vec<u8>>>,
-    arc_z_rozdzielczosc:Arc<Mutex<Vec<bool>>>,
+    arc_z_rozdzielczość:Arc<Mutex<Vec<bool>>>,
     arc_z_path:Arc<Mutex<Vec<String>>>,
     arc_z_dodatkowymi_ustawieniami: Arc<Mutex<Vec<u8>>>
 )-> Result<Arc<Mutex<Vec<usize>>>, std::io::Error >{
     //universal fn setting!!!!!!!!!!!!!!!!!!!!!!!!!!1
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let func_id = "convert_images w image_actions::image_actions_main.rs" ;
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let current_time = Local::now();
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let formatted_time = current_time.format("%H:%M:%S").to_string();
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     let formatted_time2 = formatted_time.clone();
     //    println!("[{func_id}]\n{formatted_time}   zaczynam konwersje {}",rozszerzenie_string);
     //***************************************************************
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     println!("[{func_id}]\n{formatted_time}   rozpoczęcie funkcji konwersji");
     let time_start = Instant::now();
     // let processed_files_count = 0;
@@ -60,12 +60,12 @@ pub fn convert_images(
 
     let arc_z_typ_clone = Arc::clone(&arc_z_typ);
     let arc_z_typ_jakosc_clone = Arc::clone(&arc_z_typ_jakosc);
-    let arc_z_rozdzielczosc_clone = Arc::clone(&arc_z_rozdzielczosc);
+    let arc_z_rozdzielczość_clone = Arc::clone(&arc_z_rozdzielczość);
     let arc_z_path_clone = Arc::clone(&arc_z_path);
     let arc_z_dodatkowymi_ustawieniami_clone = Arc::clone(&arc_z_dodatkowymi_ustawieniami);
 
     let nowy_watek = thread::spawn(move||-> Result<(usize,usize), std::io::Error>{
-        #[cfg(feature = "statystyki")]
+        #[cfg(debug_assertions)]
         println!("[{func_id}]\n{formatted_time}   rozpoczęcie nowego wątku");
         //Potem zajmę się tym bo to z ui będzie szło.
         // let strip_arc_z_typ_clone = arc_z_typ_clone.lock().unwrap();
@@ -102,13 +102,13 @@ pub fn convert_images(
         //     _=>8
         // };
         
-        // let locked_data_z_rozmiarami = arc_z_rozdzielczosc_clone.lock().unwrap();
-        let locked_data_z_rozmiarami = get_locked_data_bool(&arc_z_rozdzielczosc_clone)?;
+        // let locked_data_z_rozmiarami = arc_z_rozdzielczość_clone.lock().unwrap();
+        let locked_data_z_rozmiarami = get_locked_data_bool(&arc_z_rozdzielczość_clone)?;
 
 
         let locked_data_z_path = get_locked_data_string(&arc_z_path_clone)?;
-        let folder_wejsciowy  = &locked_data_z_path[0];
-        let folder_wyjsciowy = &locked_data_z_path[1];
+        let folder_wejściowy  = &locked_data_z_path[0];
+        let folder_wyjściowy = &locked_data_z_path[1];
 
         let strip_arc_z_dodatkowymi_ustawieniami_clone = get_locked_data_u8(&arc_z_dodatkowymi_ustawieniami_clone)?;
         let filtrowanie  = strip_arc_z_dodatkowymi_ustawieniami_clone[0];        
@@ -122,27 +122,27 @@ pub fn convert_images(
 
 
     // w tym template są rozszerzenia plików, które mają być brane pod uwagę jak coś.
-        for entry in WalkDir::new(folder_wejsciowy).into_iter().filter_map(Result::ok) {
+        for entry in WalkDir::new(folder_wejściowy).into_iter().filter_map(Result::ok) {
             let path = entry.path();
             if path.is_file() && matches_template(path) {
                 file_entries.push(path.to_path_buf());
             }
         }
 
-        create_dir_all(folder_wyjsciowy)?;
+        create_dir_all(folder_wyjściowy)?;
 
 
 
 
 
         let processed_results = file_entries.into_par_iter().map(|gsfhsgf| {
-            #[cfg(feature = "statystyki")]
+            #[cfg(debug_assertions)]
             println!("[{func_id}]\n{formatted_time}   rozpoczęcie iteracji wielowątkowej\n");
             let mut local_created_files_count = 0;
             
 
-            let relative_path = gsfhsgf.strip_prefix(folder_wejsciowy).unwrap_or(&gsfhsgf);
-            let output_path = Path::new(folder_wyjsciowy).join(relative_path);
+            let relative_path = gsfhsgf.strip_prefix(folder_wejściowy).unwrap_or(&gsfhsgf);
+            let output_path = Path::new(folder_wyjściowy).join(relative_path);
 
             // Tworzenie odpowiednich podfolderów
             if let Some(parent) = output_path.parent() {
@@ -152,38 +152,38 @@ pub fn convert_images(
             
 
             if czy_png{
-                let dflkjsg=ogarniacz_fot(vec![1,png_filter],&locked_data_z_rozmiarami,vec![&czy_png_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![1,png_filter],&locked_data_z_rozmiarami,vec![&czy_png_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjściowy,local_created_files_count);
                 // println!("zribione pliki z fn konwersja_do_png 8bit {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
 
             if czy_png_16{
-                let dflkjsg=ogarniacz_fot(vec![2,png_filter],&locked_data_z_rozmiarami,vec![&czy_png_16_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![2,png_filter],&locked_data_z_rozmiarami,vec![&czy_png_16_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjściowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_png 16bit {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             
             if czy_jpg{
-                let dflkjsg=ogarniacz_fot(vec![0,png_filter],&locked_data_z_rozmiarami,vec![&czy_jpg_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![0,png_filter],&locked_data_z_rozmiarami,vec![&czy_jpg_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjściowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_jpg {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             if czy_webp{
-                let dflkjsg=ogarniacz_fot(vec![3,png_filter],&locked_data_z_rozmiarami,vec![&czy_webp_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![3,png_filter],&locked_data_z_rozmiarami,vec![&czy_webp_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjściowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_webp {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             if czy_webp_lossy{
-                let dflkjsg=ogarniacz_fot(vec![4,png_filter],&locked_data_z_rozmiarami,vec![&czy_webp_lossy_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![4,png_filter],&locked_data_z_rozmiarami,vec![&czy_webp_lossy_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjściowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_webp lossy {}",dflkjsg);
                 local_created_files_count = dflkjsg
             }
             if czy_tga{
-                let dflkjsg=ogarniacz_fot(vec![5,png_filter],&locked_data_z_rozmiarami,vec![&czy_tga_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjsciowy,local_created_files_count);
+                let dflkjsg=ogarniacz_fot(vec![5,png_filter],&locked_data_z_rozmiarami,vec![&czy_tga_jakosc,&filtrowanie,&czy_alpha,&czy_alpha_kolor],&gsfhsgf,local_path,folder_wyjściowy,local_created_files_count);
 
                 // println!("zribione pliki z fn konwersja_do_tga {}",dflkjsg);
                 local_created_files_count = dflkjsg
@@ -195,7 +195,7 @@ pub fn convert_images(
 
         let total_processed_files = processed_results.len();
         let total_created_files:i32 = processed_results.iter().sum();
-        #[cfg(feature = "statystyki")]
+        #[cfg(debug_assertions)]
         println!("[{func_id}]\n{formatted_time}   zakończenie iteracji wielowątkowej\n");
 
         Ok((total_processed_files, total_created_files as usize))
@@ -207,7 +207,7 @@ pub fn convert_images(
     let czas_trwania = time_start.elapsed();
     let czas_trwania_sekundy: usize = czas_trwania.as_secs() as usize;
     let czas_trwania_milisekundy:usize = czas_trwania.subsec_millis() as usize;
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     println!("[{func_id}]\n{formatted_time2}   Ogarnąłem {} plików zrobionych z {} plików w czasie {}.{}s",przeprocesowane_pliki.1,przeprocesowane_pliki.0,czas_trwania_sekundy,czas_trwania_milisekundy);
     Ok(Arc::new(Mutex::new(vec![
         przeprocesowane_pliki.1,
@@ -241,35 +241,35 @@ mod tests_skompresowany {
     fn test_image_conversion(){
         let input_folder:String = "test_files/test_image_src".to_string();
         let output_folder:String = "test_files/test_image_out".to_string();
-        let wybor_jpg = true;
-        let wybor_png = true;
-        let wybor_png_16 = true;
-        let wybor_webp = true;
-        let wybor_webp_lossy = true;
-        let wybor_tga = true;
-        let wybor_jpg_jakosc: u8 = 63;
-        let wybor_png_jakosc:u8 = 70;
-        let wybor_png_16_jakosc:u8 = 70;
-        let wybor_webp_jakosc:u8 = 80;
-        let wybor_webp_lossy_jakosc:u8 = 80;
-        let wybor_tga_jakosc:u8 = 80;
+        let wybór_jpg = true;
+        let wybór_png = true;
+        let wybór_png_16 = true;
+        let wybór_webp = true;
+        let wybór_webp_lossy = true;
+        let wybór_tga = true;
+        let wybór_jpg_jakosc: u8 = 63;
+        let wybór_png_jakosc:u8 = 70;
+        let wybór_png_16_jakosc:u8 = 70;
+        let wybór_webp_jakosc:u8 = 80;
+        let wybór_webp_lossy_jakosc:u8 = 80;
+        let wybór_tga_jakosc:u8 = 80;
         let rozd_4k = false;
         let rozd_2k = true;
         let rozd_1k = true;
-        // let rozdzielczosc=vec![rozd_4k,rozd_2k,rozd_1k];
+        // let rozdzielczość=vec![rozd_4k,rozd_2k,rozd_1k];
         let test_filtrowanie:u8 = 5;
         let test_alpha:u8 = 1;
         let test_alpha_kolor:u8 = 3;
-        let test_arc_bool_rozdzielczosc = Arc::new(Mutex::new(vec![false,false,rozd_4k, rozd_2k,rozd_1k,false,false,false]));
-        let test_arc_bool_typ = Arc::new(Mutex::new(vec![wybor_jpg, wybor_png, wybor_png_16,wybor_webp,wybor_webp_lossy,wybor_tga]));
-        let test_arc_bool_typ_jakosc = Arc::new(Mutex::new(vec![wybor_jpg_jakosc, wybor_png_jakosc, wybor_png_16_jakosc,wybor_webp_jakosc,wybor_webp_lossy_jakosc,wybor_tga_jakosc]));
+        let test_arc_bool_rozdzielczość = Arc::new(Mutex::new(vec![false,false,rozd_4k, rozd_2k,rozd_1k,false,false,false]));
+        let test_arc_bool_typ = Arc::new(Mutex::new(vec![wybór_jpg, wybór_png, wybór_png_16,wybór_webp,wybór_webp_lossy,wybór_tga]));
+        let test_arc_bool_typ_jakosc = Arc::new(Mutex::new(vec![wybór_jpg_jakosc, wybór_png_jakosc, wybór_png_16_jakosc,wybór_webp_jakosc,wybór_webp_lossy_jakosc,wybór_tga_jakosc]));
         let test_arc_paths= Arc::new(Mutex::new(vec![input_folder,output_folder]));
         let test_arc_dodatkowe_ustawienia= Arc::new(Mutex::new(vec![test_filtrowanie,test_alpha,test_alpha_kolor,3]));
 
         let afdhfsgh =convert_images(
             test_arc_bool_typ,
             test_arc_bool_typ_jakosc,
-            test_arc_bool_rozdzielczosc,
+            test_arc_bool_rozdzielczość,
             test_arc_paths,
             test_arc_dodatkowe_ustawienia
         );

@@ -19,27 +19,27 @@ use crate::utils::comunicat::komunikat;
 
 
 
-pub fn foto_enkodery(fotu:DynamicImage,sciezka:PathBuf,rozszerzenie:u8,quality:&u8,png_filter:&u8){
+pub fn foto_enkodery(fotu:DynamicImage,ścieżka:PathBuf,rozszerzenie:u8,quality:&u8,png_filter:&u8){
     // let nazwa_funkcji = "foto_enkodery";
 
 
 
 
     match rozszerzenie{
-        1|2=>{png_enkoder(fotu,sciezka,quality,png_filter)},
-        3=>{webp_enkoder(fotu, sciezka);},
-        4=>{webp_lossy_enkoder(fotu, sciezka, quality);},
-        5=>{tga_enkoder(fotu, sciezka);},
-        _=>{jpg_enkoder(fotu,sciezka, quality);}
+        1|2=>{png_enkoder(fotu,ścieżka,quality,png_filter)},
+        3=>{webp_enkoder(fotu, ścieżka);},
+        4=>{webp_lossy_enkoder(fotu, ścieżka, quality);},
+        5=>{tga_enkoder(fotu, ścieżka);},
+        _=>{jpg_enkoder(fotu,ścieżka, quality);}
     }
 
 
 }
 
-fn jpg_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
+fn jpg_enkoder(fotu:DynamicImage,ścieżka:PathBuf,quality:&u8){
     let nazwa_funkcji = "jpg_enkoder";
     komunikat(nazwa_funkcji,"encoder JPG rozpoczęty");
-    let mut output_file = std::fs::File::create(&sciezka).unwrap();
+    let mut output_file = std::fs::File::create(&ścieżka).unwrap();
     let mut encoder = JpegEncoder::new_with_quality(&mut output_file, *quality);
     
     if let Err(e) = encoder.encode(&fotu.to_rgb8(), fotu.width(), fotu.height(),image::ExtendedColorType::Rgb8) {
@@ -50,7 +50,7 @@ fn jpg_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
     komunikat(nazwa_funkcji,"encoder JPG zakończony\n");
 }
 
-fn png_enkoder(fotu:DynamicImage,sciezka:PathBuf,png_compression:&u8,png_filter:&u8){
+fn png_enkoder(fotu:DynamicImage,ścieżka:PathBuf,png_compression:&u8,png_filter:&u8){
     let nazwa_funkcji = "png_enkoder";
         komunikat(nazwa_funkcji,"encoder PNG rozpoczęty");
     let afdgdsgfsdasddgd = match png_compression{
@@ -68,7 +68,7 @@ fn png_enkoder(fotu:DynamicImage,sciezka:PathBuf,png_compression:&u8,png_filter:
         _=>FilterType::NoFilter,
     };
 
-    let mut output_file = std::fs::File::create(&sciezka).unwrap();
+    let mut output_file = std::fs::File::create(&ścieżka).unwrap();
     let encoder = PngEncoder::new_with_quality(&mut output_file, afdgdsgfsdasddgd, daslkgggggsfkas);
     let color_type = match fotu {
         DynamicImage::ImageRgb8(_) => image::ExtendedColorType::Rgb8,
@@ -91,7 +91,7 @@ fn png_enkoder(fotu:DynamicImage,sciezka:PathBuf,png_compression:&u8,png_filter:
     komunikat(nazwa_funkcji,"encoder PNG zakończony\n");
 }
 
-fn webp_enkoder(fotu:DynamicImage,sciezka:PathBuf){
+fn webp_enkoder(fotu:DynamicImage,ścieżka:PathBuf){
     let nazwa_funkcji = "webp_enkoder";
     komunikat(nazwa_funkcji,"encoder WEBP rozpoczęty");
 
@@ -99,14 +99,14 @@ fn webp_enkoder(fotu:DynamicImage,sciezka:PathBuf){
     // let save_options = image::WebPEncoder::new().with_quality(*jakosc as f32 / 100.0);
 
     // Zapisz plik w formacie PNG
-    if let Err(e) = fotu.save_with_format(sciezka, ImageFormat::WebP) {
+    if let Err(e) = fotu.save_with_format(ścieżka, ImageFormat::WebP) {
 
         let err_reader = format!("Błąd zapisu obrazu WEBP: {}", e);
         komunikat(nazwa_funkcji,&err_reader);
     }
     komunikat(nazwa_funkcji,"encoder WEBP zakończony")
 }
-fn webp_lossy_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
+fn webp_lossy_enkoder(fotu:DynamicImage,ścieżka:PathBuf,quality:&u8){
     let nazwa_funkcji = "webp_lossy_enkoder";
     komunikat(nazwa_funkcji,"encoder WEBP lossy rozpoczęty");
     // Tworzymy encoder WebP
@@ -116,7 +116,7 @@ fn webp_lossy_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
     let webp_data = encoder.encode(*quality as f32);
 
     // Zapisz zakodowany plik WebP
-    if let Err(e) = std::fs::write(&sciezka, &*webp_data) {
+    if let Err(e) = std::fs::write(&ścieżka, &*webp_data) {
         let err_reader = format!("Błąd zapisu obrazu WEBP lossy: {}", e);
         komunikat(nazwa_funkcji,&err_reader);
 
@@ -124,11 +124,11 @@ fn webp_lossy_enkoder(fotu:DynamicImage,sciezka:PathBuf,quality:&u8){
     komunikat(nazwa_funkcji,"encoder WEBP lossy zakończony\n");
 }
 
-fn tga_enkoder(fotu:DynamicImage,sciezka:PathBuf){
+fn tga_enkoder(fotu:DynamicImage,ścieżka:PathBuf){
     let nazwa_funkcji = "tga_enkoder";
     komunikat(nazwa_funkcji,"encoder TGA rozpoczęty");
     // Zapisz plik w formacie PNG
-    if let Err(e) = fotu.save_with_format(sciezka, ImageFormat::Tga) {
+    if let Err(e) = fotu.save_with_format(ścieżka, ImageFormat::Tga) {
         let err_reader = format!("Błąd zapisu obrazu Tga: {}", e);
         komunikat(nazwa_funkcji,&err_reader);
 

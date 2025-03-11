@@ -22,7 +22,7 @@ pub struct Appencja {
   // pub general_ui_status_przetwarzania:u8,
   pub general_ui_szerokosc_okna:f32,
   pub general_ui_przelacz_tryb_debug: bool,
-  #[cfg(feature = "statystyki")]
+  #[cfg(debug_assertions)]
   pub general_ui_licznik_czasu_debug: u8,
   pub general_ui_przelacz_binarny_zdjecia: bool,
   pub general_ui_przelacz_binarny_opcje:u8,
@@ -31,7 +31,7 @@ pub struct Appencja {
   pub general_ui_przelacz_ustawienia:bool,
   pub general_ui_przelacz_info_ustawienia:u8,
   pub general_ui_przelacz_info_opcje:u8,
-  #[cfg(feature = "statystyki")]
+  #[cfg(debug_assertions)]
   pub general_ui_statystyki_klatki:Vec<(u128,u128)>,
 
 
@@ -42,10 +42,10 @@ pub struct Appencja {
 
   //wartości formatowanie:
   //rozmiary i czcionki
-  pub formatowanie_wybor_czcionki: u8,
+  pub formatowanie_wybór_czcionki: u8,
   pub formatowanie_rozmiar_czcionki_mala:f32,
-  pub formatowanie_rozmiar_czcionki_srednia:f32,
-  pub formatowanie_rozmiar_czcionki_duza:f32,
+  pub formatowanie_rozmiar_czcionki_średnia:f32,
+  pub formatowanie_rozmiar_czcionki_duża:f32,
   pub formatowanie_wysokosc_przycisku:f32,
   //kółko
   pub formatowanie_rozmiar_kolko:f32,
@@ -55,8 +55,8 @@ pub struct Appencja {
   pub formatowanie_offset_kolko: f32,
   //odstępy
   pub formatowanie_spacja_mala:f32,
-  pub formatowanie_spacja_srednia:f32,
-  pub formatowanie_spacja_duza:f32,
+  pub formatowanie_spacja_średnia:f32,
+  pub formatowanie_spacja_duża:f32,
   //kolory
   pub formatowanie_kolor_kolko_pelne: Color32,
 
@@ -64,12 +64,12 @@ pub struct Appencja {
   //wartości specyficzne dla ui pakowania:
   pub ui_pack_specyfic_password: String,
   pub ui_pack_specyfic_template: String,
-  pub ui_pack_specyfic_folder_wejsciowy: String,
-  pub ui_pack_specyfic_folder_wyjsciowy: String,
+  pub ui_pack_specyfic_folder_wejściowy: String,
+  pub ui_pack_specyfic_folder_wyjściowy: String,
   pub ui_pack_specyfic_nazwa_pliku: String,
-  pub ui_pack_specyfic_wybor_kompresji: u8,
+  pub ui_pack_specyfic_wybór_kompresji: u8,
   pub ui_pack_specyfic_poziom_kompresji: u8,
-  pub ui_pack_specyfic_wybor_szyfrowania: u8,
+  pub ui_pack_specyfic_wybór_szyfrowania: u8,
   pub ui_pack_specyfic_statystyki_przetworzone_pliki: usize,
   pub ui_pack_specyfic_statystyki_czas_sekundy:u64,
   pub ui_pack_specyfic_statystyki_czas_milisekundy:u32,
@@ -79,9 +79,9 @@ pub struct Appencja {
 
 
   //wartości specyficzne dla ui rozpakowywania:
-  pub ui_unpack_specyfic_sciezka_plik_binarny: String,
-  pub ui_unpack_specyfic_sciezka_plik_indeksu: String,
-  pub ui_unpack_specyfic_sciezka_folder_wyjsciowy: String,
+  pub ui_unpack_specyfic_ścieżka_plik_binarny: String,
+  pub ui_unpack_specyfic_ścieżka_plik_indeksu: String,
+  pub ui_unpack_specyfic_ścieżka_folder_wyjściowy: String,
   pub ui_unpack_specyfic_zmiana_szyfrowania: u8,
   pub ui_unpack_specyfic_password: String,
   pub ui_unpack_specyfic_statystyki_przetworzone_pliki: usize,
@@ -92,10 +92,10 @@ pub struct Appencja {
 
 
   //wartości specyficzne dla ui łączenia rgb:
-  pub ui_laczenie_specyfic_sciezka_plik_czerwony: PathBuf,
-  pub ui_laczenie_specyfic_sciezka_plik_zielony: PathBuf,
-  pub ui_laczenie_specyfic_sciezka_plik_niebieski: PathBuf,
-  pub ui_laczenie_specyfic_sciezka_folder_wyjsciowy: PathBuf,
+  pub ui_laczenie_specyfic_ścieżka_plik_czerwony: PathBuf,
+  pub ui_laczenie_specyfic_ścieżka_plik_zielony: PathBuf,
+  pub ui_laczenie_specyfic_ścieżka_plik_niebieski: PathBuf,
+  pub ui_laczenie_specyfic_ścieżka_folder_wyjściowy: PathBuf,
   pub ui_laczenie_specyfic_stosunek_czerwony:f32,
   pub ui_laczenie_specyfic_stosunek_zielony:f32,
   pub ui_laczenie_specyfic_stosunek_niebieski:f32,
@@ -104,7 +104,7 @@ pub struct Appencja {
   pub ui_laczenie_specyfic_statystyki_czas_milisekundy:u32,
   pub ui_laczenie_specyfic_nazwa_pliku:String,
   pub ui_laczenie_specyfic_dane_filter:u8,
-  pub ui_laczenie_specyfic_dane_rozdzielczosc:u8,
+  pub ui_laczenie_specyfic_dane_rozdzielczość:u8,
   pub ui_laczenie_specyfic_dane_bity:u8,
   pub ui_laczenie_specyfic_dane_filter_png:u8,
   pub ui_laczenie_specyfic_dane_jakosc:u8,
@@ -118,8 +118,8 @@ pub struct Appencja {
   pub ui_laczenie_specyfic_status_przetwarzania:u8,
 
   //wartosci specyficzne dla ui konwersji zdjęć
-  pub ui_konwersja_specyfic_sciezka_folder_wejsciowy: String,
-  pub ui_konwersja_specyfic_sciezka_folder_wyjsciowy: String,
+  pub ui_konwersja_specyfic_ścieżka_folder_wejściowy: String,
+  pub ui_konwersja_specyfic_ścieżka_folder_wyjściowy: String,
   pub ui_konwersja_specyfic_dane_alpha_kolor:u8,
   pub ui_konwersja_specyfic_dane_alpha:u8,
   pub ui_konwersja_specyfic_dane_filter:u8,
@@ -135,16 +135,16 @@ pub struct Appencja {
   pub ui_konwersja_specyfic_dane_jakosc_webp_lossy:u8,
   pub ui_konwersja_specyfic_dane_jakosc_tga:u8,
   pub ui_konwersja_specyfic_dane_filter_png:u8,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_16k:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_8k:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_4k:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_2k:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_1k:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_512:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_256:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_128:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_64:bool,
-  pub ui_konwersja_specyfic_dane_rozdzielczosc_32:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_16k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_8k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_4k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_2k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_1k:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_512:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_256:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_128:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_64:bool,
+  pub ui_konwersja_specyfic_dane_rozdzielczość_32:bool,
   pub ui_konwersja_specyfic_statystyki_czas_sekundy:u64,
   pub ui_konwersja_specyfic_statystyki_czas_milisekundy:u32,
   pub ui_konwersja_specyfic_statystyki_przetworzone_pliki:usize,
@@ -184,7 +184,7 @@ impl Default for Appencja {
         // general_ui_status_przetwarzania:0,
         general_ui_szerokosc_okna:740.,
         general_ui_przelacz_tryb_debug: false,
-        #[cfg(feature = "statystyki")]
+        #[cfg(debug_assertions)]
         general_ui_licznik_czasu_debug:0,
         general_ui_przelacz_binarny_zdjecia:false,
         general_ui_przelacz_binarny_opcje:0,
@@ -193,7 +193,7 @@ impl Default for Appencja {
         general_ui_przelacz_ustawienia:false,
         general_ui_przelacz_info_ustawienia:0,
         general_ui_przelacz_info_opcje:0,
-        #[cfg(feature = "statystyki")]
+        #[cfg(debug_assertions)]
         general_ui_statystyki_klatki:Vec::new(),
 
 
@@ -204,10 +204,10 @@ impl Default for Appencja {
 
         //wartości formatowanie:
         //rozmiary i czcionki
-        formatowanie_wybor_czcionki: 0,
+        formatowanie_wybór_czcionki: 0,
         formatowanie_rozmiar_czcionki_mala:10.,
-        formatowanie_rozmiar_czcionki_srednia:14.,
-        formatowanie_rozmiar_czcionki_duza:18.,
+        formatowanie_rozmiar_czcionki_średnia:14.,
+        formatowanie_rozmiar_czcionki_duża:18.,
         formatowanie_wysokosc_przycisku:803.,
         //kółko
         formatowanie_rozmiar_kolko_puste:5.,
@@ -216,21 +216,21 @@ impl Default for Appencja {
         formatowanie_rozmiar_kolko:7.,
         //odstępy
         formatowanie_spacja_mala:5.,
-        formatowanie_spacja_srednia:10.,
-        formatowanie_spacja_duza:20.,
+        formatowanie_spacja_średnia:10.,
+        formatowanie_spacja_duża:20.,
         //kolory
         formatowanie_kolor_kolko_puste: Color32::GRAY,
         formatowanie_kolor_kolko_pelne: Color32::GREEN,
 
 
         //wartości specyficzne dla ui pakowania:
-        ui_pack_specyfic_folder_wejsciowy: String::from(""),
-        ui_pack_specyfic_folder_wyjsciowy: String::from(""),
+        ui_pack_specyfic_folder_wejściowy: String::from(""),
+        ui_pack_specyfic_folder_wyjściowy: String::from(""),
         ui_pack_specyfic_nazwa_pliku: String::from("output_file"),
         ui_pack_specyfic_password: String::from("lubieplacki6969"),
         ui_pack_specyfic_template: String::from("none"),
-        ui_pack_specyfic_wybor_szyfrowania:0,
-        ui_pack_specyfic_wybor_kompresji:0,
+        ui_pack_specyfic_wybór_szyfrowania:0,
+        ui_pack_specyfic_wybór_kompresji:0,
         ui_pack_specyfic_poziom_kompresji:3,
         ui_pack_specyfic_error_3:"".to_string(),
         ui_pack_specyfic_statystyki_przetworzone_pliki:0,
@@ -241,9 +241,9 @@ impl Default for Appencja {
 
 
         //wartości specyficzne dla ui rozpakowywania:
-        ui_unpack_specyfic_sciezka_plik_binarny: String::from(""),
-        ui_unpack_specyfic_sciezka_plik_indeksu: String::from(""),
-        ui_unpack_specyfic_sciezka_folder_wyjsciowy: String::from(""),
+        ui_unpack_specyfic_ścieżka_plik_binarny: String::from(""),
+        ui_unpack_specyfic_ścieżka_plik_indeksu: String::from(""),
+        ui_unpack_specyfic_ścieżka_folder_wyjściowy: String::from(""),
         ui_unpack_specyfic_password: String::from("lubieplacki6969"),
         ui_unpack_specyfic_zmiana_szyfrowania:0,
         ui_unpack_specyfic_error_3:"".to_string(),
@@ -254,16 +254,16 @@ impl Default for Appencja {
 
 
         //wartości specyficzne dla ui łączenia rgb:
-        ui_laczenie_specyfic_sciezka_plik_czerwony: PathBuf::new(),
-        ui_laczenie_specyfic_sciezka_plik_zielony: PathBuf::new(),
-        ui_laczenie_specyfic_sciezka_plik_niebieski: PathBuf::new(),
-        ui_laczenie_specyfic_sciezka_folder_wyjsciowy: PathBuf::new(),
+        ui_laczenie_specyfic_ścieżka_plik_czerwony: PathBuf::new(),
+        ui_laczenie_specyfic_ścieżka_plik_zielony: PathBuf::new(),
+        ui_laczenie_specyfic_ścieżka_plik_niebieski: PathBuf::new(),
+        ui_laczenie_specyfic_ścieżka_folder_wyjściowy: PathBuf::new(),
         ui_laczenie_specyfic_error_3:"".to_string(),
         ui_laczenie_specyfic_statystyki_czas_sekundy:0,
         ui_laczenie_specyfic_statystyki_czas_milisekundy:0,
         ui_laczenie_specyfic_dane_bity:8,
         ui_laczenie_specyfic_dane_rozszerzenia:0,
-        ui_laczenie_specyfic_dane_rozdzielczosc:4,
+        ui_laczenie_specyfic_dane_rozdzielczość:4,
         ui_laczenie_specyfic_dane_filter:4,
         ui_laczenie_specyfic_nazwa_pliku:"".to_string(),
         ui_laczenie_specyfic_dane_jakosc:75,
@@ -281,8 +281,8 @@ impl Default for Appencja {
 
 
         //wartosci specyficzne dla ui konwersji zdjęć
-        ui_konwersja_specyfic_sciezka_folder_wejsciowy: String::from(""),
-        ui_konwersja_specyfic_sciezka_folder_wyjsciowy: String::from(""),
+        ui_konwersja_specyfic_ścieżka_folder_wejściowy: String::from(""),
+        ui_konwersja_specyfic_ścieżka_folder_wyjściowy: String::from(""),
         ui_konwersja_specyfic_error_3:"".to_string(),
         ui_konwersja_specyfic_statystyki_czas_sekundy:0,
         ui_konwersja_specyfic_statystyki_czas_milisekundy:0,
@@ -303,16 +303,16 @@ impl Default for Appencja {
         ui_konwersja_specyfic_dane_jakosc_webp_lossless:75,
         ui_konwersja_specyfic_dane_jakosc_webp_lossy:75,
         ui_konwersja_specyfic_dane_jakosc_tga:75,
-        ui_konwersja_specyfic_dane_rozdzielczosc_16k:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_8k:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_4k:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_2k:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_1k:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_512:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_256:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_128:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_64:false,
-        ui_konwersja_specyfic_dane_rozdzielczosc_32:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_16k:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_8k:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_4k:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_2k:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_1k:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_512:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_256:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_128:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_64:false,
+        ui_konwersja_specyfic_dane_rozdzielczość_32:false,
         ui_konwersja_specyfic_status_przetwarzania:0,
 
 

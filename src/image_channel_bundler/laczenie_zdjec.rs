@@ -5,15 +5,15 @@ use image::Rgb;
 // use image::ImageFormat;
 use image::GenericImageView;
 use std::fs::create_dir_all;
-#[cfg(feature = "statystyki")]
+#[cfg(debug_assertions)]
 use crate::utils::comunicat::komunikat;
 
 
-pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_extensioun:u8,nazwa_pliku:&str,quality:u8,png_filter:u8){
-    #[cfg(feature = "statystyki")]
+pub fn polaczenie_rgb(foto:Vec<DynamicImage>,ścieżka_wyjściowa:&PathBuf,file_extensioun:u8,nazwa_pliku:&str,quality:u8,png_filter:u8){
+    #[cfg(debug_assertions)]
     let nazwa_funkcji="polaczenie_rgb";
     if foto.len() != 3 {
-        #[cfg(feature = "statystyki")]
+        #[cfg(debug_assertions)]
         komunikat(nazwa_funkcji,"Oczekiwano dokładnie trzech obrazów RGB!");
         return;
     }
@@ -48,7 +48,7 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
 
 
     // Łączymy obrazy
-    #[cfg(feature = "statystyki")]
+    #[cfg(debug_assertions)]
     komunikat(nazwa_funkcji,"Oczekiwano dokładnie trzech obrazów RGB!");
 
         for y in 0..wysokosc {
@@ -68,13 +68,13 @@ pub fn polaczenie_rgb(foto:Vec<DynamicImage>,sciezka_wyjsciowa:&PathBuf,file_ext
             // },
     // }
     let file_name: &str = if nazwa_pliku.is_empty(){
-        sciezka_wyjsciowa.file_name().unwrap().to_str().unwrap()
+        ścieżka_wyjściowa.file_name().unwrap().to_str().unwrap()
     }else{
         nazwa_pliku
     };
 
-    let mut output_path = std::path::Path::new(sciezka_wyjsciowa).to_path_buf();
-    // let file_name = sciezka_wyjsciowa.file_name().unwrap().to_str().unwrap();
+    let mut output_path = std::path::Path::new(ścieżka_wyjściowa).to_path_buf();
+    // let file_name = ścieżka_wyjściowa.file_name().unwrap().to_str().unwrap();
     let output_file_name = format!("{}.{}", file_name,badfgdf); // np. image_1.png
     output_path.push(output_file_name);
 
